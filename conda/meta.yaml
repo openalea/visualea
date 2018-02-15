@@ -25,7 +25,7 @@ requirements:
     - qt <5
     - pyqt
     - ipython-qtconsole
-    - ipython
+    - ipython <5
 
 
 test:
