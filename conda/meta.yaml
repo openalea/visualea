@@ -21,6 +21,7 @@ requirements:
     - openalea.vpltk
     - openalea.oalab
     - openalea.grapheditor
+    - openalea.misc
     - qt <5
     - pyqt
     - ipython-qtconsole
