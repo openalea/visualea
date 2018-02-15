@@ -19,11 +19,13 @@ requirements:
     - openalea.deploy
     - openalea.core
     - openalea.vpltk
+    - openalea.oalab
     - openalea.grapheditor
     - qt <5
     - pyqt
     - ipython-qtconsole
     - ipython
+
 
 test:
   imports:
