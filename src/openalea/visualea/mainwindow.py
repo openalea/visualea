@@ -21,16 +21,14 @@ __revision__ = " $Id$ "
 
 from openalea.vpltk.qt import qt
 from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
+
 src = get_data("openalea.visualea.mainwindow", "resources") / 'mainwindow.ui'
 dest = get_data("openalea.visualea.mainwindow", "ui_mainwindow.py")
 generate_pyfile_from_uifile(__name__, src=src, dest=dest)
 
 import ui_mainwindow
-try:
-    from openalea.oalab.shell import get_shell_class
-    from openalea.core.service.ipython import interpreter as get_interpreter
-except ImportError:
-    from openalea.vpltk.shell.shell import get_shell_class, get_interpreter_class
+from openalea.oalab.shell import get_shell_class
+from openalea.core.service.ipython import interpreter as get_interpreter
 
 
 from openalea.core.algo.dataflow_evaluation import AbstractEvaluation
