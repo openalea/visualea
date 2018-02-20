@@ -101,7 +101,8 @@ class PortOperators(Base):
                 interpreter.locals[result]=data
                 # print the instance name and content as if the user type its name in a shell
                 # this is only to make obvious the availability of the instance in the
-                try: interpreter.runsource(result, hidden=False, interactive=True)
+                try:
+                    interpreter.runsource(result, hidden=False, interactive=True)
                 except:
                     interpreter.runsource("%s\n" % result)
 
