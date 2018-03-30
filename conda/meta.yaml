@@ -22,9 +22,6 @@ requirements:
     - openalea.oalab
     - openalea.grapheditor
     - openalea.misc
-    - qt <5
-    - pyqt
-    - ipython-qtconsole
     - ipython <5
 
 
