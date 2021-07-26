@@ -44,9 +44,9 @@ def start_gui():
     try:
         envdict = check_system_setuptools()
 
-    except Exception, e:
+    except Exception as e:
         envdict = os.environ
-        print e
+        print(e)
 
     if sys.platform.lower().startswith('win'):
         os.execle(sys.executable, sys.executable, "-c", 

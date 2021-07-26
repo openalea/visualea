@@ -35,7 +35,7 @@ def isiterable(seq):
     return False
 
 
-class IFloatWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IFloatWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     Float spin box widget
@@ -43,7 +43,6 @@ class IFloatWidget(IInterfaceWidget, qt.QtGui.QWidget):
 
     # Corresponding Interface & Metaclass
     __interface__ = IFloat
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -78,7 +77,7 @@ class IFloatWidget(IInterfaceWidget, qt.QtGui.QWidget):
 
     def notify(self, sender, event):
         """ Notification sent by node """
-        print 'not', sender, event
+        print('not', sender, event)
         try:
             v = float(self.get_value())
         except:
@@ -99,14 +98,13 @@ class IFloatWidget(IInterfaceWidget, qt.QtGui.QWidget):
         return self.spin.value()
 
 
-class IIntWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IIntWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     integer spin box widget
     """
 
     __interface__ = IInt
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -150,14 +148,13 @@ class IIntWidget(IInterfaceWidget, qt.QtGui.QWidget):
         self.spin.setValue(v)
 
 
-class IBoolWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IBoolWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     integer spin box widget
     """
 
     __interface__ = IBool
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -201,14 +198,13 @@ class IBoolWidget(IInterfaceWidget, qt.QtGui.QWidget):
             self.checkbox.setCheckState(qt.QtCore.Qt.Unchecked)
 
 
-class IStrWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IStrWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     Line Edit widget
     """
 
     __interface__ = IStr
-    __metaclass__ = make_metaclass()
     __widgetclass__ = qt.QtGui.QTextEdit  # qt.QtGui.QLineEdit#
 
     MAX_LEN = 100000
@@ -271,14 +267,13 @@ class IStrWidget(IInterfaceWidget, qt.QtGui.QWidget):
             raise NotImplementedError
 
 
-class IDateTimeWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IDateTimeWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     Date widget
     """
 
     __interface__ = IDateTime
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -312,7 +307,7 @@ class IDateTimeWidget(IInterfaceWidget, qt.QtGui.QWidget):
     @lock_notify
     def valueChanged(self, newval):
         d = newval.toPyDateTime()
-        print self.param_str, d
+        print(self.param_str, d)
         self.set_value(d)
 
     def notify(self, sender, event):
@@ -324,14 +319,13 @@ class IDateTimeWidget(IInterfaceWidget, qt.QtGui.QWidget):
             pass
 
 
-class ITextStrWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class ITextStrWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     Multi-Line Edit widget
     """
 
     __interface__ = ITextStr
-    __metaclass__ = make_metaclass()
     __widgetclass__ = qt.QtGui.QTextEdit
 
     MAX_LEN = 1000000
@@ -384,7 +378,7 @@ class ITextStrWidget(IInterfaceWidget, qt.QtGui.QWidget):
         self.subwidget.setText(s)
 
 try:
-    from scintilla_editor import ScintillaCodeEditor
+    from .scintilla_editor import ScintillaCodeEditor
 except ImportError:
     class ICodeStrWidget(ITextStrWidget):
 
@@ -404,7 +398,7 @@ else:
     class ICodeStrWidget(ITextStrWidget):
 
         __interface__ = ICodeStr
-        from scintilla_editor import ScintillaCodeEditor
+        from .scintilla_editor import ScintillaCodeEditor
         __widgetclass__ = ScintillaCodeEditor
 
         @lock_notify
@@ -419,14 +413,13 @@ else:
                 self.subwidget.setText(s)
 
 
-class ISequenceWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class ISequenceWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     List edit widget
     """
 
     __interface__ = ISequence
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -611,14 +604,13 @@ class ISequenceWidget(IInterfaceWidget, qt.QtGui.QWidget):
         self.unvalidate()
 
 
-class IDictWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IDictWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     List edit widget
     """
 
     __interface__ = IDict
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -676,7 +668,7 @@ class IDictWidget(IInterfaceWidget, qt.QtGui.QWidget):
         self.rowkey = []
 
         try:
-            keys = dic.keys()
+            keys = list(dic.keys())
             keys.sort()
             for key in keys:
                 elt = dic[key]
@@ -684,8 +676,8 @@ class IDictWidget(IInterfaceWidget, qt.QtGui.QWidget):
                 item.setFlags(qt.QtCore.Qt.ItemIsEnabled | qt.QtCore.Qt.ItemIsSelectable)
                 self.subwidget.addItem(item)
                 self.rowkey.append(key)
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
 
     @lock_notify
     def button_clicked(self):
@@ -748,14 +740,13 @@ class IDictWidget(IInterfaceWidget, qt.QtGui.QWidget):
             self.unvalidate()
 
 
-class IFileStrWidget(IStrWidget):
+class IFileStrWidget(IStrWidget, metaclass=make_metaclass()):
 
     """
     File name Line Edit Widget
     """
 
     __interface__ = IFileStr
-    __metaclass__ = make_metaclass()
     __widgetclass__ = qt.QtGui.QLineEdit
 
     last_result = qt.QtCore.QDir.homePath()
@@ -793,14 +784,13 @@ class IFileStrWidget(IStrWidget):
             IFileStrWidget.last_result = result
 
 
-class IDirStrWidget(IStrWidget):
+class IDirStrWidget(IStrWidget, metaclass=make_metaclass()):
 
     """
     File name Line Edit Widget
     """
 
     __interface__ = IDirStr
-    __metaclass__ = make_metaclass()
     __widgetclass__ = qt.QtGui.QLineEdit
 
     last_result = qt.QtCore.QDir.homePath()
@@ -827,12 +817,11 @@ class IDirStrWidget(IStrWidget):
             IDirStrWidget.last_result = result
 
 
-class IEnumStrWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IEnumStrWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """ String Enumeration widget """
 
     __interface__ = IEnumStr
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -895,12 +884,11 @@ class IEnumStrWidget(IInterfaceWidget, qt.QtGui.QWidget):
         return self.subwidget.currentText()
 
 
-class IRGBColorWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class IRGBColorWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """ RGB Color Widget """
 
     __interface__ = IRGBColor
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """
@@ -958,14 +946,13 @@ class IRGBColorWidget(IInterfaceWidget, qt.QtGui.QWidget):
         self.colorwidget.update()
 
 
-class ITupleWidget(IInterfaceWidget, qt.QtGui.QWidget):
+class ITupleWidget(IInterfaceWidget, qt.QtGui.QWidget, metaclass=make_metaclass()):
 
     """
     Tuple widget
     """
     # Corresponding Interface & Metaclass
     __interface__ = ITuple
-    __metaclass__ = make_metaclass()
 
     def __init__(self, node, parent, parameter_str, interface):
         """

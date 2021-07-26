@@ -104,11 +104,11 @@ def item_compare(x, y):
         return cmp(x.get_id(), y.get_id())
     else:
         tx, ty = type(x), type(y)
-        for t in type_order_map.keys():
+        for t in list(type_order_map.keys()):
             if isinstance(x, t):
                 tx = t
                 break
-        for t in type_order_map.keys():
+        for t in list(type_order_map.keys()):
             if isinstance(y, t):
                 ty = t
                 break

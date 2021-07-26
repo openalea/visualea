@@ -13,7 +13,7 @@ for (ui, dst) in [ ('mainwindow.ui', pj('..','ui_mainwindow.py')),
                    ('tableedit.ui', pj('..','ui_tableedit.py')),
                    ]:
     cmd = "pyuic4 %s > %s "%(ui, dst)
-    print cmd
+    print(cmd)
     os.system("pyuic4 %s > %s "%(ui, dst))
 
 

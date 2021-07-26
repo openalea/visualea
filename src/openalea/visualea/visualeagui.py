@@ -111,7 +111,7 @@ def set_stdout():
 
 def show_splash_screen():
     """Show a small splash screen to make people wait for OpenAlea to startup"""
-    import metainfo
+    from . import metainfo
     pix = qt.QtGui.QPixmap(":/icons/splash.png")
     splash = qt.QtGui.QSplashScreen(pix, qt.QtCore.Qt.WindowStaysOnTopHint)
     splash.show()
@@ -129,7 +129,7 @@ def timeit(f, *args, **kwargs):
     t2 = time.time()
     logger.debug(f.__name__+" took "+str(t2-t1)+" seconds")
     if __debug__:
-        print
+        print()
     return ret
 
 def threadit(f, parent=None, endCb=None, *args, **kwargs):

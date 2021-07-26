@@ -95,7 +95,7 @@ class NewGraph(qt.QtGui.QDialog, ui_newgraph.Ui_NewGraphDialog):
         pkgstr.sort()
 
         # Get category
-        cats = pmanager.category.keys()
+        cats = list(pmanager.category.keys())
         cats.sort()
         self.categoryEdit.addItems(cats)
 
@@ -128,11 +128,11 @@ class NewGraph(qt.QtGui.QDialog, ui_newgraph.Ui_NewGraphDialog):
         """ Accept Dialog result """
 
         # Test if name is correct
-        name = str(unicode(self.nameEdit.text()).encode('latin1'))
+        name = str(str(self.nameEdit.text()).encode('latin1'))
         if(not name or
-           (not self.factory and self.get_package().has_key(name)) or
+           (not self.factory and name in self.get_package()) or
            (self.factory and self.factory.name != name and
-            self.get_package().has_key(name))
+            name in self.get_package())
            ):
             mess = qt.QtGui.QMessageBox.warning(self, "Error", "The Name is already used")
             return
@@ -154,7 +154,7 @@ class NewGraph(qt.QtGui.QDialog, ui_newgraph.Ui_NewGraphDialog):
         try:
             pkgstr = str(self.packageBox.currentText().toAscii())
         except AttributeError:
-            pkgstr = str(unicode(self.packageBox.currentText()).encode('latin1'))  # Qt api 2
+            pkgstr = str(str(self.packageBox.currentText()).encode('latin1'))  # Qt api 2
         return self.pkgmap[pkgstr]
 
     def get_data(self):
@@ -163,18 +163,18 @@ class NewGraph(qt.QtGui.QDialog, ui_newgraph.Ui_NewGraphDialog):
         (name, nin, nout, category, description)
         """
 
-        name = str(unicode(self.nameEdit.text()).encode('latin1'))
+        name = str(str(self.nameEdit.text()).encode('latin1'))
         #name = str(self.nameEdit.text())
         try:
             category = str(self.categoryEdit.currentText().toAscii())
         except AttributeError:
-            category = str(unicode(self.categoryEdit.currentText()).encode('latin1'))  # Qt api 2
+            category = str(str(self.categoryEdit.currentText()).encode('latin1'))  # Qt api 2
         if not category:
             category = 'Unclassified'
         try:
             description = str(self.descriptionEdit.text().toAscii())
         except AttributeError:
-            description = str(unicode(self.descriptionEdit.text()).encode('latin1'))  # Qt api 2
+            description = str(str(self.descriptionEdit.text()).encode('latin1'))  # Qt api 2
 
         return (name, self.get_package(), category, description)
 
@@ -279,7 +279,7 @@ class NewData(qt.QtGui.QDialog, ui_newdata.Ui_NewDataDialog):
         # Test if name is correct
         name = str(self.nameEdit.text())
         name = os.path.basename(name)
-        if(not name or self.get_package().has_key(name)):
+        if(not name or name in self.get_package()):
             mess = qt.QtGui.QMessageBox.warning(self, "Error", "The Name is already used")
             return
 
@@ -303,7 +303,7 @@ class NewData(qt.QtGui.QDialog, ui_newdata.Ui_NewDataDialog):
         try:
             pkgstr = str(self.packageBox.currentText().toAscii())
         except AttributeError:
-            pkgstr = str(unicode(self.packageBox.currentText()).encode('latin1'))  # Qt api 2
+            pkgstr = str(str(self.packageBox.currentText()).encode('latin1'))  # Qt api 2
         return self.pkgmap[pkgstr]
 
     def get_data(self):
@@ -316,7 +316,7 @@ class NewData(qt.QtGui.QDialog, ui_newdata.Ui_NewDataDialog):
         try:
             description = str(self.descriptionEdit.text().toAscii())
         except AttributeError:
-            description = str(unicode(self.descriptionEdit.text()).encode('latin1'))  # Qt api 2
+            description = str(str(self.descriptionEdit.text()).encode('latin1'))  # Qt api 2
 
         return (name, self.get_package(), description)
 
@@ -481,7 +481,7 @@ class FactorySelector(qt.QtGui.QDialog, ui_tofactory.Ui_FactorySelector):
         for pkg in self.pkgmanager.get_user_packages():
             pname = pkg.name
 
-            for f in pkg.itervalues():
+            for f in pkg.values():
                 if(isinstance(f, CompositeNodeFactory)):
                     name = "%s.%s" % (pname, f.name)
                     cfactories.append(name)
@@ -531,7 +531,7 @@ class FactorySelector(qt.QtGui.QDialog, ui_tofactory.Ui_FactorySelector):
     def get_factory(self):
         """ Return the selected factory """
 
-        text = unicode(self.comboBox.currentText()).encode('latin1')
+        text = str(self.comboBox.currentText()).encode('latin1')
         return self.factorymap[str(text)]
 
 
@@ -578,8 +578,8 @@ class PreferencesDialog(qt.QtGui.QDialog, ui_preferences.Ui_Preferences):
                 self.externalBool.setCheckState(qt.QtCore.Qt.Checked)
             else:
                 self.externalBool.setCheckState(qt.QtCore.Qt.Unchecked)
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
 
         try:
             str = config.get("editor", "command")
@@ -657,7 +657,7 @@ class PreferencesDialog(qt.QtGui.QDialog, ui_preferences.Ui_Preferences):
 
         pkgmanager.user_wralea_path.clear()
 
-        for i in xrange(self.pathList.count()):
+        for i in range(self.pathList.count()):
             path = self.pathList.item(i).text()
             pkgmanager.add_wralea_path(os.path.abspath(str(path)), pkgmanager.user_wralea_path)
 
@@ -709,10 +709,10 @@ class PreferencesDialog(qt.QtGui.QDialog, ui_preferences.Ui_Preferences):
     def build_gui_for_component(self, componentName, conf):
         top = qt.QtGui.QGroupBox(self)
         inputs = tuple([dict(name=k, interface=i, value=v)
-                        for k, (i, v) in conf.iteritems()])
+                        for k, (i, v) in conf.items()])
         outputs = tuple([dict(name=k, interface=i, value=v)
-                         for k, (i, v) in conf.iteritems()])
-        print inputs, outputs
+                         for k, (i, v) in conf.items()])
+        print(inputs, outputs)
 
         f = Factory(name=componentName,
                     nodemodule="openalea.visualea.dialogs",
@@ -830,7 +830,7 @@ class IOConfigDialog(qt.QtGui.QDialog, ui_ioconfig.Ui_IOConfig):
         # build input dict
         self.inputs = []
         c = self.inModel.rowCount()
-        for i in xrange(c):
+        for i in range(c):
             name = str(self.inModel.item(i, 0).text())
             interface_str = str(self.inModel.item(i, 1).text())
             val_str = str(self.inModel.item(i, 2).text())
@@ -851,7 +851,7 @@ class IOConfigDialog(qt.QtGui.QDialog, ui_ioconfig.Ui_IOConfig):
         # build output dict
         self.outputs = []
         c = self.outModel.rowCount()
-        for i in xrange(c):
+        for i in range(c):
             name = str(self.outModel.item(i, 0).text())
             interface_str = str(self.outModel.item(i, 1).text())
             desc_str = str(self.outModel.item(i, 2).text())
@@ -907,8 +907,8 @@ class DictEditor(qt.QtGui.QDialog, ui_tableedit.Ui_TableEditor):
         self.modified_key = [] # list of modified key
 
         # Fill the table
-        self.tableWidget.setRowCount(len(pdict.keys()))
-        items = pdict.items()
+        self.tableWidget.setRowCount(len(list(pdict.keys())))
+        items = list(pdict.items())
         items.sort()
         for (i, (k, v)) in enumerate(items):
 
@@ -978,7 +978,7 @@ class ShowPortDialog(qt.QtGui.QDialog, ui_listedit.Ui_ListEdit):
     def accept(self):
         """ Set port status in the node """
 
-        for i in xrange(self.listWidget.count()):
+        for i in range(self.listWidget.count()):
             item = self.listWidget.item(i)
 
             if(self.node.input_states[i] is "connected"):
@@ -1001,7 +1001,7 @@ class NodeChooser(qt.QtGui.QDialog, ui_nodechooser.Ui_NodeChooser):
     """ Dialog allowing to choose a node (package view) """
 
     def __init__(self, parent):
-        from node_treeview import SearchListView, SearchModel
+        from .node_treeview import SearchListView, SearchModel
 
         qt.QtGui.QDialog.__init__(self, parent)
         ui_nodechooser.Ui_NodeChooser.__init__(self)
@@ -1033,7 +1033,7 @@ class NodeChooser(qt.QtGui.QDialog, ui_nodechooser.Ui_NodeChooser):
 
         s = str(self.comboBox.currentText())
 
-        if(self.map.has_key(s)):
+        if(s in self.map):
             return self.map[s]
 
         return None
@@ -1043,7 +1043,7 @@ class NodeChooser(qt.QtGui.QDialog, ui_nodechooser.Ui_NodeChooser):
 
         s = str(self.comboBox.currentText())
 
-        if(self.map.has_key(s)):
+        if(s in self.map):
             qt.QtGui.QDialog.accept(self)
 
         else:

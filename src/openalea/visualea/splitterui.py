@@ -32,7 +32,7 @@ try:
         myLogger.log(level, msg)
 except:
     def log(level, msg):
-        print "debug messsage", level, msg
+        print("debug messsage", level, msg)
 
 class RubberBandScrollArea(qt.QtGui.QScrollArea):
     """ A customized QScrollArea that can be scrolled
@@ -180,7 +180,7 @@ class BinaryTree(object):
         >>> g.visit_i_breadth_first(visitor)
         """
         def visit(self, vid):
-            print vid
+            print(vid)
             return False, False#don't ignore first or second child
 
 
@@ -198,8 +198,8 @@ class BinaryTree(object):
         self._toParents[0] = None
 
     def toString(self, props=[]):
-        filteredProps = dict( (vid, dict((k,v) for k, v in di.iteritems() if k in props) )\
-                              for vid, di in self._properties.iteritems() )
+        filteredProps = dict( (vid, dict((k,v) for k, v in di.items() if k in props) )\
+                              for vid, di in self._properties.items() )
         return repr(self._toChildren) +", " + repr(self._toParents) + ", " + repr(filteredProps)
 
 
@@ -212,7 +212,7 @@ class BinaryTree(object):
 
         g = BinaryTree()
         toCh, toPar, props = tup
-        g.__vid = max(props.iterkeys())+1
+        g.__vid = max(props.keys())+1
         g._toChildren = toCh.copy()
         g._toParents  = toPar.copy()
         g._properties  = props.copy()
@@ -657,14 +657,14 @@ class SplittableUI(qt.QtGui.QWidget):
 
     def takeAllContents(self, reparent=None):
         taken = []
-        for vid in self._g._properties.iterkeys():
+        for vid in self._g._properties.keys():
             wid = self.takeContentAt(vid, reparent)
             if wid is not None:
                 taken.append(wid)
         return taken
 
     def hasContent(self, widget):
-        for vid, prop in self._g._properties.iteritems():
+        for vid, prop in self._g._properties.items():
             if "widget" in prop and prop["widget"]==widget:
                 return vid
         return -1
@@ -795,7 +795,7 @@ class SplittableUI(qt.QtGui.QWidget):
         """Called by tear offs when a collapse is requested.
         `paneId` will collapse following `orientation` at `amount`*pane-width/height."""
         if collapseType == 2:
-            print "Cannot handle collapse to foreign nodes yet"
+            print("Cannot handle collapse to foreign nodes yet")
             return
         parent = self._g.parent(paneId)
         siblings = self._g.children(parent)

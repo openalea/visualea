@@ -25,6 +25,7 @@ from openalea.core.settings import Settings
 from openalea.grapheditor import qtgraphview, baselisteners, qtutils
 from openalea.grapheditor.qtutils import mixin_method, safeEffects
 from openalea.visualea import images_rc
+from functools import reduce
 
 
 """
@@ -252,7 +253,7 @@ the vertex data"""
     # Observer methods #
     ####################
     def store_view_data(self, **kwargs):
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             self.vertex().get_ad_hoc_dict().set_metadata(k, v)
 
     def get_view_data(self, key):

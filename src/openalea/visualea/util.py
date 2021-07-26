@@ -72,7 +72,7 @@ def exception_display(f):
     def wrapped(*args):
         try:
             return f(*args)
-        except EvaluationException, e:
+        except EvaluationException as e:
             self = args[0]
             if not isinstance(self, qt.QtGui.QWidget):
                 self = None
@@ -80,7 +80,7 @@ def exception_display(f):
             display_error(self,txt,e.exc_info)
             raise e.exception
 
-        except Exception, e:
+        except Exception as e:
             self = args[0]
             if not isinstance(self,qt.QtGui.QWidget):
                 self = None

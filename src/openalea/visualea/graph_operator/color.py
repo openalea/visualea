@@ -47,8 +47,8 @@ class ColorOperators(Base):
             try:
                 i.vertex().get_ad_hoc_dict().set_metadata("userColor", color)
                 i.vertex().get_ad_hoc_dict().set_metadata("useUserColor", True)
-            except Exception, e:
-                print "graph_set_selection_color exception", e
+            except Exception as e:
+                print("graph_set_selection_color exception", e)
                 pass
 
 

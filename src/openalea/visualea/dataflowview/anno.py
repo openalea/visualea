@@ -61,7 +61,7 @@ class AnnotationTextToolbar(AleaQGraphicsToolbar):
 class GraphicalAnnotation(qtutils.MemoRects, qtgraphview.Vertex):
     """ Text annotation on the data flow """
 
-    __def_string__ = u"click to edit"
+    __def_string__ = "click to edit"
 
 
     def __init__(self, annotation, graphadapter, parent=None):
@@ -127,7 +127,7 @@ class GraphicalAnnotation(qtutils.MemoRects, qtgraphview.Vertex):
     def __onTextModified(self, rect):
         self.setHeaderRect(rect)
         self.deaf(True)
-        text = unicode(self.__textItem.toPlainText())
+        text = str(self.__textItem.toPlainText())
         if(text != self.__def_string__):
             self.store_view_data(text=text)
         self.deaf(False)
@@ -186,12 +186,12 @@ class GraphicalAnnotation(qtutils.MemoRects, qtgraphview.Vertex):
         qtgraphview.Vertex.notify(self, sender, event)
 
     def set_text(self, text):
-        if text == u"" or text == None :
+        if text == "" or text == None :
             text = self.__def_string__
         self.__textItem.setPlainText(text)
 
     def store_view_data(self, **kwargs):
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             self.vertex().get_ad_hoc_dict().set_metadata(k, v)
 
     def get_view_data(self, key):

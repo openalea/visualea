@@ -17,10 +17,10 @@
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-import vertex
-import edge
-import anno
-import adapter
+from . import vertex
+from . import edge
+from . import anno
+from . import adapter
 
 from openalea.vpltk.qt import qt
 from openalea.vpltk.qt.compat import to_qvariant
@@ -252,7 +252,7 @@ class DataflowView(qt.View):
             node = self.__drop_from_factory(factory, [position.x(), position.y()])
             if node:
                 node.set_input(0, data.name)
-                node.set_caption(unicode(data.name))
+                node.set_caption(str(data.name))
             event.setDropAction(qt.QtCore.Qt.CopyAction)
             event.accept()
 

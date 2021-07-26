@@ -28,13 +28,13 @@ def search_trace(composite_node, package, workspace, parent=None):
     creatimeval="02-05-1988"
     descriptionval='sdfsqsd'
     useridval=1
-    print nameval
+    print(nameval)
     #data=[(creatimeval,nameval,descriptionval,useridval)]
     #for tu in data:
     #      cur.execute("INSERT INTO CompositeNode(CompositeNodeid,creatime,name,description,userid) VALUES(NULL,?,?,?,?)",tu)
     cur.execute("SELECT * FROM CompositeNode where name=? ",(nameval,))
     #cur.execute("SELECT * FROM CompositeNode")
-    print 'Affichage de tous les compositeNode'
+    print('Affichage de tous les compositeNode')
     for row in cur:
         #CompositeNodeidval=cur.fetchone()[0]
         CompositeNodeidval=row[0]
@@ -44,10 +44,10 @@ def search_trace(composite_node, package, workspace, parent=None):
         print(l)
     #CompositeNodeidVal=res.fetchone()
     #print 'la valeur de CompositeNodeidVal est :',CompositeNodeidVal[0]
-    print 'Affichages de toutes les traces de CompositeNode'
+    print('Affichages de toutes les traces de CompositeNode')
     #print cur.fetchone()[0]
     #CompositeNodeidval=1
-    print CompositeNodeidval
+    print(CompositeNodeidval)
     #CompositeNodeidVal=1
     cur.execute("SELECT * FROM CompositeNodeExec where CompositeNodeid=? ",(CompositeNodeidval,))
     i=0
@@ -58,7 +58,7 @@ def search_trace(composite_node, package, workspace, parent=None):
         date2=rows[1]
         i=i+1
     #    print myid[i] 
-    print 'Affichage de toutes les executions de noeud associees a cette trace'
+    print('Affichage de toutes les executions de noeud associees a cette trace')
     CompositeNodeExecidval=1
     cur.execute("SELECT * FROM NodeExec where CompositeNodeExecid=? ",(CompositeNodeExecidval,))
     for l in cur:
@@ -95,10 +95,10 @@ def search_trace(composite_node, package, workspace, parent=None):
     result = [["specification", date, CompositeNodeidval], ["Execution 1", date2, value2], ["Execution 2", "date", value3], ["Execution 3", "date", value4], ["Execution 4", "date", value5]]
     
     prov_widget = ProvenanceViewerWidget(composite_node, package, workspace, result, parent=parent)
-    print composite_node
-    print package
-    print workspace
-    print 'helo'
+    print(composite_node)
+    print(package)
+    print(workspace)
+    print('helo')
     dialog = ModalDialog(prov_widget)
     dialog.show()
     dialog.raise_()
@@ -133,13 +133,13 @@ class ProvenanceViewerWidget(QtGui.QWidget):
         if "spec" in category:
             # Launch Visualea
             #pass
-            print value
+            print(value)
             cur.execute("SELECT * FROM CompositeNode where CompositeNodeid=? ",(value,))
             for l in cur:
                 print(l)
         else:
             # Launch Graphviz
-            print value
+            print(value)
             cur.execute("SELECT * FROM CompositeNodeExec where CompositeNodeExecid=? ",(value,))
             for l in cur:
                 print(l)

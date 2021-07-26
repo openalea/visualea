@@ -102,7 +102,7 @@ class HelpWidget( qt.QtGui.QTextBrowser ):
             f = open(file)
             self.css = f.read()
             f.close()
-        except Exception, e:
+        except Exception as e:
             pass
             
 

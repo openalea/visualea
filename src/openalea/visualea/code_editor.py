@@ -112,7 +112,7 @@ class ExternalCodeEditor(AbstractCodeEditor):
         try:
             Popen([c, filename])
         except:
-            print "Cannot execute %s"%(c,)
+            print("Cannot execute %s"%(c,))
 
 
 
@@ -243,8 +243,8 @@ class PythonCodeEditor(qt.QtGui.QWidget, AbstractCodeEditor):
             self.connect(self.filewatcher, qt.QtCore.SIGNAL("fileChanged(const QString &)"), self.file_changed)
         
 
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             self.src = None
             self.applybut.setEnabled(False)
             self.savbut.setEnabled(False)
@@ -272,7 +272,7 @@ class PythonCodeEditor(qt.QtGui.QWidget, AbstractCodeEditor):
 
         if(self.module):
             newsrc = str(self.getText())
-            exec newsrc in self.module.__dict__
+            exec(newsrc, self.module.__dict__)
 
 
     def save_changes(self):
@@ -317,8 +317,8 @@ class NodeCodeEditor(PythonCodeEditor):
             self.src = nodefactory.get_node_src()
             self.textedit.setText(self.src)
             self.label.setText("Module : " + self.factory.nodemodule_path)
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             self.src = None
             self.applybut.setEnabled(False)
             self.savbut.setEnabled(False)
@@ -407,7 +407,7 @@ class EditorSelector(AbstractCodeEditor, qt.QtGui.QWidget):
         self.params = params
 
         # put the edit button in the first place
-        keys = editors.keys()
+        keys = list(editors.keys())
         if 'edit' in keys:
             keys.remove('edit')
             keys.insert(0, 'edit')
@@ -426,7 +426,7 @@ class EditorSelector(AbstractCodeEditor, qt.QtGui.QWidget):
             
     def __del__(self):
         """ Destroy widget """
-        for e in self.editors.values():
+        for e in list(self.editors.values()):
             try:
                 e.close()
             except:

@@ -43,7 +43,7 @@ class PortOperators(Base):
         node = portItem.port().vertex()
         data = str(node.get_output(portItem.port().get_id()))
         data = data[:500]+"[...truncated]" if len(data)>500 else data
-        print data
+        print(data)
 
 
     def port_send_to_pool(self):

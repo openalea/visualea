@@ -61,8 +61,8 @@ class SignalSlotListener(AbstractListener):
 
         try:
             self.qobj().emit(qt.QtCore.SIGNAL("notify"), sender, event)
-        except Exception, e:
-            print "Cannot emit Qt Signal : ", e
+        except Exception as e:
+            print("Cannot emit Qt Signal : ", e)
             self.notify(sender, event)
 
 

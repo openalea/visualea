@@ -38,7 +38,7 @@ if os.environ[QT_API].lower() in PYSIDE_API:
 styles = {}
 styles[40] = "HIGHLIGHT", qt.QtGui.QColor(0, 0, 0), qt.QtGui.QColor(0, 180, 0)
 
-for k, v in list(styles.iteritems()):
+for k, v in list(styles.items()):
     styles[v[0]] = k, v[1], v[2]
 
 
@@ -284,7 +284,7 @@ class CodeWidgetPreferences(qt.QtGui.QWidget):
         # - language chooser -
         label = qt.QtGui.QLabel("Language:")
         self.languageCombo = qt.QtGui.QComboBox()
-        self.languageCombo.addItems(sorted(list(lexers.iterkeys())))
+        self.languageCombo.addItems(sorted(list(lexers.keys())))
         langLayout = qt.QtGui.QHBoxLayout()
         langLayout.addWidget(label, 0, qt.QtCore.Qt.AlignLeft)
         langLayout.addWidget(self.languageCombo, 0, qt.QtCore.Qt.AlignLeft)

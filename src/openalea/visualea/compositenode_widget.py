@@ -24,12 +24,12 @@ __revision__ = " $Id: compositenode_widget.py 2329 2010-02-25 15:24:25Z dbarbeau
 import sys
 
 from openalea.vpltk.qt import qt
-from graph_operator import GraphOperator
+from .graph_operator import GraphOperator
 from openalea.visualea.dataflowview import GraphicalGraph
 from openalea.visualea.node_widget import NodeWidget
 from openalea.visualea.util import busy_cursor, exception_display
 from openalea.visualea.node_widget import DefaultNodeWidget
-from tooltip import VertexTooltip
+from .tooltip import VertexTooltip
 
 
 class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
@@ -83,7 +83,7 @@ class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
             if(not user_app):
                 # ignore node with all input connected
                 states = [ bool(subnode.get_input_state(p)=="connected")
-                           for p in xrange(subnode.get_nb_input())]
+                           for p in range(subnode.get_nb_input())]
 
                 if(all(states)): continue
 

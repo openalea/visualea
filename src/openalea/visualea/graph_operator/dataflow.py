@@ -28,7 +28,7 @@ from openalea.core.compositenode import CompositeNodeFactory
 from openalea.core.pkgmanager import PackageManager
 from openalea.core import export_app
 from openalea.core.algo import dataflow_evaluation as evalmodule
-from compositenode_inspector import InspectorView
+from .compositenode_inspector import InspectorView
 
 
 class DataflowOperators(Base):
@@ -155,7 +155,7 @@ class DataflowOperators(Base):
 
         try:
             factory.package.write()
-        except AttributeError, e:
+        except AttributeError as e:
             mess = qt.QtGui.QMessageBox.warning(widget, "Error",
                                              "Cannot write Graph model on disk. :\n"+
                                              "You try to write in a System Package:\n")
@@ -245,8 +245,8 @@ class DataflowOperators(Base):
                 if(ret == qt.QtGui.QMessageBox.Yes):
                     self.graph_export_to_factory()
 
-        except Exception, e:
-            print "graph_close exception", e
+        except Exception as e:
+            print("graph_close exception", e)
             pass
 
         #update any interested guy
@@ -289,7 +289,7 @@ class DataflowOperators(Base):
 
         try:
             factory.package.write()
-        except AttributeError, e:
+        except AttributeError as e:
             mess = qt.QtGui.QMessageBox.warning(widget, "Error",
                                              "Cannot write Graph model on disk. :\n"+
                                              "Trying to write in a System Package!\n")
@@ -359,7 +359,7 @@ class DataflowOperators(Base):
                                                      "SVG Image (*.svg)")
 
         filename = str(filename)
-        print "graph_export_svg", filename
+        print("graph_export_svg", filename)
         if not filename:
             return
         elif '.' not in filename:

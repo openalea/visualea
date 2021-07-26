@@ -42,7 +42,7 @@ from openalea.visualea.node_treeview import NodeFactoryView, NodeFactoryTreeView
 from openalea.visualea.node_treeview import DataPoolListView, DataPoolModel
 from openalea.visualea.node_treeview import SearchListView, SearchModel
 from openalea.visualea.node_widget import SignalSlotListener
-import metainfo
+from . import metainfo
 
 from openalea.visualea import helpwidget
 from openalea import misc
@@ -54,8 +54,8 @@ from openalea.visualea.dialogs import PreferencesDialog, NewData
 
 from openalea.visualea import dataflowview
 from openalea.visualea.logger import LoggerView
-from graph_operator import GraphOperator
-from graph_operator.vertex import VertexOperators
+from .graph_operator import GraphOperator
+from .graph_operator.vertex import VertexOperators
 
 import traceback
 
@@ -205,7 +205,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         self.action_New_Empty_Workspace.triggered.connect(self.new_workspace)
         self.menu_Workspace.aboutToShow.connect(self.__wsMenuShow)
         self.menu_Workspace.aboutToShow.connect(self.__wsMenuHide)
-        for ac, fname in self.__operatorAction.iteritems():
+        for ac, fname in self.__operatorAction.items():
             f = self.__make_operator_action_connector(ac, fname)
             ac.triggered.connect(f)
 
@@ -320,9 +320,9 @@ class MainWindow(qt.QtGui.QMainWindow,
 
     def debug(self):
         v = self.packageTreeView
-        print "items", v.expanded_items
-        print "model", v.model()
-        print "map", v.model().index_map
+        print("items", v.expanded_items)
+        print("model", v.model())
+        print("map", v.model().index_map)
 
     def write_settings(self):
         """Save application settings.
@@ -586,7 +586,7 @@ class MainWindow(qt.QtGui.QMainWindow,
                     self.open_widget_tab(node, factory=node.factory, pos=i)
 
         # close last tabs
-        removelist = range(len(self.session.workspaces), self.tabWorkspace.count())
+        removelist = list(range(len(self.session.workspaces), self.tabWorkspace.count()))
         removelist.reverse()
         for i in removelist:
             self.close_tab_workspace(i)
@@ -606,8 +606,8 @@ class MainWindow(qt.QtGui.QMainWindow,
             gwidget.set_siblings(self.session.workspaces)
             gwidget.scene().focusedItemChanged.connect(self.on_scene_focus_change)
             self.session.add_graph_view(gwidget)
-        except Exception, e:
-            print "open_widget_tab", e
+        except Exception as e:
+            print("open_widget_tab", e)
             traceback.print_exc()
             return
 
@@ -640,7 +640,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         self.reinit_treeview()
 
         # Reload workspace
-        print "WARNING TODO RELOAD EACH TAB"
+        print("WARNING TODO RELOAD EACH TAB")
         #for index in range(len(self.index_nodewidget)):
         #    self.reload_from_factory(index)
 
@@ -724,7 +724,7 @@ class MainWindow(qt.QtGui.QMainWindow,
     def new_package(self):
         """ Create a new user package """
 
-        dialog = NewPackage(self.pkgmanager.keys(), parent=self)
+        dialog = NewPackage(list(self.pkgmanager.keys()), parent=self)
         ret = dialog.exec_()
 
         if(ret > 0):
@@ -820,7 +820,7 @@ class MainWindow(qt.QtGui.QMainWindow,
     def search_node(self):
         """ Activated when search line edit is validated """
 
-        text = str(unicode(self.search_lineEdit.text()).encode('latin1'))
+        text = str(str(self.search_lineEdit.text()).encode('latin1'))
         results = self.pkgmanager.search_node(text)
         self.search_model.set_results(results)
 
@@ -856,8 +856,8 @@ class MainWindow(qt.QtGui.QMainWindow,
             self.session.load(filename)
             event.accept()
 
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             event.ignore()
 
     ############################
@@ -894,8 +894,8 @@ class MainWindow(qt.QtGui.QMainWindow,
 
         composite_node = widget.scene().get_graph()
         if composite_node is not None:
-            print "BEGIN script"
-            print composite_node.to_script(), "END script"
+            print("BEGIN script")
+            print(composite_node.to_script(), "END script")
 
     def export_image(self):
         """ Export current workspace to an image """
