@@ -15,6 +15,7 @@
 ###############################################################################
 
 from openalea.vpltk.qt import qt
+from openalea.vpltk.qt.QtWidgets import QTextBrowser
 
 #from openalea.visualea import lightsphinx
 
@@ -83,10 +84,10 @@ def simple_rst_to_html(rst):
     return html
         
         
-class HelpWidget( qt.QtGui.QTextBrowser ):
+class HelpWidget( QTextBrowser ):
 
     def __init__(self, parent=None):
-        qt.QtGui.QTextBrowser.__init__(self, parent)
+        QTextBrowser.__init__(self, parent)
         self.setTextInteractionFlags(qt.QtCore.Qt.TextBrowserInteraction)
         self.setOpenExternalLinks(True)
         self.css = None

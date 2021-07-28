@@ -8,7 +8,7 @@ from os.path import join as pj
 from openalea.deploy.metainfo import read_metainfo
 
 metadata = read_metainfo('metainfo.ini', verbose=True)
-for key,value in metadata.items():
+for key,value in list(metadata.items()):
     exec("%s = '%s'" % (key, value))
 
 namespace = 'openalea'

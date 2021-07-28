@@ -17,7 +17,9 @@
 #
 ################################################################################
 """Main Module for graphical interface"""
+from __future__ import print_function
 
+from builtins import str
 __license__ = "CeCILL v2"
 __revision__ = "$Id$"
 
@@ -31,7 +33,7 @@ from openalea.core.session import Session
 
 MULTITHREAD = False
 
-class Openalea(qt.QtGui.QApplication):
+class Openalea(QApplication):
     """Materialisation of the Openalea application.
     Does the basic inits. The session is initialised
     in a thread. It is safe to use once the sessionStarted
@@ -40,7 +42,7 @@ class Openalea(qt.QtGui.QApplication):
     sessionStarted = qt.QtCore.Signal(object)
 
     def __init__(self, args):
-        qt.QtGui.QApplication.__init__(self, args)
+        QApplication.__init__(self, args)
         # -- redirect stdout to null if pythonw --
         set_stdout()
         # -- reconfigure LoggerOffice to use Qt log handler and a file handler --
@@ -77,7 +79,7 @@ class Openalea(qt.QtGui.QApplication):
         """Ensure we are running a minimal version of Qt"""
         # QT_VERSION_STR implement __le__ operator
         if(__version__ < '4.5.2'):
-            mess = qt.QtGui.QMessageBox.warning(None,
+            mess = QMessageBox.warning(None,
                                              "Error",
                                              "Visualea needs Qt library >= 4.5.2")
             sys.exit(-1)
@@ -112,15 +114,15 @@ def set_stdout():
 def show_splash_screen():
     """Show a small splash screen to make people wait for OpenAlea to startup"""
     from . import metainfo
-    pix = qt.QtGui.QPixmap(":/icons/splash.png")
-    splash = qt.QtGui.QSplashScreen(pix, qt.QtCore.Qt.WindowStaysOnTopHint)
+    pix = QPixmap(":/icons/splash.png")
+    splash = QSplashScreen(pix, qt.QtCore.Qt.WindowStaysOnTopHint)
     splash.show()
     message = "" + metainfo.get_copyright() +\
               "Version : %s\n"%(metainfo.get_version(),) +\
               "Loading modules..."
     splash.showMessage(message, qt.QtCore.Qt.AlignCenter|qt.QtCore.Qt.AlignBottom)
     # -- make sure qt really display the message before importing the modules.--
-    qt.QtGui.QApplication.processEvents()
+    QApplication.processEvents()
     return splash
 
 def timeit(f, *args, **kwargs):

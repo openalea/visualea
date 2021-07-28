@@ -21,7 +21,7 @@ __revision__ = " $Id$ "
 
 from openalea.vpltk.qt import qt
 
-class VertexTooltip( qt.QtGui.QWidget ):
+class VertexTooltip( QWidget ):
 
     __WIDTH = 640
     __HEIGHT = 300
@@ -29,30 +29,30 @@ class VertexTooltip( qt.QtGui.QWidget ):
     __size = qt.QtCore.QSize(__WIDTH, __HEIGHT)
 
     def __init__(self, parent=None):
-        #qt.QtGui.QWidget.__init__(self, parent, qt.QtCore.Qt.Popup)
-        qt.QtGui.QWidget.__init__(self, parent, qt.QtCore.Qt.ToolTip)
+        #QWidget.__init__(self, parent, qt.QtCore.Qt.Popup)
+        QWidget.__init__(self, parent, qt.QtCore.Qt.ToolTip)
         self.setWindowModality(qt.QtCore.Qt.ApplicationModal)
-        self.setBackgroundRole(qt.QtGui.QPalette.ToolTipBase)
-        self.setForegroundRole(qt.QtGui.QPalette.AlternateBase)
+        self.setBackgroundRole(QPalette.ToolTipBase)
+        self.setForegroundRole(QPalette.AlternateBase)
 
         #layouts
-        mainLayout = qt.QtGui.QVBoxLayout()
-        topLayout  = qt.QtGui.QGridLayout()
+        mainLayout = QVBoxLayout()
+        topLayout  = QGridLayout()
         topLayout.setVerticalSpacing(2)
 
         #widgets that display the labels
-        self.__vNameWidget   = qt.QtGui.QLabel("Name :")
-        self.__pNameWidget   = qt.QtGui.QLabel("Package :")
-        self.__vAuthorWidget = qt.QtGui.QLabel("Author(s) :")
+        self.__vNameWidget   = QLabel("Name :")
+        self.__pNameWidget   = QLabel("Package :")
+        self.__vAuthorWidget = QLabel("Author(s) :")
 
         #widgets that display the labels values
-        self.__vNameValueWidget   = qt.QtGui.QLabel()
-        self.__pNameValueWidget   = qt.QtGui.QLabel()
-        self.__vAuthorValueWidget = qt.QtGui.QLabel()
+        self.__vNameValueWidget   = QLabel()
+        self.__pNameValueWidget   = QLabel()
+        self.__vAuthorValueWidget = QLabel()
 
         #long description
-        __tooltipScroll = qt.QtGui.QScrollArea()
-        self.__tooltipWidget = qt.QtGui.QLabel()
+        __tooltipScroll = QScrollArea()
+        self.__tooltipWidget = QLabel()
         __tooltipScroll.setWidget(self.__tooltipWidget)
         __tooltipScroll.setWidgetResizable(True)
         self.__tooltipWidget.setWordWrap(True)
@@ -70,12 +70,12 @@ class VertexTooltip( qt.QtGui.QWidget ):
         topLayout.addWidget(self.__pNameValueWidget, 1, 1, qt.QtCore.Qt.AlignRight)
         topLayout.addWidget(self.__vAuthorValueWidget, 2, 1, qt.QtCore.Qt.AlignRight)
 
-        self.__vNameWidget.setSizePolicy(qt.QtGui.QSizePolicy.Preferred, qt.QtGui.QSizePolicy.Fixed)
-        self.__pNameWidget.setSizePolicy(qt.QtGui.QSizePolicy.Preferred, qt.QtGui.QSizePolicy.Fixed)
-        self.__vAuthorWidget.setSizePolicy(qt.QtGui.QSizePolicy.Preferred, qt.QtGui.QSizePolicy.Fixed)
-        self.__vNameValueWidget.setSizePolicy(qt.QtGui.QSizePolicy.Preferred, qt.QtGui.QSizePolicy.Fixed)
-        self.__pNameValueWidget.setSizePolicy(qt.QtGui.QSizePolicy.Preferred, qt.QtGui.QSizePolicy.Fixed)
-        self.__vAuthorValueWidget.setSizePolicy(qt.QtGui.QSizePolicy.Preferred, qt.QtGui.QSizePolicy.Fixed)
+        self.__vNameWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.__pNameWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.__vAuthorWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.__vNameValueWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.__pNameValueWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.__vAuthorValueWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
         #main layout
         mainLayout.addLayout(topLayout)
@@ -111,9 +111,9 @@ class VertexTooltip( qt.QtGui.QWidget ):
         self.close()
 
     def paintEvent(self, event):
-        painter = qt.QtGui.QPainter(self)
+        painter = QPainter(self)
         painter.setPen(qt.QtCore.Qt.black)
         rect = qt.QtCore.QRect(self.rect())
         rect.adjust(0,0,-1,-1)
         painter.drawRect(rect)
-        qt.QtGui.QWidget.paintEvent(self, event)
+        QWidget.paintEvent(self, event)

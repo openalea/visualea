@@ -68,7 +68,7 @@ class GraphOperator(Observed):
     def get_action(self, actionName=None, parent=None, fName=None, **kwargs):
         if actionName is None and parent is None and fName is not None:
             return self.__get_wrapped(fName, kwargs)[0]
-        action = qt.QtGui.QAction(actionName, parent)
+        action = QAction(actionName, parent)
         return self.bind_action(action, fName, kwargs)
 
     def bind_action(self, action, fName, kwargs=None):
@@ -142,7 +142,7 @@ class GraphOperator(Observed):
 
     def get_sensible_parent(self):
         # TODO improve this:
-        return qt.QtGui.QApplication.topLevelWidgets()[0]
+        return QApplication.topLevelWidgets()[0]
 
     def get_graph_scene(self):
         return self.__scene

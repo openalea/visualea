@@ -14,11 +14,15 @@
 #       OpenAlea WebSite : http://openalea.gforge.inria.fr
 #
 ################################################################################
-"""QT4 Main window"""
+"""QT5? Main window"""
+from __future__ import print_function
 
+from builtins import str
+from builtins import range
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
 
+from openalea.vpltk.qt.QtWidgets import *
 from openalea.vpltk.qt import qt
 from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
 
@@ -26,7 +30,7 @@ src = get_data("openalea.visualea.mainwindow", "resources") / 'mainwindow.ui'
 dest = get_data("openalea.visualea.mainwindow", "ui_mainwindow.py")
 generate_pyfile_from_uifile(__name__, src=src, dest=dest)
 
-import ui_mainwindow
+from openalea.visualea import ui_mainwindow
 from openalea.oalab.shell import get_shell_class
 from openalea.core.service.ipython import interpreter as get_interpreter
 
@@ -62,7 +66,7 @@ import traceback
 PROVENANCE = False
 
 
-class MainWindow(qt.QtGui.QMainWindow,
+class MainWindow(QMainWindow,
                  ui_mainwindow.Ui_MainWindow,
                  SignalSlotListener):
 
@@ -71,7 +75,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         @param session : user session
         @param parent : parent window
         """
-        qt.QtGui.QMainWindow.__init__(self, parent)
+        QMainWindow.__init__(self, parent)
         SignalSlotListener.__init__(self)
         ui_mainwindow.Ui_MainWindow.__init__(self)
         self.setupUi(self)
@@ -91,7 +95,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         self._last_opened = []
 
         #lower tab pane : python shell, logger...
-        self.lowerpane = qt.QtGui.QTabWidget()
+        self.lowerpane = QTabWidget()
         self.splitter.addWidget(self.lowerpane)
 
         # python interpreter
@@ -198,14 +202,14 @@ class MainWindow(qt.QtGui.QMainWindow,
                                       (self.actionSetCustomColor, "graph_set_selection_color"),
                                       (self.actionUseCustomColor, "graph_use_user_color")])
 
-        self._last_open_action_group = qt.QtGui.QActionGroup(self)
+        self._last_open_action_group = QActionGroup(self)
         self.connect(self._last_open_action_group,
                      qt.QtCore.SIGNAL("triggered(QAction*)"),
                      self.reopen_last)
         self.action_New_Empty_Workspace.triggered.connect(self.new_workspace)
         self.menu_Workspace.aboutToShow.connect(self.__wsMenuShow)
         self.menu_Workspace.aboutToShow.connect(self.__wsMenuHide)
-        for ac, fname in self.__operatorAction.items():
+        for ac, fname in list(self.__operatorAction.items()):
             f = self.__make_operator_action_connector(ac, fname)
             ac.triggered.connect(f)
 
@@ -223,21 +227,21 @@ class MainWindow(qt.QtGui.QMainWindow,
         # Provenance
         #############
         if PROVENANCE:
-            self.menu_provenance = qt.QtGui.QMenu(self.menubar)
+            self.menu_provenance = QMenu(self.menubar)
             self.menu_provenance.setObjectName("menu_provenance")
-            self.menu_provenance.setTitle(qt.QtGui.QApplication.translate("MainWindow", "&Provenance", None, qt.QtGui.QApplication.UnicodeUTF8))
+            self.menu_provenance.setTitle(QApplication.translate("MainWindow", "&Provenance", None, QApplication.UnicodeUTF8))
 
-            self.action_activ_prov = qt.QtGui.QAction(self)
+            self.action_activ_prov = QAction(self)
             self.action_activ_prov.setCheckable(True)
             prov = self.get_provenance()
             self.action_activ_prov.setChecked(prov)
             self.action_activ_prov.setObjectName("action_activ_prov")
-            self.action_activ_prov.setText(qt.QtGui.QApplication.translate("MainWindow", "Connect/Disconnect Provenance", None, qt.QtGui.QApplication.UnicodeUTF8))
+            self.action_activ_prov.setText(QApplication.translate("MainWindow", "Connect/Disconnect Provenance", None, QApplication.UnicodeUTF8))
 
-            self.action_show_prov = qt.QtGui.QAction(self)
+            self.action_show_prov = QAction(self)
             self.action_show_prov.setCheckable(False)
             self.action_show_prov.setObjectName("action_show_prov")
-            self.action_show_prov.setText(qt.QtGui.QApplication.translate("MainWindow", "Show Provenance", None, qt.QtGui.QApplication.UnicodeUTF8))
+            self.action_show_prov.setText(QApplication.translate("MainWindow", "Show Provenance", None, QApplication.UnicodeUTF8))
 
             self.menu_provenance.addAction(self.action_activ_prov)
             self.menu_provenance.addAction(self.action_show_prov)
@@ -320,9 +324,12 @@ class MainWindow(qt.QtGui.QMainWindow,
 
     def debug(self):
         v = self.packageTreeView
-        print("items", v.expanded_items)
-        print("model", v.model())
-        print("map", v.model().index_map)
+        # fix_print_with_import
+        print(("items", v.expanded_items))
+        # fix_print_with_import
+        print(("model", v.model()))
+        # fix_print_with_import
+        print(("map", v.model().index_map))
 
     def write_settings(self):
         """Save application settings.
@@ -489,7 +496,7 @@ class MainWindow(qt.QtGui.QMainWindow,
     def about(self):
         """ Display About Dialog """
 
-        mess = qt.QtGui.QMessageBox.about(self, "About Visualea",
+        mess = QMessageBox.about(self, "About Visualea",
                                           "Version %s\n\n" % (metainfo.get_version()) +
                                           "VisuAlea is part of the OpenAlea framework.\n" +
                                           metainfo.get_copyright() +
@@ -503,14 +510,14 @@ class MainWindow(qt.QtGui.QMainWindow,
 
     def web(self):
         """ Open OpenAlea website """
-        qt.QtGui.QDesktopServices.openUrl(qt.QtCore.QUrl(metainfo.url))
+        QDesktopServices.openUrl(qt.QtCore.QUrl(metainfo.url))
 
     def quit(self):
         """ Quit Application """
-        if(qt.QtGui.QMessageBox.question(self, "Quit?", "Are you sure you want to quit?",
-                                         qt.QtGui.QMessageBox.Ok | qt.QtGui.QMessageBox.Cancel) ==
-                qt.QtGui.QMessageBox.Ok):
-            qt.QtGui.QApplication.exit(0)
+        if(QMessageBox.question(self, "Quit?", "Are you sure you want to quit?",
+                                         QMessageBox.Ok | QMessageBox.Cancel) ==
+                QMessageBox.Ok):
+            QApplication.exit(0)
 
     def notify(self, sender, event):
         """ Notification from observed """
@@ -607,7 +614,8 @@ class MainWindow(qt.QtGui.QMainWindow,
             gwidget.scene().focusedItemChanged.connect(self.on_scene_focus_change)
             self.session.add_graph_view(gwidget)
         except Exception as e:
-            print("open_widget_tab", e)
+            # fix_print_with_import
+            print(("open_widget_tab", e))
             traceback.print_exc()
             return
 
@@ -628,7 +636,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         return index
 
     def add_pkgdir(self):
-        dirname = qt.QtGui.QFileDialog.getExistingDirectory(self, "Select Package/Directory")
+        dirname = QFileDialog.getExistingDirectory(self, "Select Package/Directory")
         if(dirname):
             self.pkgmanager.load_directory(str(dirname))
             self.reinit_treeview()
@@ -672,7 +680,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         def close_current_ws():
             self.close_tab_workspace(index)
 
-        menu = qt.QtGui.QMenu(self)
+        menu = QMenu(self)
 
         action = menu.addAction("Close")
         self.connect(action, qt.QtCore.SIGNAL("triggered()"), close_current_ws)
@@ -736,7 +744,7 @@ class MainWindow(qt.QtGui.QMainWindow,
     def exec_python_script(self):
         """ Choose a python source and execute it """
 
-        filename = qt.QtGui.QFileDialog.getOpenFileName(
+        filename = QFileDialog.getOpenFileName(
             self, "Python Script", "Python script (*.py)")
 
         filename = str(filename)
@@ -783,7 +791,7 @@ class MainWindow(qt.QtGui.QMainWindow,
 
     def open_session(self):
 
-        filename = qt.QtGui.QFileDialog.getOpenFileName(
+        filename = QFileDialog.getOpenFileName(
             self, "OpenAlea Session", qt.QtCore.QDir.homePath(), "Session file (*.oas)")
 
         filename = str(filename)
@@ -803,7 +811,7 @@ class MainWindow(qt.QtGui.QMainWindow,
     def save_as(self):
         """ Save as menu entry """
 
-        filename = qt.QtGui.QFileDialog.getSaveFileName(
+        filename = QFileDialog.getSaveFileName(
             self, "OpenAlea Session", qt.QtCore.QDir.homePath(), "Session file (*.oas)")
 
         filename = str(filename)
@@ -895,12 +903,13 @@ class MainWindow(qt.QtGui.QMainWindow,
         composite_node = widget.scene().get_graph()
         if composite_node is not None:
             print("BEGIN script")
-            print(composite_node.to_script(), "END script")
+            # fix_print_with_import
+            print((composite_node.to_script(), "END script"))
 
     def export_image(self):
         """ Export current workspace to an image """
 
-        filename = qt.QtGui.QFileDialog.getSaveFileName(
+        filename = QFileDialog.getSaveFileName(
             self, "Export image", qt.QtCore.QDir.homePath(), "PNG Image (*.png)")
 
         filename = str(filename)
@@ -916,10 +925,10 @@ class MainWindow(qt.QtGui.QMainWindow,
         matrix = view.matrix()
         rect = matrix.mapRect(rect)
 
-        pixmap = qt.QtGui.QPixmap(rect.width(), rect.height())
+        pixmap = QPixmap(rect.width(), rect.height())
         pixmap.fill()
-        painter = qt.QtGui.QPainter(pixmap)
-        painter.setRenderHint(qt.QtGui.QPainter.Antialiasing)
+        painter = QPainter(pixmap)
+        painter.setRenderHint(QPainter.Antialiasing)
         view.update()
         view.scene().render(painter)
         painter.end()
@@ -928,7 +937,7 @@ class MainWindow(qt.QtGui.QMainWindow,
     def export_image_svg(self):
         """ Export current workspace to an image """
 
-        filename = qt.QtGui.QFileDialog.getSaveFileName(
+        filename = QFileDialog.getSaveFileName(
             self, "Export svg image", qt.QtCore.QDir.homePath(), "SVG Image (*.svg)")
 
         filename = str(filename)
@@ -949,7 +958,7 @@ class MainWindow(qt.QtGui.QMainWindow,
         svg_gen.setFileName(filename)
         svg_gen.setSize(rect.toRect().size())
 
-        painter = qt.QtGui.QPainter(svg_gen)
-        painter.setRenderHint(qt.QtGui.QPainter.Antialiasing)
+        painter = QPainter(svg_gen)
+        painter.setRenderHint(QPainter.Antialiasing)
         view.scene().render(painter, )
         painter.end()

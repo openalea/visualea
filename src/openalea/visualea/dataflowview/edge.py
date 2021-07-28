@@ -22,7 +22,7 @@ from openalea.vpltk.qt import qt
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.grapheditor import baselisteners, qtgraphview, edgefactory, qtutils
 
-class FloatingEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.FloatingEdge):
+class FloatingEdge(QGraphicsPathItem, qtgraphview.FloatingEdge):
     """
     Represents an edge during its creation
     It is connected to one connector only
@@ -31,7 +31,7 @@ class FloatingEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.FloatingEdge):
     """
 
     def __init__(self, srcPoint, graph):
-        qt.QtGui.QGraphicsPathItem.__init__(self, None)
+        QGraphicsPathItem.__init__(self, None)
         qtgraphview.FloatingEdge.__init__(self, srcPoint, graph)
 
     def get_connections(self):
@@ -68,12 +68,12 @@ class FloatingEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.FloatingEdge):
                                 "plugging input to input or output to output")
 
 
-class GraphicalEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.Edge):
+class GraphicalEdge(QGraphicsPathItem, qtgraphview.Edge):
     """ An edge between two graphical vertices """
 
     def __init__(self, edgeModel, graphadapter, port1, port2, parent=None):
         """ """
-        qt.QtGui.QGraphicsPathItem.__init__(self, parent)
+        QGraphicsPathItem.__init__(self, parent)
         qtgraphview.Edge.__init__(self, edgeModel, graphadapter, port1, port2)
         self.__edge_creator = self.set_edge_creator(edgefactory.SplineEdgePath())        
         

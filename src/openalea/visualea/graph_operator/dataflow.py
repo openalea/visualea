@@ -1,3 +1,4 @@
+from __future__ import print_function
 # -*- python -*-
 #
 #       OpenAlea.Visualea: OpenAlea graphical user interface
@@ -14,6 +15,8 @@
 #
 ###############################################################################
 
+from past.builtins import cmp
+from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
@@ -43,13 +46,13 @@ class DataflowOperators(Base):
     def graph_reset(self):
         master = self.master
         widget = master.get_sensible_parent()
-        ret = qt.QtGui.QMessageBox.question(widget,
+        ret = QMessageBox.question(widget,
                                          "Reset Workspace",
                                          "Reset will delete all input values.\n" + \
                                              "Continue ?\n",
-                                         qt.QtGui.QMessageBox.Yes,
-                                         qt.QtGui.QMessageBox.No,)
-        if(ret == qt.QtGui.QMessageBox.No):
+                                         QMessageBox.Yes,
+                                         QMessageBox.No,)
+        if(ret == QMessageBox.No):
             return
         master.get_graph().reset()
 
@@ -156,7 +159,7 @@ class DataflowOperators(Base):
         try:
             factory.package.write()
         except AttributeError as e:
-            mess = qt.QtGui.QMessageBox.warning(widget, "Error",
+            mess = QMessageBox.warning(widget, "Error",
                                              "Cannot write Graph model on disk. :\n"+
                                              "You try to write in a System Package:\n")
         master.notify_listeners(("graphoperator_graphsaved", scene, factory))
@@ -235,18 +238,19 @@ class DataflowOperators(Base):
             modified = master.get_graph().graph_modified
             if(modified):
                 # Generate factory if user want
-                ret = qt.QtGui.QMessageBox.question(widget, "Close Workspace",
+                ret = QMessageBox.question(widget, "Close Workspace",
                                                  "Graph has been modified.\n"+
                                                  "Do you want to report modification "+
                                                  "in the model ?\n",
-                                                 qt.QtGui.QMessageBox.Yes,
-                                                 qt.QtGui.QMessageBox.No,)
+                                                 QMessageBox.Yes,
+                                                 QMessageBox.No,)
 
-                if(ret == qt.QtGui.QMessageBox.Yes):
+                if(ret == QMessageBox.Yes):
                     self.graph_export_to_factory()
 
         except Exception as e:
-            print("graph_close exception", e)
+            # fix_print_with_import
+            print(("graph_close exception", e))
             pass
 
         #update any interested guy
@@ -266,12 +270,12 @@ class DataflowOperators(Base):
         siblings = master.get_siblings()
         for ws in siblings:
             if graph != ws and graph.factory == ws.factory:
-                res = qt.QtGui.QMessageBox.warning(widget, "Other instances are opened!",
+                res = QMessageBox.warning(widget, "Other instances are opened!",
                 """You are trying to save a composite node that has been opened multiple times.
                 Doing this may discard changes done in the other intances.
                 Do you want to continue?""",
-                                                qt.QtGui.QMessageBox.Ok | qt.QtGui.QMessageBox.Cancel)
-                if res == qt.QtGui.QMessageBox.Cancel:
+                                                QMessageBox.Ok | QMessageBox.Cancel)
+                if res == QMessageBox.Cancel:
                     return
                 else:
                     break
@@ -290,7 +294,7 @@ class DataflowOperators(Base):
         try:
             factory.package.write()
         except AttributeError as e:
-            mess = qt.QtGui.QMessageBox.warning(widget, "Error",
+            mess = QMessageBox.warning(widget, "Error",
                                              "Cannot write Graph model on disk. :\n"+
                                              "Trying to write in a System Package!\n")
         master.notify_listeners(("graphoperator_graphsaved", scene, factory))
@@ -301,7 +305,7 @@ class DataflowOperators(Base):
         composite_node = master.get_graph()
         scr = composite_node.to_script()
 
-        filename = qt.QtGui.QFileDialog.getSaveFileName(
+        filename = QFileDialog.getSaveFileName(
             widget, "Export to script",  qt.QtCore.QDir.homePath(), "Python file (*.py)")
 
         filename = str(filename)
@@ -320,7 +324,7 @@ class DataflowOperators(Base):
         scene  = master.get_graph_scene()
         widget = master.get_sensible_parent()
 
-        filename = qt.QtGui.QFileDialog.getSaveFileName(widget,
+        filename = QFileDialog.getSaveFileName(widget,
                                                      "Export png image",
                                                      qt.QtCore.QDir.homePath(),
                                                      "PNG Image (*.png)")
@@ -336,12 +340,12 @@ class DataflowOperators(Base):
         source  = scene.itemsBoundingRect()
         canvas  = scene.itemsBoundingRect().adjusted(-mg, -mg, mg, mg)
         target  = scene.itemsBoundingRect()
-        pixmap  = qt.QtGui.QPixmap(canvas.width(), canvas.height())
-        painter = qt.QtGui.QPainter(pixmap)
+        pixmap  = QPixmap(canvas.width(), canvas.height())
+        painter = QPainter(pixmap)
 
         target.moveTo(mg, mg)
         pixmap.fill()
-        painter.setRenderHint(qt.QtGui.QPainter.Antialiasing)
+        painter.setRenderHint(QPainter.Antialiasing)
         scene.render(painter, target, source)
         painter.end()
         pixmap.save(filename)
@@ -353,13 +357,14 @@ class DataflowOperators(Base):
         scene  = master.get_graph_scene()
         widget = master.get_sensible_parent()
 
-        filename = qt.QtGui.QFileDialog.getSaveFileName(widget,
+        filename = QFileDialog.getSaveFileName(widget,
                                                      "Export svg image",
                                                      qt.QtCore.QDir.homePath(),
                                                      "SVG Image (*.svg)")
 
         filename = str(filename)
-        print("graph_export_svg", filename)
+        # fix_print_with_import
+        print(("graph_export_svg", filename))
         if not filename:
             return
         elif '.' not in filename:
@@ -376,8 +381,8 @@ class DataflowOperators(Base):
         svg_gen.setFileName(filename)
         svg_gen.setSize(canvas.toRect().size())
 
-        painter = qt.QtGui.QPainter(svg_gen)
-        painter.setRenderHint(qt.QtGui.QPainter.Antialiasing)
+        painter = QPainter(svg_gen)
+        painter.setRenderHint(QPainter.Antialiasing)
         scene.render(painter, target, source)
         painter.end()
 
@@ -410,12 +415,12 @@ class DataflowOperators(Base):
 
         if(graph.graph_modified):
             # Show message
-            ret = qt.QtGui.QMessageBox.question(widget, "Reload workspace '%s'"%(name),
+            ret = QMessageBox.question(widget, "Reload workspace '%s'"%(name),
                                              "Reloading will discard recent changes on " +
                                              "workspace '%s'.\nContinue?"%(name),
-                                             qt.QtGui.QMessageBox.Yes, qt.QtGui.QMessageBox.No,)
+                                             QMessageBox.Yes, QMessageBox.No,)
 
-            if(ret == qt.QtGui.QMessageBox.No):
+            if(ret == QMessageBox.No):
                 return
 
         oldGraph = graph
@@ -464,7 +469,7 @@ class DataflowOperators(Base):
             return
 
         # Get Filename
-        filename = qt.QtGui.QFileDialog.getSaveFileName(
+        filename = QFileDialog.getSaveFileName(
             widget, "Python Application",
             qt.QtCore.QDir.homePath(), "Python file (*.py)")
 
@@ -473,8 +478,8 @@ class DataflowOperators(Base):
             return
 
         # Get Application Name
-        result, ok = qt.QtGui.QInputDialog.getText(widget, "Application Name", "",
-                                                qt.QtGui.QLineEdit.Normal, "")
+        result, ok = QInputDialog.getText(widget, "Application Name", "",
+                                                QLineEdit.Normal, "")
         if(not ok):
             return
 

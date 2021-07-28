@@ -1,3 +1,4 @@
+from __future__ import print_function
 # -*- python -*-
 #
 #       OpenAlea.Visualea: OpenAlea graphical user interface
@@ -14,6 +15,8 @@
 #
 ###############################################################################
 
+from builtins import str
+from builtins import object
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
@@ -32,9 +35,10 @@ try:
         myLogger.log(level, msg)
 except:
     def log(level, msg):
-        print("debug messsage", level, msg)
+        # fix_print_with_import
+        print(("debug messsage", level, msg))
 
-class RubberBandScrollArea(qt.QtGui.QScrollArea):
+class RubberBandScrollArea(QScrollArea):
     """ A customized QScrollArea that can be scrolled
     with a middle mouse drag in a blank area.
     Scrolling can be locked to X or Y. (default is not locked)
@@ -45,9 +49,9 @@ class RubberBandScrollArea(qt.QtGui.QScrollArea):
     def __init__(self, parent=None):
         """ Contruct a RubberBandScrollArea.
         :Parameters:
-         - `parent` (qt.QtGui.QWidget) - The parent widget.
+         - `parent` (QWidget) - The parent widget.
         """
-        qt.QtGui.QScrollArea.__init__(self, parent)
+        QScrollArea.__init__(self, parent)
         self.__scrollY = True
         self.__scrollX = True
         self.__rubberband = False
@@ -89,7 +93,7 @@ class RubberBandScrollArea(qt.QtGui.QScrollArea):
             self.__rubberband = True
             self.__oldMousePos = e.pos()
         else:
-            qt.QtGui.QScrollArea.mousePressEvent(self,e)
+            QScrollArea.mousePressEvent(self,e)
 
     def mouseMoveEvent(self, e):
         """Reimplemented to scroll the window in rubberband mode.
@@ -107,7 +111,7 @@ class RubberBandScrollArea(qt.QtGui.QScrollArea):
                 sb.setValue(sb.value() - df.y())
             self.__oldMousePos = pos
         else:
-            qt.QtGui.QScrollArea.mousePressEvent(self,e)
+            QScrollArea.mousePressEvent(self,e)
 
     def mouseReleaseEvent(self, e):
         """Reimplemented to catch the mouse press button and deactivate
@@ -116,13 +120,13 @@ class RubberBandScrollArea(qt.QtGui.QScrollArea):
             self.__rubberband = False
             self.__rubberband = None
         else:
-            qt.QtGui.QScrollArea.mousePressEvent(self,e)
+            QScrollArea.mousePressEvent(self,e)
 
     def resizeEvent(self, event):
         wid = self.widget()
         if wid:
             wid.resize(event.size())
-        qt.QtGui.QScrollArea.resizeEvent(self, event)
+        QScrollArea.resizeEvent(self, event)
 
 
 
@@ -198,8 +202,8 @@ class BinaryTree(object):
         self._toParents[0] = None
 
     def toString(self, props=[]):
-        filteredProps = dict( (vid, dict((k,v) for k, v in di.items() if k in props) )\
-                              for vid, di in self._properties.items() )
+        filteredProps = dict( (vid, dict((k,v) for k, v in list(di.items()) if k in props) )\
+                              for vid, di in list(self._properties.items()) )
         return repr(self._toChildren) +", " + repr(self._toParents) + ", " + repr(filteredProps)
 
 
@@ -451,7 +455,7 @@ class DraggableWidget(object):
         elif typ == qt.QtCore.QEvent.HoverLeave:
             self._hovered = False
             self.update()
-        return qt.QtGui.QWidget.event(self, event)
+        return QWidget.event(self, event)
 
     def mousePressEvent(self, event):
         if event.buttons() & qt.QtCore.Qt.LeftButton:
@@ -462,7 +466,7 @@ class DraggableWidget(object):
             self._oldpos   = event.pos() - self._offset + self.geometry().topLeft()
             self._startpos = event.pos() - self._offset + self.geometry().topLeft()
         else:
-            qt.QtGui.QWidget.mousePressEvent(self, event)
+            QWidget.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, event):
         if self._isMoving:
@@ -474,7 +478,7 @@ class DraggableWidget(object):
                 self.setGeometry(geom)
             self._oldpos = newPt
         else:
-            qt.QtGui.QWidget.mouseMoveEvent(self, event)
+            QWidget.mouseMoveEvent(self, event)
 
     def mouseReleaseEvent(self, event):
         if event.buttons() & qt.QtCore.Qt.LeftButton:
@@ -483,11 +487,11 @@ class DraggableWidget(object):
             self._offset   = None
             self._startpos = None
         else:
-            qt.QtGui.QWidget.mouseReleaseEvent(self, event)
+            QWidget.mouseReleaseEvent(self, event)
 
 
 
-class SplittableUI(qt.QtGui.QWidget):
+class SplittableUI(QWidget):
     """A widget that tries to mimic the Blender UI.
     Each pane contains a settable widget."""
 
@@ -500,18 +504,18 @@ class SplittableUI(qt.QtGui.QWidget):
     reprProps = ["amount", "splitDirection"]
 
     widgetMenuRequest = qt.QtCore.Signal(qt.QtCore.QPoint, int)
-    dragEnterEventTest = qt.QtCore.Signal(object, qt.QtGui.QDragEnterEvent)
-    dropHandlerRequest = qt.QtCore.Signal(object, int, qt.QtGui.QDropEvent)
+    dragEnterEventTest = qt.QtCore.Signal(object, QDragEnterEvent)
+    dropHandlerRequest = qt.QtCore.Signal(object, int, QDropEvent)
 
 
     def __init__(self, parent=None, content=None):
         """Contruct a SplittableUI.
         :Parameters:
-         - parent (qt.QtGui.QWidget)  - The parent widget
-         - content (qt.QtGui.QWidget) - The widget to display in pane at level 0
+         - parent (QWidget)  - The parent widget
+         - content (QWidget) - The widget to display in pane at level 0
         """
-        qt.QtGui.QWidget.__init__(self, parent)
-        self.setSizePolicy(qt.QtGui.QSizePolicy.Expanding, qt.QtGui.QSizePolicy.Expanding)
+        QWidget.__init__(self, parent)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setAcceptDrops(True)
         # -- our backbone: --
         self._g = BinaryTree()
@@ -535,7 +539,7 @@ class SplittableUI(qt.QtGui.QWidget):
         the first child, else to the second.
 
         :Parameters:
-         - `content` (qt.QtGui.QWidget) - A widget to place in the newly create pane
+         - `content` (QWidget) - A widget to place in the newly create pane
          - `paneId`  (int)           - Id of of the pane to split
          - `direction` (qt.QtCore.Qt.Orientation) - Put the two children side-by-side (qt.QtCore.Qt.Horizontal) or
                                                  on top of each other (qt.QtCore.Qt.Vertical).
@@ -657,14 +661,14 @@ class SplittableUI(qt.QtGui.QWidget):
 
     def takeAllContents(self, reparent=None):
         taken = []
-        for vid in self._g._properties.keys():
+        for vid in list(self._g._properties.keys()):
             wid = self.takeContentAt(vid, reparent)
             if wid is not None:
                 taken.append(wid)
         return taken
 
     def hasContent(self, widget):
-        for vid, prop in self._g._properties.items():
+        for vid, prop in list(self._g._properties.items()):
             if "widget" in prop and prop["widget"]==widget:
                 return vid
         return -1
@@ -860,7 +864,7 @@ class SplittableUI(qt.QtGui.QWidget):
         """Reimplemented to call `computeGeoms`."""
         self._geomCache[0] = self.contentsRect()
         self.computeGeoms(baseNode=0)
-        qt.QtGui.QWidget.resizeEvent(self, event)
+        QWidget.resizeEvent(self, event)
 
     def dragEnterEvent(self, event):
         """While the user hasn't released the object, this method is called
@@ -874,8 +878,8 @@ class SplittableUI(qt.QtGui.QWidget):
         self.dropHandlerRequest.emit(self, paneId, event)
 
     def paintEvent(self, event):
-        painter = qt.QtGui.QPainter(self)
-        qt.QtGui.QWidget.paintEvent(self, event)
+        painter = QPainter(self)
+        QWidget.paintEvent(self, event)
         # paintingVisitor = self.DebugPaintingVisitor(self._g, self._geomCache, painter)
         # self._g.visit_i_breadth_first(paintingVisitor)
 
@@ -894,7 +898,7 @@ class SplittableUI(qt.QtGui.QWidget):
                 # ok, no child, so we probably have a widget and our geometry
                 # has already been computed by parent
                 geom = self.geomCache[vid]
-                color = qt.QtGui.QColor.fromHsv(vid*10, 125, 125)
+                color = QColor.fromHsv(vid*10, 125, 125)
                 self.painter.fillRect(geom, color)
                 self.painter.drawText(geom.center(), str(vid))
             return False, False
@@ -1050,7 +1054,7 @@ class SplittableUI(qt.QtGui.QWidget):
             return False, False
 
 
-    class TearOff(qt.QtGui.QWidget, DraggableWidget):
+    class TearOff(QWidget, DraggableWidget):
         """A widget drawn at top right and bottom left hand corner of each
         SplittableUI pane and that allows the user to split/collapse panes"""
         splitRequest = qt.QtCore.Signal(int, qt.QtCore.Qt.Orientation, float)
@@ -1076,7 +1080,7 @@ class SplittableUI(qt.QtGui.QWidget):
              - `bottom` (bool) - Is this tear off at the bottom left?
             """
 
-            qt.QtGui.QWidget.__init__(self, parent)
+            QWidget.__init__(self, parent)
             DraggableWidget.__init__(self)
             self._g = graph
             self._vid = refVid
@@ -1128,16 +1132,16 @@ class SplittableUI(qt.QtGui.QWidget):
         # Qt Event reimplementations #
         ##############################
         def paintEvent(self, event):
-            painter = qt.QtGui.QPainter(self)
-            painter.setRenderHint(qt.QtGui.QPainter.Antialiasing)
+            painter = QPainter(self)
+            painter.setRenderHint(QPainter.Antialiasing)
 
             pen = painter.pen()
             if self._hovered:
-                brush   = qt.QtGui.QBrush(qt.QtGui.QColor(120,190,255,200))
-                pen.setColor(qt.QtGui.QColor(255,255,255,255))
+                brush   = QBrush(QColor(120,190,255,200))
+                pen.setColor(QColor(255,255,255,255))
             else:
-                brush   = qt.QtGui.QBrush(qt.QtGui.QColor(120,190,255,70))
-                pen.setColor(qt.QtGui.QColor(0,0,0,127))
+                brush   = QBrush(QColor(120,190,255,70))
+                pen.setColor(QColor(0,0,0,127))
 
             painter.setBrush(brush)
             painter.setPen(pen)
@@ -1150,9 +1154,9 @@ class SplittableUI(qt.QtGui.QWidget):
                 painter.drawConvexPolygon(rect.topRight(), rect.bottomRight(), rect.topLeft())
 
 
-    class SplitterHandle(qt.QtGui.QWidget, DraggableWidget):
-        """Basically a reimplementation of qt.QtGui.QSplitterHandle.
-        The original one needed a reference to a qt.QtGui.QSplitter.
+    class SplitterHandle(QWidget, DraggableWidget):
+        """Basically a reimplementation of QSplitterHandle.
+        The original one needed a reference to a QSplitter.
         """
         handleMoved = qt.QtCore.Signal(object,  object, object)
 
@@ -1165,7 +1169,7 @@ class SplittableUI(qt.QtGui.QWidget):
                                Vertical means that it seperates two vertical siblings (its horizontal)
              - `parent` (SplitterUI) - The parent splittable ui.
             """
-            qt.QtGui.QWidget.__init__(self, parent)
+            QWidget.__init__(self, parent)
             DraggableWidget.__init__(self)
             self._g           = graph
             self._refVid      = refVid
@@ -1226,10 +1230,10 @@ class SplittableUI(qt.QtGui.QWidget):
         def paintEvent(self, event):
             # -- Required for stylesheets to work. Search for QWidget here:
             # http://doc.qt.nokia.com/latest/stylesheet-reference.html --
-            QStyle = qt.QtGui.QStyle
-            opt = qt.QtGui.QStyleOption()
+            QStyle = QStyle
+            opt = QStyleOption()
             opt.init(self)
-            painter = qt.QtGui.QPainter(self)
+            painter = QPainter(self)
             self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
 
     ###################################################################################
@@ -1240,8 +1244,8 @@ class SplittableUI(qt.QtGui.QWidget):
 
 #Small testing example
 if __name__ == "__main__":
-    app = qt.QtGui.QApplication(["Muahaha"])
-    mw = qt.QtGui.QMainWindow()
+    app = QApplication(["Muahaha"])
+    mw = QMainWindow()
     splittable = SplittableUI(parent=mw)
     mw.setCentralWidget(splittable)
     mw.show()

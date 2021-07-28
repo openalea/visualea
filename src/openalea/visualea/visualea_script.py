@@ -17,7 +17,9 @@
 #
 ################################################################################
 """Wrapper to start Visualea with correct environment variables"""
+from __future__ import print_function
 
+from builtins import str
 __license__ = "CeCILL v2"
 __revision__ = " $Id$"
 

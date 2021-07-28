@@ -1,3 +1,4 @@
+from __future__ import print_function
 from openalea.vpltk.qt import QtGui, QtCore
 import sqlite3
 from openalea.core.path import path

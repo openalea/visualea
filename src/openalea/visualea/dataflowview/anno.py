@@ -14,6 +14,7 @@
 #
 ###############################################################################
 
+from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
@@ -93,11 +94,11 @@ class GraphicalAnnotation(qtutils.MemoRects, qtgraphview.Vertex):
 
         txtCol = self.get_view_data("textColor")
         if txtCol:
-            self.__textItem.setDefaultTextColor(qt.QtGui.QColor(*txtCol))
+            self.__textItem.setDefaultTextColor(QColor(*txtCol))
 
         color = self.get_view_data("color")
         if color:
-            color = qt.QtGui.QColor(*color)
+            color = QColor(*color)
             self.setColor(color)
 
         # if an annotation has already a rectP2 field but no visualStyle,
@@ -168,10 +169,10 @@ class GraphicalAnnotation(qtutils.MemoRects, qtgraphview.Vertex):
                 # -- value is a color tuple --
                 elif key == "textColor":
                     if value:
-                        self.__textItem.setDefaultTextColor(qt.QtGui.QColor(*value))
+                        self.__textItem.setDefaultTextColor(QColor(*value))
                 elif key == "color":
                     if value:
-                        color = qt.QtGui.QColor(*value)
+                        color = QColor(*value)
                         self.setColor(color)
                 # -- value is a position tuple --
                 elif key == "rectP2":
@@ -191,7 +192,7 @@ class GraphicalAnnotation(qtutils.MemoRects, qtgraphview.Vertex):
         self.__textItem.setPlainText(text)
 
     def store_view_data(self, **kwargs):
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             self.vertex().get_ad_hoc_dict().set_metadata(k, v)
 
     def get_view_data(self, key):

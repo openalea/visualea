@@ -93,7 +93,7 @@ class App(Sphinx):
 
 __app = App()
 __app.env.set_warnfunc = __app.warn
-for k, v in PythonDomain.roles.items():
+for k, v in list(PythonDomain.roles.items()):
     roles.register_local_role(k, v)
 
 def aFunction(string):
