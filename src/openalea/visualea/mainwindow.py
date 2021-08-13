@@ -136,13 +136,10 @@ class MainWindow(QtGui.QMainWindow,
 
         # Widgets
 
-        # Those 2 dont work
-        # New version : 
+        # The fix didn't work for some reason so I kept the old buggy one (l.141/142)
         # self.tabWorkspace.contextMenuEvent.connect(self.contextMenuEvent)
-        # Old one : 
-        # self.connect(self.tabWorkspace, qt.QtCore("contextMenuEvent(QContextMenuEvent)"),
-        #                                          self.contextMenuEvent)
-
+        self.connect(self.tabWorkspace, qt.QtCore("contextMenuEvent(QContextMenuEvent)"),
+                                                 self.contextMenuEvent)
         self.tabWorkspace.currentChanged.connect(self.ws_changed)
         self.search_lineEdit.editingFinished.connect(self.search_node)
         self.tabWorkspace.tabCloseRequested.connect(self.close_tab_workspace)

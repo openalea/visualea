@@ -15,7 +15,7 @@
 ###############################################################################
 
 from openalea.vpltk.qt import qt
-from openalea.vpltk.qt.QtWidgets import QTextBrowser
+from openalea.vpltk.qt.QtGui import QTextBrowser
 
 #from openalea.visualea import lightsphinx
 

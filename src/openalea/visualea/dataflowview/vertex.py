@@ -19,8 +19,7 @@ __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 from openalea.vpltk.qt import qt
-from openalea.vpltk.qt.QtGui import QColor
-from openalea.vpltk.qt.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
+from openalea.vpltk.qt.QtGui import *
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.core import observer, compositenode
 from openalea.core.node import InputPort, OutputPort, AbstractPort, AbstractNode
