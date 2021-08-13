@@ -16,15 +16,15 @@
 #       OpenAlea WebSite : http://openalea.gforge.inria.fr
 #
 ################################################################################
-"""Wrapper to start Visualea with correct environment variables"""
 from __future__ import print_function
 
-from builtins import str
+"""Wrapper to start Visualea with correct environment variables"""
+
 __license__ = "CeCILL v2"
 __revision__ = " $Id$"
 
 import os, sys
-
+from builtins import str
 
 def check_system_setuptools():
     """

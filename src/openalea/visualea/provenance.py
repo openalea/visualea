@@ -15,7 +15,7 @@ def search_trace(composite_node, package, workspace, parent=None):
     :param package:
     :param workspace:
     """
-    from openalea.core.provenance import db_connexion
+    from openalea.core.algo.dataflow_evaluation import db_connexion
     # @Moussa : This is here that you interrogate the database
     # print composite_node, package, workspace
     #cur = db_connexion()
@@ -126,7 +126,7 @@ class ProvenanceViewerWidget(QtGui.QWidget):
             i += 1
     
     def show_provenance(self):
-        from openalea.core.provenance import db_connexion
+        from openalea.core.algo.dataflow_evaluation import db_connexion
         cur=db_connexion()
         sender = self.sender()
         category = sender.category
@@ -150,7 +150,7 @@ class ProvenanceViewerWidget(QtGui.QWidget):
             #cd='chdir("C:/Program Files/Graphviz2.38/bin")'
             
             cmd = "gvedit.exe"
-            subprocess.call(cd)
+            #subprocess.call(cd)
             subprocess.call(cmd)
         
 class ProvenanceSelectorWidget(QtGui.QWidget):

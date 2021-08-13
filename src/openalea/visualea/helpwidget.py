@@ -47,7 +47,6 @@ def rst2alea(text=""):
         return newtext
     try:
         from docutils import core
-        import docutils.core2
         import docutils.parsers.rst
         from openalea.misc.sphinx_configuration import extensions
         #for ext in extensions:
@@ -105,6 +104,3 @@ class HelpWidget( QTextBrowser ):
             f.close()
         except Exception as e:
             pass
-            
-
-

@@ -48,10 +48,7 @@ class SignalSlotListener(AbstractListener):
             self.qobj = weakref.ref(self.obj)
         else:
             self.qobj = weakref.ref(self)
-
-
-        self.qobj().connect(self.qobj(), qt.QtCore.SIGNAL("notify"), self.notify)
-
+        #self.qobj().connect(self.qobj(), qt.QtCore.SIGNAL("notify"), self.notify)
 
     def call_notify (self, sender, event=None):
         """
@@ -113,7 +110,7 @@ class NodeWidget(SignalSlotListener):
 
 
 
-class DefaultNodeWidget(NodeWidget, Qt.QWidget):
+class DefaultNodeWidget(NodeWidget, QWidget):
     """
     Default implementation of a NodeWidget.
     It displays the node contents.

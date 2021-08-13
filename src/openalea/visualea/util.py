@@ -22,7 +22,7 @@ from builtins import object
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
+from openalea.vpltk.qt import qt, QtGui
 from openalea.core.algo.dataflow_evaluation import EvaluationException
 import sys
 import traceback as tb
@@ -33,12 +33,12 @@ def busy_cursor(f):
 
     def wrapped(*args):
         try:
-            QApplication.setOverrideCursor(QCursor(qt.QtCore.Qt.BusyCursor))
+            QtGui.QApplication.setOverrideCursor(QtGui.QCursor(qt.QtCore.Qt.BusyCursor))
             ret = f(*args)
-            QApplication.restoreOverrideCursor ()
+            QtGui.QApplication.restoreOverrideCursor ()
             return ret
         except:
-            QApplication.restoreOverrideCursor ()
+            QtGui.QApplication.restoreOverrideCursor ()
             raise
 
     return wrapped
@@ -59,9 +59,9 @@ def exception_display(f):
     def display_error(parent,title,stack):
         global use_error_box
         if not use_error_box:
-                QMessageBox.critical(None,'Exception raised !',title)
+                QtGui.QMessageBox.critical(None,'Exception raised !',title)
         else:
-            errorbox = QErrorMessage(parent)
+            errorbox = QtGui.QErrorMessage(parent)
             errorbox.setModal(True)
             errorbox.resize(700,250)
             errorbox.setWindowTitle(title)
@@ -76,7 +76,7 @@ def exception_display(f):
             return f(*args)
         except EvaluationException as e:
             self = args[0]
-            if not isinstance(self, QWidget):
+            if not isinstance(self, QtGui.QWidget):
                 self = None
             txt = e.exception.__class__.__name__+': '+ str(e.exception)
             display_error(self,txt,e.exc_info)
@@ -84,7 +84,7 @@ def exception_display(f):
 
         except Exception as e:
             self = args[0]
-            if not isinstance(self,QWidget):
+            if not isinstance(self,QtGui.QWidget):
                 self = None
             txt = e.__class__.__name__+': '+ str(e)
             display_error(self,txt,tb.format_tb(sys.exc_info()[2]))
@@ -100,12 +100,12 @@ def open_dialog(parent, widget, title, delete_on_close=True):
     """
 
     # Open dialog
-    dialog = QDialog(parent)
+    dialog = QtGui.QDialog(parent)
     if(delete_on_close):
         dialog.setAttribute(qt.QtCore.Qt.WA_DeleteOnClose)
     widget.setParent(dialog)
 
-    vboxlayout = QVBoxLayout(dialog)
+    vboxlayout = QtGui.QVBoxLayout(dialog)
     vboxlayout.setContentsMargins(3, 3, 3, 3)
     vboxlayout.setSpacing(5)
     vboxlayout.addWidget(widget, 0)#, qt.QtCore.Qt.AlignTop)
@@ -130,8 +130,8 @@ class IconGrabber(object):
         if(self.splash):
             self.hide()
 
-        pix=QPixmap(":/icons/cursor_icon.png")
-        self.splash = QSplashScreen(pix)
+        pix=QtGui.QPixmap(":/icons/cursor_icon.png")
+        self.splash = QtGui.QSplashScreen(pix)
         self.splash.setWindowFlags(qt.QtCore.Qt.WindowStaysOnTopHint|qt.QtCore.Qt.FramelessWindowHint)
         self.splash.setFixedSize(pix.size())
         self.splash.setMask(pix.mask())
@@ -155,11 +155,11 @@ def grab_icon(parent):
     grab = IconGrabber()
     grab.show()
 
-    QMessageBox.information(parent,
+    QtGui.QMessageBox.information(parent,
                                   "Grab Icon", "Put the image under the icon frame and click ok")
 
     point = grab.splash.pos()
-    pix = QPixmap.grabWindow(QApplication.desktop().winId(),
+    pix = QtGui.QPixmap.grabWindow(QtGui.QApplication.desktop().winId(),
                                    point.x()+2, point.y()+2, WIDTH, HEIGHT)
 
     grab.hide()

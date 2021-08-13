@@ -19,9 +19,9 @@
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
+from openalea.vpltk.qt import qt, QtGui
 
-class VertexTooltip( QWidget ):
+class VertexTooltip( QtGui.QWidget ):
 
     __WIDTH = 640
     __HEIGHT = 300
@@ -30,29 +30,29 @@ class VertexTooltip( QWidget ):
 
     def __init__(self, parent=None):
         #QWidget.__init__(self, parent, qt.QtCore.Qt.Popup)
-        QWidget.__init__(self, parent, qt.QtCore.Qt.ToolTip)
+        QtGui.QWidget.__init__(self, parent, qt.QtCore.Qt.ToolTip)
         self.setWindowModality(qt.QtCore.Qt.ApplicationModal)
-        self.setBackgroundRole(QPalette.ToolTipBase)
-        self.setForegroundRole(QPalette.AlternateBase)
+        self.setBackgroundRole(QtGui.QPalette.ToolTipBase)
+        self.setForegroundRole(QtGui.QPalette.AlternateBase)
 
         #layouts
-        mainLayout = QVBoxLayout()
-        topLayout  = QGridLayout()
+        mainLayout = QtGui.QVBoxLayout()
+        topLayout  = QtGui.QGridLayout()
         topLayout.setVerticalSpacing(2)
 
         #widgets that display the labels
-        self.__vNameWidget   = QLabel("Name :")
-        self.__pNameWidget   = QLabel("Package :")
-        self.__vAuthorWidget = QLabel("Author(s) :")
+        self.__vNameWidget   = QtGui.QLabel("Name :")
+        self.__pNameWidget   = QtGui.QLabel("Package :")
+        self.__vAuthorWidget = QtGui.QLabel("Author(s) :")
 
         #widgets that display the labels values
-        self.__vNameValueWidget   = QLabel()
-        self.__pNameValueWidget   = QLabel()
-        self.__vAuthorValueWidget = QLabel()
+        self.__vNameValueWidget   = QtGui.QLabel()
+        self.__pNameValueWidget   = QtGui.QLabel()
+        self.__vAuthorValueWidget = QtGui.QLabel()
 
         #long description
-        __tooltipScroll = QScrollArea()
-        self.__tooltipWidget = QLabel()
+        __tooltipScroll = QtGui.QScrollArea()
+        self.__tooltipWidget = QtGui.QLabel()
         __tooltipScroll.setWidget(self.__tooltipWidget)
         __tooltipScroll.setWidgetResizable(True)
         self.__tooltipWidget.setWordWrap(True)
@@ -70,12 +70,12 @@ class VertexTooltip( QWidget ):
         topLayout.addWidget(self.__pNameValueWidget, 1, 1, qt.QtCore.Qt.AlignRight)
         topLayout.addWidget(self.__vAuthorValueWidget, 2, 1, qt.QtCore.Qt.AlignRight)
 
-        self.__vNameWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        self.__pNameWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        self.__vAuthorWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        self.__vNameValueWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        self.__pNameValueWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        self.__vAuthorValueWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.__vNameWidget.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        self.__pNameWidget.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        self.__vAuthorWidget.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        self.__vNameValueWidget.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        self.__pNameValueWidget.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        self.__vAuthorValueWidget.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
 
         #main layout
         mainLayout.addLayout(topLayout)
@@ -111,9 +111,9 @@ class VertexTooltip( QWidget ):
         self.close()
 
     def paintEvent(self, event):
-        painter = QPainter(self)
+        painter = QtGui.QPainter(self)
         painter.setPen(qt.QtCore.Qt.black)
         rect = qt.QtCore.QRect(self.rect())
         rect.adjust(0,0,-1,-1)
         painter.drawRect(rect)
-        QWidget.paintEvent(self, event)
+        QtGui.QWidget.paintEvent(self, event)

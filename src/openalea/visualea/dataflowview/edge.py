@@ -19,6 +19,7 @@ __revision__ = " $Id$ "
 
 import weakref
 from openalea.vpltk.qt import qt
+from openalea.vpltk.qt.QtWidgets import QGraphicsPathItem
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.grapheditor import baselisteners, qtgraphview, edgefactory, qtutils
 

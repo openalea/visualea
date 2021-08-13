@@ -24,30 +24,30 @@ __revision__ = " $Id: compositenode_widget.py 2329 2010-02-25 15:24:25Z dbarbeau
 
 import sys
 
-from openalea.vpltk.qt import qt
-from .graph_operator import GraphOperator
+from openalea.vpltk.qt import qt, QtGui
+from openalea.visualea.graph_operator import GraphOperator
 from openalea.visualea.dataflowview import GraphicalGraph
 from openalea.visualea.node_widget import NodeWidget
 from openalea.visualea.util import busy_cursor, exception_display
 from openalea.visualea.node_widget import DefaultNodeWidget
-from .tooltip import VertexTooltip
+from openalea.visualea.tooltip import VertexTooltip
 
 
-class DisplayGraphWidget(QWidget, NodeWidget):
+class DisplayGraphWidget(QtGui.QWidget, NodeWidget):
     """ Display widgets contained in the graph """
 
     def __init__(self, node, parent=None, autonomous=False):
 
-        QWidget.__init__(self, parent)
+        QtGui.QWidget.__init__(self, parent)
         NodeWidget.__init__(self, node)
 
-        vboxlayout = QVBoxLayout(self)
+        vboxlayout = QtGui.QVBoxLayout(self)
         self.vboxlayout = vboxlayout
 
         self.node = node
 
         # Container
-        self.container = QTabWidget(self)
+        self.container = QtGui.QTabWidget(self)
         vboxlayout.addWidget(self.container)
 
 
@@ -111,8 +111,8 @@ class DisplayGraphWidget(QWidget, NodeWidget):
         """ Create autonomous widget with user applications buttons and dataflow """
 
         # User App panel
-        userapp_widget = QWidget(self)
-        userapp_layout = QVBoxLayout(userapp_widget)
+        userapp_widget = QtGui.QWidget(self)
+        userapp_layout = QtGui.QVBoxLayout(userapp_widget)
 
 
         for id in self.node.vertices():
@@ -123,17 +123,17 @@ class DisplayGraphWidget(QWidget, NodeWidget):
             # add to user app panel
             if(user_app):
 
-                label = QLabel(subnode.caption, userapp_widget)
-                runbutton = QPushButton("Run", userapp_widget)
+                label = QtGui.QLabel(subnode.caption, userapp_widget)
+                runbutton = QtGui.QPushButton("Run", userapp_widget)
                 runbutton.id = id
 
-                widgetbutton = QPushButton("Widget", userapp_widget)
+                widgetbutton = QtGui.QPushButton("Widget", userapp_widget)
                 widgetbutton.id = id
 
                 self.connect(runbutton, qt.QtCore.SIGNAL("clicked()"), self.run_node)
                 self.connect(widgetbutton, qt.QtCore.SIGNAL("clicked()"), self.open_widget)
 
-                buttons = QHBoxLayout()
+                buttons = QtGui.QHBoxLayout()
                 buttons.addWidget(label)
                 buttons.addWidget(runbutton)
                 buttons.addWidget(widgetbutton)
@@ -147,10 +147,10 @@ class DisplayGraphWidget(QWidget, NodeWidget):
 
         self.container.addTab(userapp_widget, "User Applications")
 
-        exitbutton = QPushButton("Exit", self)
+        exitbutton = QtGui.QPushButton("Exit", self)
         self.connect(exitbutton, qt.QtCore.SIGNAL("clicked()"), self.exit)
 
-        buttons = QHBoxLayout()
+        buttons = QtGui.QHBoxLayout()
         buttons.addWidget(exitbutton)
         self.vboxlayout.addLayout(buttons)
 
