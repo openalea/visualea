@@ -44,6 +44,10 @@ from openalea.core.settings import NoOptionError, NoSectionError, Settings
 
 from openalea.oalab.shell import get_shell_class
 
+src = get_data("openalea.visualea.mainwindow", "resources") / 'mainwindow.ui'
+dest = get_data("openalea.visualea.mainwindow", "ui_mainwindow.py")
+generate_pyfile_from_uifile(__name__, src=src, dest=dest)
+
 from openalea.visualea import dataflowview, helpwidget, metainfo, ui_mainwindow
 from openalea.visualea.dialogs import (NewData, NewGraph, NewPackage,
                                        PreferencesDialog)
@@ -56,10 +60,6 @@ from openalea.visualea.node_treeview import (CategoryModel, DataPoolListView,
                                              NodeFactoryView, PkgModel,
                                              SearchListView, SearchModel)
 from openalea.visualea.node_widget import SignalSlotListener
-
-src = get_data("openalea.visualea.mainwindow", "resources") / 'mainwindow.ui'
-dest = get_data("openalea.visualea.mainwindow", "ui_mainwindow.py")
-generate_pyfile_from_uifile(__name__, src=src, dest=dest)
 
 PROVENANCE = False
 
