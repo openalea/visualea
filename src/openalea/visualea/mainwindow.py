@@ -20,7 +20,7 @@ from __future__ import print_function
 from builtins import range, str
 from inspect import currentframe
 
-from PyQt5.QtGui import QContextMenuEvent
+#from PyQt5.QtGui import QContextMenuEvent
 
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
@@ -29,9 +29,9 @@ __revision__ = " $Id$ "
 import traceback
 from os.path import join as pj
 
-from openalea import misc
+#from openalea import misc
 
-from openalea.vpltk.qt import QtCore, QtGui, qt
+from openalea.vpltk.qt import QtCore, QtGui, QtWidgets, qt
 from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
 
 from openalea.core import cli, logger
@@ -64,7 +64,7 @@ from openalea.visualea.node_widget import SignalSlotListener
 PROVENANCE = False
 
 
-class MainWindow(QtGui.QMainWindow,
+class MainWindow(QtWidgets.QMainWindow,
                  ui_mainwindow.Ui_MainWindow,
                  SignalSlotListener):
 
@@ -73,7 +73,7 @@ class MainWindow(QtGui.QMainWindow,
         @param session : user session
         @param parent : parent window
         """
-        QtGui.QMainWindow.__init__(self, parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
         SignalSlotListener.__init__(self)
         ui_mainwindow.Ui_MainWindow.__init__(self)
         self.setupUi(self)
@@ -129,9 +129,12 @@ class MainWindow(QtGui.QMainWindow,
 
         # help widget
         self.helpWidget = helpwidget.HelpWidget()
+        # TODO: Update data from css
+        '''
         css = pj(misc.__path__[0], "..", "..", "..",
                  "share", "_static", "openalea.css")
         self.helpWidget.set_stylesheet_file(css)
+        '''
         self.poolTabWidget.addTab(self.helpWidget, "Help")
 
         # Widgets
@@ -227,21 +230,21 @@ class MainWindow(QtGui.QMainWindow,
         # Provenance
         #############
         if PROVENANCE:
-            self.menu_provenance = QtGui.QMenu(self.menubar)
+            self.menu_provenance = QtWidgets.QMenu(self.menubar)
             self.menu_provenance.setObjectName("menu_provenance")
-            self.menu_provenance.setTitle(QtGui.QApplication.translate("MainWindow", "&Provenance", None, QtGui.QApplication.UnicodeUTF8))
+            self.menu_provenance.setTitle(QtWidgets.QApplication.translate("MainWindow", "&Provenance", None, QtWidgets.QApplication.UnicodeUTF8))
 
             self.action_activ_prov = QtGui.QAction(self)
             self.action_activ_prov.setCheckable(True)
             prov = self.get_provenance()
             self.action_activ_prov.setChecked(prov)
             self.action_activ_prov.setObjectName("action_activ_prov")
-            self.action_activ_prov.setText(QtGui.QApplication.translate("MainWindow", "Connect/Disconnect Provenance", None, QtGui.QApplication.UnicodeUTF8))
+            self.action_activ_prov.setText(QtWidgets.QApplication.translate("MainWindow", "Connect/Disconnect Provenance", None, QtWidgets.QApplication.UnicodeUTF8))
 
             self.action_show_prov = QtGui.QAction(self)
             self.action_show_prov.setCheckable(False)
             self.action_show_prov.setObjectName("action_show_prov")
-            self.action_show_prov.setText(QtGui.QApplication.translate("MainWindow", "Show Provenance", None, QtGui.QApplication.UnicodeUTF8))
+            self.action_show_prov.setText(QtWidgets.QApplication.translate("MainWindow", "Show Provenance", None, QtWidgets.QApplication.UnicodeUTF8))
 
             self.menu_provenance.addAction(self.action_activ_prov)
             self.menu_provenance.addAction(self.action_show_prov)
