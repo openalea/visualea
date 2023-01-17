@@ -14,6 +14,7 @@
 #
 ###############################################################################
 
+from past.builtins import cmp
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 

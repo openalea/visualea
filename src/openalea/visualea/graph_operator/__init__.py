@@ -68,7 +68,7 @@ class GraphOperator(Observed):
     def get_action(self, actionName=None, parent=None, fName=None, **kwargs):
         if actionName is None and parent is None and fName is not None:
             return self.__get_wrapped(fName, kwargs)[0]
-        action = qt.QtGui.QAction(actionName, parent)
+        action = QAction(actionName, parent)
         return self.bind_action(action, fName, kwargs)
 
     def bind_action(self, action, fName, kwargs=None):
@@ -99,11 +99,11 @@ class GraphOperator(Observed):
 
     def __get_wrapped(self, fName, kwargs=None):
         func = self.__availableNames.get(fName)
-        defaults = func.im_func.func_defaults
+        defaults = func.__func__.__defaults__
         if defaults:
-            argcount = func.func_code.co_argcount - len(defaults)
+            argcount = func.__code__.co_argcount - len(defaults)
         else:
-            argcount = func.func_code.co_argcount
+            argcount = func.__code__.co_argcount
         kwargs = kwargs or dict()
         #used for graph_operator methods that don't
         #handle the QAction's boolean sent by trigger
@@ -142,7 +142,7 @@ class GraphOperator(Observed):
 
     def get_sensible_parent(self):
         # TODO improve this:
-        return qt.QtGui.QApplication.topLevelWidgets()[0]
+        return QApplication.topLevelWidgets()[0]
 
     def get_graph_scene(self):
         return self.__scene
@@ -185,7 +185,7 @@ class GraphOperator(Observed):
 
 
 def do_imports():
-    import dataflow, layout, color, vertex, port, anno
+    from . import dataflow, layout, color, vertex, port, anno
 
 def configure_dataflow_types():
     from openalea.visualea.dataflowview import vertex, anno, edge

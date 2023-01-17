@@ -16,13 +16,15 @@
 #       OpenAlea WebSite : http://openalea.gforge.inria.fr
 #
 ################################################################################
+from __future__ import print_function
+
 """Wrapper to start Visualea with correct environment variables"""
 
 __license__ = "CeCILL v2"
 __revision__ = " $Id$"
 
 import os, sys
-
+from builtins import str
 
 def check_system_setuptools():
     """
@@ -44,9 +46,9 @@ def start_gui():
     try:
         envdict = check_system_setuptools()
 
-    except Exception, e:
+    except Exception as e:
         envdict = os.environ
-        print e
+        print(e)
 
     if sys.platform.lower().startswith('win'):
         os.execle(sys.executable, sys.executable, "-c", 

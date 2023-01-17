@@ -15,6 +15,7 @@
 ###############################################################################
 
 from openalea.vpltk.qt import qt
+from openalea.vpltk.qt.QtGui import QTextBrowser
 
 #from openalea.visualea import lightsphinx
 
@@ -46,7 +47,6 @@ def rst2alea(text=""):
         return newtext
     try:
         from docutils import core
-        import docutils.core2
         import docutils.parsers.rst
         from openalea.misc.sphinx_configuration import extensions
         #for ext in extensions:
@@ -83,10 +83,10 @@ def simple_rst_to_html(rst):
     return html
         
         
-class HelpWidget( qt.QtGui.QTextBrowser ):
+class HelpWidget( QTextBrowser ):
 
     def __init__(self, parent=None):
-        qt.QtGui.QTextBrowser.__init__(self, parent)
+        QTextBrowser.__init__(self, parent)
         self.setTextInteractionFlags(qt.QtCore.Qt.TextBrowserInteraction)
         self.setOpenExternalLinks(True)
         self.css = None
@@ -102,8 +102,5 @@ class HelpWidget( qt.QtGui.QTextBrowser ):
             f = open(file)
             self.css = f.read()
             f.close()
-        except Exception, e:
+        except Exception as e:
             pass
-            
-
-

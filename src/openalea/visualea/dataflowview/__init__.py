@@ -14,13 +14,14 @@
 #
 ###############################################################################
 
+from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-import vertex
-import edge
-import anno
-import adapter
+from . import vertex
+from . import edge
+from . import anno
+from . import adapter
 
 from openalea.vpltk.qt import qt
 from openalea.vpltk.qt.compat import to_qvariant
@@ -129,7 +130,7 @@ class DataflowView(qt.View):
             scene.add_vertex(node, position=pos)
             return node
         except RecursionError:
-            mess = qt.QtGui.QMessageBox.warning(self, "Error",
+            mess = QMessageBox.warning(self, "Error",
                                                 "A graph cannot be contained in itself.")
             return None
 
@@ -138,12 +139,12 @@ class DataflowView(qt.View):
         operator = self.get_graph_operator()
         for ws in operator.get_siblings():
             if factory == ws.factory:
-                res = qt.QtGui.QMessageBox.warning(self, "Other instances are already opened!",
+                res = QMessageBox.warning(self, "Other instances are already opened!",
                                                    "You are trying to insert a composite node that has already been opened.\n" +
                                                    "Doing this might cause confusion later on.\n" +
                                                    "Do you want to continue?",
-                                                   qt.QtGui.QMessageBox.Ok | qt.QtGui.QMessageBox.Cancel)
-                if res == qt.QtGui.QMessageBox.Cancel:
+                                                   QMessageBox.Ok | QMessageBox.Cancel)
+                if res == QMessageBox.Cancel:
                     return False
                 else:
                     break
@@ -252,7 +253,7 @@ class DataflowView(qt.View):
             node = self.__drop_from_factory(factory, [position.x(), position.y()])
             if node:
                 node.set_input(0, data.name)
-                node.set_caption(unicode(data.name))
+                node.set_caption(str(data.name))
             event.setDropAction(qt.QtCore.Qt.CopyAction)
             event.accept()
 
@@ -286,12 +287,12 @@ class DataflowView(qt.View):
         qt.View.keyPressEvent(self, e)
         if not e.isAccepted():
             if e.key() == qt.QtCore.Qt.Key_Space:
-                self.setDragMode(qt.QtGui.QGraphicsView.ScrollHandDrag)
+                self.setDragMode(QGraphicsView.ScrollHandDrag)
 
     def keyReleaseEvent(self, e):
         key = e.key()
         if key == qt.QtCore.Qt.Key_Space:
-            self.setDragMode(qt.QtGui.QGraphicsView.RubberBandDrag)
+            self.setDragMode(QGraphicsView.RubberBandDrag)
 
     #########################
     # Handling mouse events #
@@ -320,7 +321,7 @@ class DataflowView(qt.View):
     ###########################################
     def contextMenuEvent(self, event):
 
-        qt.QtGui.QGraphicsView.contextMenuEvent(self, event)
+        QGraphicsView.contextMenuEvent(self, event)
         if event.isAccepted():
             return
 

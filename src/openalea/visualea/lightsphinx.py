@@ -82,7 +82,7 @@ class App(Sphinx):
         if freshenv:
             self.env = BuildEnvironment(self.srcdir, self.doctreedir,
                                         self.config)
-            for domain in self.domains.keys():
+            for domain in list(self.domains.keys()):
                 self.env.domains[domain] = self.domains[domain](self.env)
 
     def _init_builder(self, bname):
@@ -93,7 +93,7 @@ class App(Sphinx):
 
 __app = App()
 __app.env.set_warnfunc = __app.warn
-for k, v in PythonDomain.roles.iteritems():
+for k, v in list(PythonDomain.roles.items()):
     roles.register_local_role(k, v)
 
 def aFunction(string):

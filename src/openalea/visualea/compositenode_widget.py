@@ -16,6 +16,7 @@
 ################################################################################
 """Composite Node Widgets"""
 
+from builtins import range
 __license__ = "CeCILL v2"
 __revision__ = " $Id: compositenode_widget.py 2329 2010-02-25 15:24:25Z dbarbeau $ "
 
@@ -23,30 +24,30 @@ __revision__ = " $Id: compositenode_widget.py 2329 2010-02-25 15:24:25Z dbarbeau
 
 import sys
 
-from openalea.vpltk.qt import qt
-from graph_operator import GraphOperator
+from openalea.vpltk.qt import qt, QtGui
+from openalea.visualea.graph_operator import GraphOperator
 from openalea.visualea.dataflowview import GraphicalGraph
 from openalea.visualea.node_widget import NodeWidget
 from openalea.visualea.util import busy_cursor, exception_display
 from openalea.visualea.node_widget import DefaultNodeWidget
-from tooltip import VertexTooltip
+from openalea.visualea.tooltip import VertexTooltip
 
 
-class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
+class DisplayGraphWidget(QtGui.QWidget, NodeWidget):
     """ Display widgets contained in the graph """
 
     def __init__(self, node, parent=None, autonomous=False):
 
-        qt.QtGui.QWidget.__init__(self, parent)
+        QtGui.QWidget.__init__(self, parent)
         NodeWidget.__init__(self, node)
 
-        vboxlayout = qt.QtGui.QVBoxLayout(self)
+        vboxlayout = QtGui.QVBoxLayout(self)
         self.vboxlayout = vboxlayout
 
         self.node = node
 
         # Container
-        self.container = qt.QtGui.QTabWidget(self)
+        self.container = QtGui.QTabWidget(self)
         vboxlayout.addWidget(self.container)
 
 
@@ -83,7 +84,7 @@ class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
             if(not user_app):
                 # ignore node with all input connected
                 states = [ bool(subnode.get_input_state(p)=="connected")
-                           for p in xrange(subnode.get_nb_input())]
+                           for p in range(subnode.get_nb_input())]
 
                 if(all(states)): continue
 
@@ -110,8 +111,8 @@ class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
         """ Create autonomous widget with user applications buttons and dataflow """
 
         # User App panel
-        userapp_widget = qt.QtGui.QWidget(self)
-        userapp_layout = qt.QtGui.QVBoxLayout(userapp_widget)
+        userapp_widget = QtGui.QWidget(self)
+        userapp_layout = QtGui.QVBoxLayout(userapp_widget)
 
 
         for id in self.node.vertices():
@@ -122,17 +123,17 @@ class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
             # add to user app panel
             if(user_app):
 
-                label = qt.QtGui.QLabel(subnode.caption, userapp_widget)
-                runbutton = qt.QtGui.QPushButton("Run", userapp_widget)
+                label = QtGui.QLabel(subnode.caption, userapp_widget)
+                runbutton = QtGui.QPushButton("Run", userapp_widget)
                 runbutton.id = id
 
-                widgetbutton = qt.QtGui.QPushButton("Widget", userapp_widget)
+                widgetbutton = QtGui.QPushButton("Widget", userapp_widget)
                 widgetbutton.id = id
 
                 self.connect(runbutton, qt.QtCore.SIGNAL("clicked()"), self.run_node)
                 self.connect(widgetbutton, qt.QtCore.SIGNAL("clicked()"), self.open_widget)
 
-                buttons = qt.QtGui.QHBoxLayout()
+                buttons = QtGui.QHBoxLayout()
                 buttons.addWidget(label)
                 buttons.addWidget(runbutton)
                 buttons.addWidget(widgetbutton)
@@ -146,10 +147,10 @@ class DisplayGraphWidget(qt.QtGui.QWidget, NodeWidget):
 
         self.container.addTab(userapp_widget, "User Applications")
 
-        exitbutton = qt.QtGui.QPushButton("Exit", self)
+        exitbutton = QtGui.QPushButton("Exit", self)
         self.connect(exitbutton, qt.QtCore.SIGNAL("clicked()"), self.exit)
 
-        buttons = qt.QtGui.QHBoxLayout()
+        buttons = QtGui.QHBoxLayout()
         buttons.addWidget(exitbutton)
         self.vboxlayout.addLayout(buttons)
 
