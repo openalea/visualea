@@ -12,9 +12,9 @@ for (ui, dst) in [ ('mainwindow.ui', pj('..','ui_mainwindow.py')),
                    ('ioconfig.ui', pj('..','ui_ioconfig.py')),
                    ('tableedit.ui', pj('..','ui_tableedit.py')),
                    ]:
-    cmd = "pyuic5 -x %s -o %s "%(ui, dst)
+    cmd = "pyuic5 --from-imports -x %s -o %s "%(ui, dst)
     print(cmd)
-    os.system("pyuic5 -x %s -o %s "%(ui, dst))
+    os.system(cmd)
 
 # resources 
 os.system("pyrcc5 %s > %s "%("images.qrc", "..%simages_rc.py"%(os.sep,)))

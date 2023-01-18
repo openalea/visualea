@@ -10,8 +10,8 @@ def get_version():
     dists = pkg_resources.require("openalea.visualea")
     return dists[0].version
 
-url = "http://openalea.gforge.inria.fr"
+url = "http://openalea.rtfd.io"
 
 def get_copyright():
 
-    return "Copyright \xa9 2006-2018 INRIA/CIRAD/INRA\n"
+    return "Copyright \xa9 2006-2023 inria/CIRAD/INRAE\n"
