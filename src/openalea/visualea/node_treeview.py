@@ -30,8 +30,8 @@ __revision__ = " $Id$ "
 import os
 from weakref import ref
 
-from openalea.vpltk.qt import qt
-from openalea.vpltk.qt import QtGui
+# from openalea.vpltk.qt import qt
+from openalea.vpltk.qt import QtWidgets, QtCore
 
 from openalea.core.node import NodeFactory, AbstractFactory
 from openalea.core.data import DataFactory
@@ -65,12 +65,12 @@ def get_icon(item):
     if(not icon_dict):
         # dict to do a switch
         icon_dict = {
-            PseudoGroup: to_qvariant(QtGui.QPixmap(":/icons/category.png")),
-            CompositeNodeFactory: to_qvariant(QtGui.QPixmap(":/icons/diagram.png")),
-            NodeFactory: to_qvariant(QtGui.QPixmap(":/icons/node.png")),
-            DataFactory: to_qvariant(QtGui.QPixmap(":/icons/data.png")),
-            UserPackage: to_qvariant(QtGui.QPixmap(":/icons/usrpkg.png")),
-            Package: to_qvariant(QtGui.QPixmap(":/icons/pkg.png")),
+            PseudoGroup: to_qvariant(QtWidgets.QPixmap(":/icons/category.png")),
+            CompositeNodeFactory: to_qvariant(QtWidgets.QPixmap(":/icons/diagram.png")),
+            NodeFactory: to_qvariant(QtWidgets.QPixmap(":/icons/node.png")),
+            DataFactory: to_qvariant(QtWidgets.QPixmap(":/icons/data.png")),
+            UserPackage: to_qvariant(QtWidgets.QPixmap(":/icons/usrpkg.png")),
+            Package: to_qvariant(QtWidgets.QPixmap(":/icons/pkg.png")),
         }
 
     # Get icon from dictionary
@@ -85,14 +85,14 @@ def get_icon(item):
             icon = item.item.metainfo.get("icon", None)
             if(icon):
                 icon = os.path.join(item.item.path, icon)
-                pix = QtGui.QPixmap(icon)
+                pix = QtWidgets.QPixmap(icon)
                 if(not pix.isNull()):
                     return to_qvariant(pix)
 
             # Standard icon
             return icon_dict[type(item.item)]
 
-        return to_qvariant(QtGui.QPixmap(":/icons/pseudopkg.png"))
+        return to_qvariant(QtWidgets.QPixmap(":/icons/pseudopkg.png"))
 
     else:
         return to_qvariant()
@@ -122,13 +122,13 @@ def item_compare(x, y):
         return cmp(type_order_map[tx], type_order_map[ty])
 
 
-class PkgModel (qt.QtCore.QAbstractItemModel):
+class PkgModel (QtCore.QAbstractItemModel):
 
     """ QT4 data model (model/view pattern) to support pkgmanager """
 
     def __init__(self, pkgmanager, parent=None):
 
-        qt.QtCore.QAbstractItemModel.__init__(self, parent)
+        QtCore.QAbstractItemModel.__init__(self, parent)
         self.pman = pkgmanager
         self.rootItem = self.pman.get_pseudo_pkg()
 
@@ -139,7 +139,7 @@ class PkgModel (qt.QtCore.QAbstractItemModel):
     def reset(self):
 
         self.rootItem = self.pman.get_pseudo_pkg()
-        qt.QtCore.QAbstractItemModel.reset(self)
+        QtCore.QAbstractItemModel.reset(self)
 
     def columnCount(self, parent):
         return 1
@@ -152,7 +152,7 @@ class PkgModel (qt.QtCore.QAbstractItemModel):
         item = index.internalPointer()
 
         # Text
-        if (role == qt.QtCore.Qt.DisplayRole):
+        if (role == QtCore.Qt.DisplayRole):
 
             # Add size info
             lenstr = ''
@@ -166,11 +166,11 @@ class PkgModel (qt.QtCore.QAbstractItemModel):
             return to_qvariant(str(item.get_id()) + lenstr)
 
         # Tool Tip
-        elif(role == qt.QtCore.Qt.ToolTipRole):
+        elif(role == QtCore.Qt.ToolTipRole):
             return to_qvariant(str(item.get_tip()))
 
         # Icon
-        elif(role == qt.QtCore.Qt.DecorationRole):
+        elif(role == QtCore.Qt.DecorationRole):
             return get_icon(item)
 
         else:
@@ -178,11 +178,11 @@ class PkgModel (qt.QtCore.QAbstractItemModel):
 
     def flags(self, index):
         if not index.isValid():
-            return qt.QtCore.Qt.ItemIsEnabled
+            return QtCore.Qt.ItemIsEnabled
 
-        return qt.QtCore.Qt.ItemIsEnabled | \
-            qt.QtCore.Qt.ItemIsSelectable | \
-            qt.QtCore.Qt.ItemIsDragEnabled
+        return QtCore.Qt.ItemIsEnabled | \
+            QtCore.Qt.ItemIsSelectable | \
+            QtCore.Qt.ItemIsDragEnabled
 
     def headerData(self, section, orientation, role):
         return to_qvariant()
@@ -226,7 +226,7 @@ class PkgModel (qt.QtCore.QAbstractItemModel):
     def parent(self, index):
 
         if (not index.isValid()):
-            return qt.QtCore.QModelIndex()
+            return QtCore.QModelIndex()
 
         childItem = index.internalPointer()
 
@@ -234,7 +234,7 @@ class PkgModel (qt.QtCore.QAbstractItemModel):
 
         # Test if it is the root
         if (id(parentItem) not in self.parent_map):
-            return qt.QtCore.QModelIndex()
+            return QtCore.QModelIndex()
 
         else:
             row = self.row_map[id(parentItem)]
@@ -262,7 +262,7 @@ class CategoryModel (PkgModel):
 
     def __init__(self, pkgmanager, parent=None):
 
-        qt.QtCore.QAbstractItemModel.__init__(self, parent)
+        QtCore.QAbstractItemModel.__init__(self, parent)
         self.pman = pkgmanager
         self.rootItem = self.pman.get_pseudo_cat()
 
@@ -274,20 +274,20 @@ class CategoryModel (PkgModel):
         self.rootItem = self.pman.get_pseudo_cat()
         # self.parent_map = {}
         # self.row_map = {}
-        qt.QtCore.QAbstractItemModel.reset(self)
+        QtCore.QAbstractItemModel.reset(self)
 
 
-class DataPoolModel (qt.QtCore.QAbstractListModel):
+class DataPoolModel (QtCore.QAbstractListModel):
 
     """ QT4 data model (model/view pattern) to support Data Pool """
 
     def __init__(self, datapool, parent=None):
 
-        qt.QtCore.QAbstractListModel.__init__(self, parent)
+        QtCore.QAbstractListModel.__init__(self, parent)
         self.datapool = datapool
 
     def reset(self):
-        qt.QtCore.QAbstractItemModel.reset(self)
+        QtCore.QAbstractItemModel.reset(self)
 
     def data(self, index, role):
 
@@ -297,7 +297,7 @@ class DataPoolModel (qt.QtCore.QAbstractListModel):
         if (index.row() >= len(list(self.datapool.keys()))):
             return to_qvariant()
 
-        if (role == qt.QtCore.Qt.DisplayRole):
+        if (role == QtCore.Qt.DisplayRole):
             l = list(self.datapool.keys())
             l.sort()
             name = l[index.row()]
@@ -308,11 +308,11 @@ class DataPoolModel (qt.QtCore.QAbstractListModel):
             return to_qvariant("%s ( %s )" % (name, value))
 
         # Icon
-        elif(role == qt.QtCore.Qt.DecorationRole):
-            return to_qvariant(QtGui.QPixmap(":/icons/ccmime.png"))
+        elif(role == QtCore.Qt.DecorationRole):
+            return to_qvariant(QtWidgets.QPixmap(":/icons/ccmime.png"))
 
         # Tool Tip
-        elif(role == qt.QtCore.Qt.ToolTipRole):
+        elif(role == QtCore.Qt.ToolTipRole):
             l = list(self.datapool.keys())
             l.sort()
             name = l[index.row()]
@@ -344,11 +344,11 @@ class DataPoolModel (qt.QtCore.QAbstractListModel):
 
     def flags(self, index):
         if not index.isValid():
-            return qt.QtCore.Qt.ItemIsEnabled
+            return QtCore.Qt.ItemIsEnabled
 
-        return qt.QtCore.Qt.ItemIsEnabled | \
-            qt.QtCore.Qt.ItemIsSelectable | \
-            qt.QtCore.Qt.ItemIsDragEnabled
+        return QtCore.Qt.ItemIsEnabled | \
+            QtCore.Qt.ItemIsSelectable | \
+            QtCore.Qt.ItemIsDragEnabled
 
     def headerData(self, section, orientation, role):
         return to_qvariant()
@@ -357,13 +357,13 @@ class DataPoolModel (qt.QtCore.QAbstractListModel):
         return len(list(self.datapool.keys()))
 
 
-class SearchModel (qt.QtCore.QAbstractListModel):
+class SearchModel (QtCore.QAbstractListModel):
 
     """ QT4 data model (model/view pattern) to support Search result"""
 
     def __init__(self, parent=None):
 
-        qt.QtCore.QAbstractListModel.__init__(self, parent)
+        QtCore.QAbstractListModel.__init__(self, parent)
         self.searchresult = []
 
     def set_results(self, results):
@@ -378,7 +378,7 @@ class SearchModel (qt.QtCore.QAbstractListModel):
             return self.createIndex(row, column, factory)
 
         else:
-            return qt.QtCore.QModelIndex()
+            return QtCore.QModelIndex()
 
     def data(self, index, role):
 
@@ -390,19 +390,19 @@ class SearchModel (qt.QtCore.QAbstractListModel):
 
         item = self.searchresult[index.row()]
 
-        if (role == qt.QtCore.Qt.DisplayRole):
+        if (role == QtCore.Qt.DisplayRole):
             if(index.column() == 1):
                 return to_qvariant(str(item.package.get_id()))
             return to_qvariant(str(item.name + " (" + item.package.name + ")"))
 
         # Icon
-        elif(role == qt.QtCore.Qt.DecorationRole):
+        elif(role == QtCore.Qt.DecorationRole):
             if(index.column() > 0):
                 return to_qvariant()
             return get_icon(item)
 
         # Tool Tip
-        elif(role == qt.QtCore.Qt.ToolTipRole):
+        elif(role == QtCore.Qt.ToolTipRole):
             return to_qvariant(str(item.get_tip()))
 
         else:
@@ -410,11 +410,11 @@ class SearchModel (qt.QtCore.QAbstractListModel):
 
     def flags(self, index):
         if not index.isValid():
-            return qt.QtCore.Qt.ItemIsEnabled
+            return QtCore.Qt.ItemIsEnabled
 
-        return qt.QtCore.Qt.ItemIsEnabled | \
-            qt.QtCore.Qt.ItemIsSelectable | \
-            qt.QtCore.Qt.ItemIsDragEnabled
+        return QtCore.Qt.ItemIsEnabled | \
+            QtCore.Qt.ItemIsSelectable | \
+            QtCore.Qt.ItemIsDragEnabled
 
     def headerData(self, section, orientation, role):
         return to_qvariant()
@@ -471,7 +471,7 @@ class NodeFactoryView(object):
     def dragMoveEvent(self, event):
         mimedata = event.mimeData()
         if mimedata.hasFormat(NodeFactory.mimetype) or mimedata.hasFormat(CompositeNodeFactory.mimetype):
-            event.setDropAction(qt.QtCore.Qt.MoveAction)
+            event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
@@ -483,24 +483,24 @@ class NodeFactoryView(object):
 
         item = self.currentIndex()
 
-        itemData = qt.QtCore.QByteArray()
-        dataStream = qt.QtCore.QDataStream(itemData, qt.QtCore.QIODevice.WriteOnly)
-        pixmap = QtGui.QPixmap(item.data(qt.QtCore.Qt.DecorationRole))
+        itemData = QtCore.QByteArray()
+        dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
+        pixmap = QtWidgets.QPixmap(item.data(QtCore.Qt.DecorationRole))
 
         (pkg_id, factory_id, mimetype) = self.get_item_info(item)
 
         dataStream.writeString(pkg_id)
         dataStream.writeString(factory_id)
-        mimeData = qt.QtCore.QMimeData()
+        mimeData = QtCore.QMimeData()
 
         mimeData.setData(mimetype, itemData)
 
-        drag = QtGui.QDrag(self)
+        drag = QtWidgets.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(qt.QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
+        drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
         drag.setPixmap(pixmap)
 
-        drag.start(qt.QtCore.Qt.MoveAction)
+        drag.start(QtCore.Qt.MoveAction)
 
     @staticmethod
     def get_item_info(item):
@@ -528,79 +528,79 @@ class NodeFactoryView(object):
         menu = None
 
         if(isinstance(obj, AbstractFactory)): # Factory
-            menu = QtGui.QMenu(self)
+            menu = QtWidgets.QMenu(self)
             action = menu.addAction("Open")
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.open_node)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.open_node)
 
             action = menu.addAction("Edit")
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.edit_node)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_node)
 
             action = menu.addAction("Properties")
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.edit_properties)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_properties)
 
             menu.addSeparator()
 
             action = menu.addAction("Remove")
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.remove_node)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.remove_node)
 
         elif(isinstance(obj, PseudoPackage)): # Package
 
             enabled = obj.is_real_package()
             pkg = obj.item
 
-            menu = QtGui.QMenu(self)
+            menu = QtWidgets.QMenu(self)
 
             action = menu.addAction("Open URL")
             action.setEnabled(enabled)
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.open_node)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.open_node)
 
             action = menu.addAction("Meta informations")
             action.setEnabled(enabled)
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.edit_package)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_package)
 
             action = menu.addAction("Edit Code")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.edit_pkg_code)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_pkg_code)
 
             menu.addSeparator()
 
             action = menu.addAction("Add Python Node")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.add_python_node)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.add_python_node)
 
             action = menu.addAction("Add Composite Node")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.add_composite_node)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.add_composite_node)
 
             action = menu.addAction("Add Data File")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.add_data)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.add_data)
 
             menu.addSeparator()
 
             action = menu.addAction("Grab Icon")
             action.setEnabled(enabled)
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.grab_icon)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.grab_icon)
 
             menu.addSeparator()
 
             action = menu.addAction("Move/Rename Package")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.move_package)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.move_package)
 
             action = menu.addAction("Copy Package")
             action.setEnabled(enabled)
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.duplicate_package)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.duplicate_package)
 
             action = menu.addAction("Remove Package")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.remove_package)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.remove_package)
 
             menu.addSeparator()
 
             action = menu.addAction("Reload Package")
             action.setEnabled(enabled)
-            self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.reload_package)
+            self.connect(action, QtCore.pyqtSignal("triggered()"), self.reload_package)
 
         if(menu):
             menu.move(event.globalPos())
@@ -658,18 +658,18 @@ class NodeFactoryView(object):
         pman = self.model().pman # pkgmanager
 
         if(not pkg.is_directory()):
-            QtGui.QMessageBox.warning(self, "Error",
+            QtWidgets.QMessageBox.warning(self, "Error",
                                          "Cannot Remove old style package\n")
             return
 
         if(not pkg.is_editable()):
             return
 
-        ret = QtGui.QMessageBox.question(self, "Remove package",
+        ret = QtWidgets.QMessageBox.question(self, "Remove package",
                                             "Remove %s?\n" % (pkg.name,),
-                                            QtGui.QMessageBox.Yes, QtGui.QMessageBox.No,)
+                                            QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No,)
 
-        if(ret == QtGui.QMessageBox.No):
+        if(ret == QtWidgets.QMessageBox.No):
             return
 
         try:
@@ -703,7 +703,7 @@ class NodeFactoryView(object):
         pman = self.model().pman # pkgmanager
 
         if(not pkg.is_directory()):
-            QtGui.QMessageBox.warning(self, "Error",
+            QtWidgets.QMessageBox.warning(self, "Error",
                                          "Cannot edit code of old style package\n")
             return
 
@@ -726,7 +726,7 @@ class NodeFactoryView(object):
         pman = self.model().pman # pkgmanager
 
         if(not pkg.is_directory()):
-            QtGui.QMessageBox.warning(self, "Error",
+            QtWidgets.QMessageBox.warning(self, "Error",
                                          "Cannot reload old style package\n")
             return
 
@@ -740,7 +740,7 @@ class NodeFactoryView(object):
         pman = self.model().pman # pkgmanager
 
         if(not pkg.is_directory()):
-            QtGui.QMessageBox.warning(self, "Error",
+            QtWidgets.QMessageBox.warning(self, "Error",
                                          "Cannot duplicate old style package\n")
             return
 
@@ -762,13 +762,13 @@ class NodeFactoryView(object):
         pman = self.model().pman # pkgmanager
 
         if(not pkg.is_directory()):
-            QtGui.QMessageBox.warning(self, "Error",
+            QtWidgets.QMessageBox.warning(self, "Error",
                                          "Cannot move old style package\n")
             return
 
-        (result, ok) = QtGui.QInputDialog.getText(self, "Move/Rename Package",
+        (result, ok) = QtWidgets.QInputDialog.getText(self, "Move/Rename Package",
                                                      "Full new name (ex: openalea.data)",
-                                                     QtGui.QLineEdit.Normal, )
+                                                     QtWidgets.QLineEdit.Normal, )
 
         if(ok):
             new_name = str(result)
@@ -796,12 +796,12 @@ class NodeFactoryView(object):
             session = self.main_win().session
             for ws in session.workspaces:
                 if obj == ws.factory:
-                    res = QtGui.QMessageBox.warning(self.main_win(), "Other instances are already opened!",
+                    res = QtWidgets.QMessageBox.warning(self.main_win(), "Other instances are already opened!",
                                                        """You are trying to open a composite node that has already been opened.
 Doing this might cause confusion later on.
 Do you want to continue?""",
-                                                       QtGui.QMessageBox.Ok | QtGui.QMessageBox.Cancel)
-                    if res == QtGui.QMessageBox.Cancel:
+                                                       QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+                    if res == QtWidgets.QMessageBox.Cancel:
                         return
                     else:
                         break
@@ -830,7 +830,7 @@ Do you want to continue?""",
         elif(isinstance(obj, PseudoPackage)):
             # Display URL
             urlstr = obj.get_metainfo('url')
-            QtGui.QDesktopServices.openUrl(qt.QtCore.QUrl(urlstr))
+            QtWidgets.QDesktopServices.openUrl(QtCore.QUrl(urlstr))
 
     @busy_cursor
     @exception_display
@@ -860,7 +860,7 @@ Do you want to continue?""",
         obj = item.internalPointer()
 
         if(isinstance(obj, DataFactory)):
-            QtGui.QMessageBox.information(self, "Properties", "Data : %s" % (obj.name))
+            QtWidgets.QMessageBox.information(self, "Properties", "Data : %s" % (obj.name))
             return
 
         d = NewGraph("Node Properties", PackageManager(), self, obj)
@@ -874,11 +874,11 @@ Do you want to continue?""",
         item = self.currentIndex()
         obj = item.internalPointer()
 
-        ret = QtGui.QMessageBox.question(self, "Remove Model",
+        ret = QtWidgets.QMessageBox.question(self, "Remove Model",
                                             "Remove %s?\n" % (obj.name,),
-                                            QtGui.QMessageBox.Yes, QtGui.QMessageBox.No,)
+                                            QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No,)
 
-        if(ret == QtGui.QMessageBox.Yes):
+        if(ret == QtWidgets.QMessageBox.Yes):
 
             try:
                 obj.package[obj.name].clean_files()
@@ -894,7 +894,7 @@ Do you want to continue?""",
             self.main_win().reinit_treeview()
 
 
-class NodeFactoryTreeView(QtGui.QTreeView, NodeFactoryView):
+class NodeFactoryTreeView(QtWidgets.QTreeView, NodeFactoryView):
 
     """ Specialized TreeView to display node factory in a tree with Drag and Drop support  """
 
@@ -904,14 +904,14 @@ class NodeFactoryTreeView(QtGui.QTreeView, NodeFactoryView):
         @param parent : parent widget
         """
 
-        QtGui.QTreeView.__init__(self, parent)
+        QtWidgets.QTreeView.__init__(self, parent)
         NodeFactoryView.__init__(self, main_win, parent)
 
-        self.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         #self.setAnimated(True)
 
-        self.expanded(qt.QtCore.QModelIndex).connect(self.expanded)
-        self.collapsed(qt.QtCore.QModelIndex).connect(self.collapsed)
+        self.expanded(QtCore.QModelIndex).connect(self.expanded)
+        self.collapsed(QtCore.QModelIndex).connect(self.collapsed)
         
         self.expanded_items = set()
 
@@ -926,14 +926,14 @@ class NodeFactoryTreeView(QtGui.QTreeView, NodeFactoryView):
         self.expanded_items.add(name)
 
     def reset(self):
-        QtGui.QTreeView.reset(self)
+        QtWidgets.QTreeView.reset(self)
 
         for n in list(self.expanded_items):
             i = self.model().index_map[n]
             self.setExpanded(i, True)
 
 
-class SearchListView(QtGui.QTreeView, NodeFactoryView):
+class SearchListView(QtWidgets.QTreeView, NodeFactoryView):
 
     """ Specialized QListView to display search results with Drag and Drop support """
 
@@ -943,17 +943,17 @@ class SearchListView(QtGui.QTreeView, NodeFactoryView):
         @param parent : parent widget
         """
 
-        QtGui.QTreeView.__init__(self, parent)
+        QtWidgets.QTreeView.__init__(self, parent)
         NodeFactoryView.__init__(self, main_win, parent)
         self.setRootIsDecorated(False)
 
     def reset(self):
-        QtGui.QTreeView.reset(self)
+        QtWidgets.QTreeView.reset(self)
         for i in range(self.model().columnCount(None)):
             self.resizeColumnToContents(i)
 
 
-class DataPoolListView(QtGui.QListView, SignalSlotListener):
+class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
 
     """ Specialized QListView to display data pool contents """
 
@@ -964,7 +964,7 @@ class DataPoolListView(QtGui.QListView, SignalSlotListener):
         @param parent : parent widget
         """
 
-        QtGui.QListView.__init__(self, parent)
+        QtWidgets.QListView.__init__(self, parent)
         SignalSlotListener.__init__(self)
 
         self.main_win = ref(main_win)
@@ -988,7 +988,7 @@ class DataPoolListView(QtGui.QListView, SignalSlotListener):
 
     def dragMoveEvent(self, event):
         if event.mimeData().hasFormat("openalea/data_instance"):
-            event.setDropAction(qt.QtCore.Qt.MoveAction)
+            event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
@@ -1001,9 +1001,9 @@ class DataPoolListView(QtGui.QListView, SignalSlotListener):
 
         item = self.currentIndex()
 
-        itemData = qt.QtCore.QByteArray()
-        dataStream = qt.QtCore.QDataStream(itemData, qt.QtCore.QIODevice.WriteOnly)
-        pixmap = QtGui.QPixmap(":/icons/ccmime.png")
+        itemData = QtCore.QByteArray()
+        dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
+        pixmap = QtWidgets.QPixmap(":/icons/ccmime.png")
 
         l = list(self.model().datapool.keys())
         l.sort()
@@ -1011,25 +1011,25 @@ class DataPoolListView(QtGui.QListView, SignalSlotListener):
 
         dataStream.writeString(name)
 
-        mimeData = qt.QtCore.QMimeData()
+        mimeData = QtCore.QMimeData()
         mimeData.setData("openalea/data_instance", itemData)
 
         linecode = cli.get_datapool_code(name)
         mimeData.setText(linecode)
 
-        drag = QtGui.QDrag(self)
+        drag = QtWidgets.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(qt.QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
+        drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
         drag.setPixmap(pixmap)
 
-        drag.start(qt.QtCore.Qt.MoveAction)
+        drag.start(QtCore.Qt.MoveAction)
 
     def contextMenuEvent(self, event):
         """ Context menu event : Display the menu"""
 
-        menu = QtGui.QMenu(self)
+        menu = QtWidgets.QMenu(self)
         action = menu.addAction("Remove")
-        self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.remove_element)
+        self.connect(action, QtCore.pyqtSignal("triggered()"), self.remove_element)
 
         menu.move(event.globalPos())
         menu.show()
@@ -1056,9 +1056,9 @@ if __name__ == '__main__':
     import sys
     from openalea.vpltk.qt import QtGui
 
-    instance = QtGui.QApplication.instance()
+    instance = QtWidgets.QApplication.instance()
     if instance is None:
-        qapp = QtGui.QApplication(sys.argv)
+        qapp = QtWidgets.QApplication(sys.argv)
     else:
         qapp = instance
 
