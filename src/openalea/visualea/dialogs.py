@@ -966,7 +966,7 @@ class ShowPortDialog(QtWidgets.QDialog, ui_listedit.Ui_ListEdit):
             txt = "%s %s" % (desc['name'], interface)
             listitem = QtWidgets.QListWidgetItem(txt, self.listWidget)
 
-            if(node.input_states[i] is not "connected"):
+            if(node.input_states[i] != "connected"):
                 listitem.setFlags(qt.QtCore.Qt.ItemIsEnabled | qt.QtCore.Qt.ItemIsUserCheckable)
             else:
                 listitem.setFlags(qt.QtCore.Qt.ItemIsUserCheckable)
