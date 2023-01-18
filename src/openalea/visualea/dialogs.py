@@ -985,7 +985,7 @@ class ShowPortDialog(QtWidgets.QDialog, ui_listedit.Ui_ListEdit):
         for i in range(self.listWidget.count()):
             item = self.listWidget.item(i)
 
-            if(self.node.input_states[i] is "connected"):
+            if(self.node.input_states[i] == "connected"):
                 self.node.set_port_hidden(i, False)
 
             elif(item and (item.flags() & qt.QtCore.Qt.ItemIsEnabled)):
