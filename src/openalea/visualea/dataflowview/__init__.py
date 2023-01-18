@@ -23,7 +23,7 @@ from . import edge
 from . import anno
 from . import adapter
 
-from openalea.vpltk.qt import qt
+from openalea.vpltk.qt import QtWidgets # qt
 from openalea.vpltk.qt.compat import to_qvariant
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.core import compositenode, node
@@ -130,7 +130,7 @@ class DataflowView(qt.View):
             scene.add_vertex(node, position=pos)
             return node
         except RecursionError:
-            mess = QMessageBox.warning(self, "Error",
+            mess = QtWidgets.QMessageBox.warning(self, "Error",
                                                 "A graph cannot be contained in itself.")
             return None
 
@@ -139,12 +139,12 @@ class DataflowView(qt.View):
         operator = self.get_graph_operator()
         for ws in operator.get_siblings():
             if factory == ws.factory:
-                res = QMessageBox.warning(self, "Other instances are already opened!",
+                res = QtWidgets.QMessageBox.warning(self, "Other instances are already opened!",
                                                    "You are trying to insert a composite node that has already been opened.\n" +
                                                    "Doing this might cause confusion later on.\n" +
                                                    "Do you want to continue?",
-                                                   QMessageBox.Ok | QMessageBox.Cancel)
-                if res == QMessageBox.Cancel:
+                                                   QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+                if res == QtWidgets.QMessageBox.Cancel:
                     return False
                 else:
                     break
@@ -287,12 +287,12 @@ class DataflowView(qt.View):
         qt.View.keyPressEvent(self, e)
         if not e.isAccepted():
             if e.key() == qt.QtCore.Qt.Key_Space:
-                self.setDragMode(QGraphicsView.ScrollHandDrag)
+                self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
 
     def keyReleaseEvent(self, e):
         key = e.key()
         if key == qt.QtCore.Qt.Key_Space:
-            self.setDragMode(QGraphicsView.RubberBandDrag)
+            self.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
 
     #########################
     # Handling mouse events #
@@ -321,7 +321,7 @@ class DataflowView(qt.View):
     ###########################################
     def contextMenuEvent(self, event):
 
-        QGraphicsView.contextMenuEvent(self, event)
+        QtWidgets.QGraphicsView.contextMenuEvent(self, event)
         if event.isAccepted():
             return
 

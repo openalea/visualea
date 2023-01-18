@@ -31,7 +31,7 @@ from os.path import join as pj
 
 #from openalea import misc
 
-from openalea.vpltk.qt import QtCore, QtGui, QtWidgets, qt
+from openalea.vpltk.qt import QtCore, QtGui, QtWidgets, QtSvg #, qt
 from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
 
 from openalea.core import cli, logger
@@ -78,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow,
         ui_mainwindow.Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.setAcceptDrops(True)
-        self.setAttribute(qt.QtCore.Qt.WA_QuitOnClose)
+        self.setAttribute(QtCore.Qt.WA_QuitOnClose)
 
         self.tabWorkspace.removeTab(0)
         self.tabWorkspace.setTabsClosable(True)
@@ -141,8 +141,8 @@ class MainWindow(QtWidgets.QMainWindow,
 
         # The fix didn't work for some reason so I kept the old buggy one (l.141/142)
         # self.tabWorkspace.contextMenuEvent.connect(self.contextMenuEvent)
-        self.connect(self.tabWorkspace, qt.QtCore("contextMenuEvent(QContextMenuEvent)"),
-                                                 self.contextMenuEvent)
+        # self.connect(self.tabWorkspace, QtCore("contextMenuEvent(QContextMenuEvent)"),
+        #                                          self.contextMenuEvent)  # F. Bauget 2023-01-18
         self.tabWorkspace.currentChanged.connect(self.ws_changed)
         self.search_lineEdit.editingFinished.connect(self.search_node)
         self.tabWorkspace.tabCloseRequested.connect(self.close_tab_workspace)
@@ -206,7 +206,7 @@ class MainWindow(QtWidgets.QMainWindow,
                                       (self.actionSetCustomColor, "graph_set_selection_color"),
                                       (self.actionUseCustomColor, "graph_use_user_color")])
 
-        self._last_open_action_group = QtGui.QActionGroup(self)
+        self._last_open_action_group = QtWidgets.QActionGroup(self)
         self._last_open_action_group.triggered.connect(
                      self.reopen_last)
         self.action_New_Empty_Workspace.triggered.connect(self.new_workspace)
@@ -234,14 +234,14 @@ class MainWindow(QtWidgets.QMainWindow,
             self.menu_provenance.setObjectName("menu_provenance")
             self.menu_provenance.setTitle(QtWidgets.QApplication.translate("MainWindow", "&Provenance", None, QtWidgets.QApplication.UnicodeUTF8))
 
-            self.action_activ_prov = QtGui.QAction(self)
+            self.action_activ_prov = QtWidgets.QAction(self)
             self.action_activ_prov.setCheckable(True)
             prov = self.get_provenance()
             self.action_activ_prov.setChecked(prov)
             self.action_activ_prov.setObjectName("action_activ_prov")
             self.action_activ_prov.setText(QtWidgets.QApplication.translate("MainWindow", "Connect/Disconnect Provenance", None, QtWidgets.QApplication.UnicodeUTF8))
 
-            self.action_show_prov = QtGui.QAction(self)
+            self.action_show_prov = QtWidgets.QAction(self)
             self.action_show_prov.setCheckable(False)
             self.action_show_prov.setObjectName("action_show_prov")
             self.action_show_prov.setText(QtWidgets.QApplication.translate("MainWindow", "Show Provenance", None, QtWidgets.QApplication.UnicodeUTF8))
@@ -371,14 +371,14 @@ class MainWindow(QtWidgets.QMainWindow,
         #main window
         try:
             size = eval(settings.get("MainWindow", "size"))
-            self.resize(qt.QtCore.QSize(*size))
+            self.resize(QtCore.QSize(*size))
         except NoSectionError:
             pass
         except NoOptionError:
             pass
         try:
             pos = eval(settings.get("MainWindow", "pos"))
-            self.move(qt.QtCore.QPoint(*pos))
+            self.move(QtCore.QPoint(*pos))
         except NoSectionError:
             pass
         except NoOptionError:
@@ -501,7 +501,7 @@ class MainWindow(QtWidgets.QMainWindow,
     def about(self):
         """ Display About Dialog """
 
-        mess = QtGui.QMessageBox.about(self, "About Visualea",
+        mess = QtWidgets.QMessageBox.about(self, "About Visualea",
                                           "Version %s\n\n" % (metainfo.get_version()) +
                                           "VisuAlea is part of the OpenAlea framework.\n" +
                                           metainfo.get_copyright() +
@@ -515,14 +515,14 @@ class MainWindow(QtWidgets.QMainWindow,
 
     def web(self):
         """ Open OpenAlea website """
-        QtGui.QDesktopServices.openUrl(qt.QtCore.QUrl(metainfo.url))
+        QtGui.QDesktopServices.openUrl(QtCore.QUrl(metainfo.url))
 
     def quit(self):
         """ Quit Application """
-        if(QtGui.QMessageBox.question(self, "Quit?", "Are you sure you want to quit?",
-                                         QtGui.QMessageBox.Ok | QtGui.QMessageBox.Cancel) ==
-                QtGui.QMessageBox.Ok):
-            QtGui.QApplication.exit(0)
+        if(QtWidgets.QMessageBox.question(self, "Quit?", "Are you sure you want to quit?",
+                                         QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel) ==
+                QtWidgets.QMessageBox.Ok):
+            QtWidgets.QApplication.exit(0)
 
     def notify(self, sender, event):
         """ Notification from observed """
@@ -635,13 +635,13 @@ class MainWindow(QtWidgets.QMainWindow,
         #by sending new views the QEvent.WindowActivate event.
         #The bug is present until Qt4.6.2 at least. Bugreport:
         #http://bugreports.qt.nokia.com/browse/QTBUG-11148
-        qt.QtCore.QCoreApplication.instance().notify(gwidget, qt.QtCore.QEvent(qt.QtCore.QEvent.WindowActivate))
+        QtCore.QCoreApplication.instance().notify(gwidget, QtCore.QEvent(QtCore.QEvent.WindowActivate))
         if gwidget is not None:
             gwidget.show_entire_scene()
         return index
 
     def add_pkgdir(self):
-        dirname = QtGui.QFileDialog.getExistingDirectory(self, "Select Package/Directory")
+        dirname = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Package/Directory")
         if(dirname):
             self.pkgmanager.load_directory(str(dirname))
             self.reinit_treeview()
@@ -685,17 +685,17 @@ class MainWindow(QtWidgets.QMainWindow,
         def close_current_ws():
             self.close_tab_workspace(index)
 
-        menu = QtGui.QMenu(self)
+        menu = QtWidgets.QMenu(self)
 
         action = menu.addAction("Close")
-        self.connect(action, qt.QtCore.SIGNAL("triggered()"), close_current_ws)
+        self.connect(action, QtCore.pyqtSignal("triggered()"), close_current_ws)
         #action.triggered.connect(close_current_ws)
 
 #         action = menu.addAction("Run")
-#         self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.run)
+#         self.connect(action, QtCore.pyqtSignal("triggered()"), self.run)
 
 #         action = menu.addAction("Export to Model")
-#         self.connect(action, qt.QtCore.SIGNAL("triggered()"), self.export_to_factory)
+#         self.connect(action, QtCore.pyqtSignal("triggered()"), self.export_to_factory)
 
         menu.move(event.globalPos())
         menu.show()
@@ -750,7 +750,7 @@ class MainWindow(QtWidgets.QMainWindow,
     def exec_python_script(self):
         """ Choose a python source and execute it """
 
-        filename = QtGui.QFileDialog.getOpenFileName(
+        filename = QtWidgets.QFileDialog.getOpenFileName(
             self, "Python Script", "Python script (*.py)")
 
         filename = str(filename)
@@ -784,7 +784,7 @@ class MainWindow(QtWidgets.QMainWindow,
     def open_python_console(self):
         """ Set focus on the python shell """
         try:
-            self.interpreterWidget.setFocus(qt.QtCore.Qt.ShortcutFocusReason)
+            self.interpreterWidget.setFocus(QtCore.Qt.ShortcutFocusReason)
         except:
             pass
 
@@ -797,8 +797,8 @@ class MainWindow(QtWidgets.QMainWindow,
 
     def open_session(self):
 
-        filename = QtGui.QFileDialog.getOpenFileName(
-            self, "OpenAlea Session", qt.QtCore.QDir.homePath(), "Session file (*.oas)")
+        filename = QtWidgets.QFileDialog.getOpenFileName(
+            self, "OpenAlea Session", QtCore.QDir.homePath(), "Session file (*.oas)")
 
         filename = str(filename)
         if(not filename):
@@ -817,8 +817,8 @@ class MainWindow(QtWidgets.QMainWindow,
     def save_as(self):
         """ Save as menu entry """
 
-        filename = QtGui.QFileDialog.getSaveFileName(
-            self, "OpenAlea Session", qt.QtCore.QDir.homePath(), "Session file (*.oas)")
+        filename = QtWidgets.QFileDialog.getSaveFileName(
+            self, "OpenAlea Session", QtCore.QDir.homePath(), "Session file (*.oas)")
 
         filename = str(filename)
         if(not filename):
@@ -915,8 +915,8 @@ class MainWindow(QtWidgets.QMainWindow,
     def export_image(self):
         """ Export current workspace to an image """
 
-        filename = QtGui.QFileDialog.getSaveFileName(
-            self, "Export image", qt.QtCore.QDir.homePath(), "PNG Image (*.png)")
+        filename = QtWidgets.QFileDialog.getSaveFileName(
+            self, "Export image", QtCore.QDir.homePath(), "PNG Image (*.png)")
 
         filename = str(filename)
         if not filename:
@@ -943,8 +943,8 @@ class MainWindow(QtWidgets.QMainWindow,
     def export_image_svg(self):
         """ Export current workspace to an image """
 
-        filename = QtGui.QFileDialog.getSaveFileName(
-            self, "Export svg image", qt.QtCore.QDir.homePath(), "SVG Image (*.svg)")
+        filename = QtWidgets.QFileDialog.getSaveFileName(
+            self, "Export svg image", QtCore.QDir.homePath(), "SVG Image (*.svg)")
 
         filename = str(filename)
         if not filename:
@@ -960,7 +960,7 @@ class MainWindow(QtWidgets.QMainWindow,
         matrix = view.matrix()
         rect = matrix.mapRect(rect)
 
-        svg_gen = qt.QtSvg.QSvgGenerator()
+        svg_gen = QtSvg.QSvgGenerator()
         svg_gen.setFileName(filename)
         svg_gen.setSize(rect.toRect().size())
 

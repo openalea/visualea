@@ -31,7 +31,7 @@ import os
 from weakref import ref
 
 # from openalea.vpltk.qt import qt
-from openalea.vpltk.qt import QtWidgets, QtCore
+from openalea.vpltk.qt import QtWidgets, QtCore, QtGui
 
 from openalea.core.node import NodeFactory, AbstractFactory
 from openalea.core.data import DataFactory
@@ -65,12 +65,12 @@ def get_icon(item):
     if(not icon_dict):
         # dict to do a switch
         icon_dict = {
-            PseudoGroup: to_qvariant(QtWidgets.QPixmap(":/icons/category.png")),
-            CompositeNodeFactory: to_qvariant(QtWidgets.QPixmap(":/icons/diagram.png")),
-            NodeFactory: to_qvariant(QtWidgets.QPixmap(":/icons/node.png")),
-            DataFactory: to_qvariant(QtWidgets.QPixmap(":/icons/data.png")),
-            UserPackage: to_qvariant(QtWidgets.QPixmap(":/icons/usrpkg.png")),
-            Package: to_qvariant(QtWidgets.QPixmap(":/icons/pkg.png")),
+            PseudoGroup: to_qvariant(QtGui.QPixmap(":/icons/category.png")),
+            CompositeNodeFactory: to_qvariant(QtGui.QPixmap(":/icons/diagram.png")),
+            NodeFactory: to_qvariant(QtGui.QPixmap(":/icons/node.png")),
+            DataFactory: to_qvariant(QtGui.QPixmap(":/icons/data.png")),
+            UserPackage: to_qvariant(QtGui.QPixmap(":/icons/usrpkg.png")),
+            Package: to_qvariant(QtGui.QPixmap(":/icons/pkg.png")),
         }
 
     # Get icon from dictionary
@@ -85,14 +85,14 @@ def get_icon(item):
             icon = item.item.metainfo.get("icon", None)
             if(icon):
                 icon = os.path.join(item.item.path, icon)
-                pix = QtWidgets.QPixmap(icon)
+                pix = QtGui.QPixmap(icon)
                 if(not pix.isNull()):
                     return to_qvariant(pix)
 
             # Standard icon
             return icon_dict[type(item.item)]
 
-        return to_qvariant(QtWidgets.QPixmap(":/icons/pseudopkg.png"))
+        return to_qvariant(QtGui.QPixmap(":/icons/pseudopkg.png"))
 
     else:
         return to_qvariant()
@@ -208,7 +208,7 @@ class PkgModel (QtCore.QAbstractItemModel):
             parentItem = parent.internalPointer()
 
         l = list(parentItem.iter_public_values())
-        l.sort(item_compare)# (lambda x,y : cmp(x.get_id(), y.get_id())))
+     # F. Bauget 2023-01-18    l.sort(item_compare)# (lambda x,y : cmp(x.get_id(), y.get_id()))) 
         childItem = l[row]
 
         # save parent and row
@@ -309,7 +309,7 @@ class DataPoolModel (QtCore.QAbstractListModel):
 
         # Icon
         elif(role == QtCore.Qt.DecorationRole):
-            return to_qvariant(QtWidgets.QPixmap(":/icons/ccmime.png"))
+            return to_qvariant(QtGui.QPixmap(":/icons/ccmime.png"))
 
         # Tool Tip
         elif(role == QtCore.Qt.ToolTipRole):
@@ -485,7 +485,7 @@ class NodeFactoryView(object):
 
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-        pixmap = QtWidgets.QPixmap(item.data(QtCore.Qt.DecorationRole))
+        pixmap = QtGui.QPixmap(item.data(QtCore.Qt.DecorationRole))
 
         (pkg_id, factory_id, mimetype) = self.get_item_info(item)
 
@@ -495,7 +495,7 @@ class NodeFactoryView(object):
 
         mimeData.setData(mimetype, itemData)
 
-        drag = QtWidgets.QDrag(self)
+        drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
         drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
         drag.setPixmap(pixmap)
@@ -910,8 +910,9 @@ class NodeFactoryTreeView(QtWidgets.QTreeView, NodeFactoryView):
         self.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         #self.setAnimated(True)
 
-        self.expanded(QtCore.QModelIndex).connect(self.expanded)
-        self.collapsed(QtCore.QModelIndex).connect(self.collapsed)
+        # F. Bauget 2023-01-18
+        # self.expanded(QtCore.QModelIndex).connect(self.expanded)
+        # self.collapsed(QtCore.QModelIndex).connect(self.collapsed)
         
         self.expanded_items = set()
 
@@ -1003,7 +1004,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
 
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-        pixmap = QtWidgets.QPixmap(":/icons/ccmime.png")
+        pixmap = QtGui.QPixmap(":/icons/ccmime.png")
 
         l = list(self.model().datapool.keys())
         l.sort()
@@ -1017,7 +1018,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
         linecode = cli.get_datapool_code(name)
         mimeData.setText(linecode)
 
-        drag = QtWidgets.QDrag(self)
+        drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
         drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
         drag.setPixmap(pixmap)
