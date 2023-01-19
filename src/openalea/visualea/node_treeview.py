@@ -55,6 +55,9 @@ from openalea.vpltk.qt.compat import to_qvariant
 
 icon_dict = None
 
+# pradal
+from functools import cmp_to_key
+
 def cmp(a, b):
     return (a > b) - (a < b) 
 
@@ -111,11 +114,11 @@ def item_compare(x, y):
         return cmp(x.get_id(), y.get_id())
     else:
         tx, ty = type(x), type(y)
-        for t in list(type_order_map.keys()):
+        for t in type_order_map:
             if isinstance(x, t):
                 tx = t
                 break
-        for t in list(type_order_map.keys()):
+        for t in type_order_map:
             if isinstance(y, t):
                 ty = t
                 break
@@ -208,7 +211,8 @@ class PkgModel (QtCore.QAbstractItemModel):
             parentItem = parent.internalPointer()
 
         l = list(parentItem.iter_public_values())
-     # F. Bauget 2023-01-18    l.sort(item_compare)# (lambda x,y : cmp(x.get_id(), y.get_id()))) 
+     # F. Bauget 2023-01-18    
+        l.sort(key=cmp_to_key(item_compare)) 
         childItem = l[row]
 
         # save parent and row
@@ -911,17 +915,20 @@ class NodeFactoryTreeView(QtWidgets.QTreeView, NodeFactoryView):
         #self.setAnimated(True)
 
         # F. Bauget 2023-01-18
-        # self.expanded(QtCore.QModelIndex).connect(self.expanded)
-        # self.collapsed(QtCore.QModelIndex).connect(self.collapsed)
+        # self.connect(self, qt.QtCore.SIGNAL("expanded (const QModelIndex &)"), self.expanded)
+        # self.connect(self, qt.QtCore.SIGNAL("collapsed (const QModelIndex &)"), self.collapsed)
+        self.expanded.connect(self.on_expanded)
+        self.collapsed.connect(self.on_collapsed)
+
         
         self.expanded_items = set()
-
-    def collapsed(self, index):
+    
+    def on_collapsed(self, index):
         name = self.model().get_full_name(index.internalPointer())
         #self.expanded_items.remove(index.internalPointer().name)
         self.expanded_items.remove(name)
 
-    def expanded(self, index):
+    def on_expanded(self, index):
         name = self.model().get_full_name(index.internalPointer())
         #self.expanded_items.add(index.internalPointer().name)
         self.expanded_items.add(name)
