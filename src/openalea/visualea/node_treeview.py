@@ -55,6 +55,9 @@ from openalea.vpltk.qt.compat import to_qvariant
 
 icon_dict = None
 
+# pradal
+from functools import cmp_to_key
+
 def cmp(a, b):
     return (a > b) - (a < b) 
 
@@ -111,11 +114,11 @@ def item_compare(x, y):
         return cmp(x.get_id(), y.get_id())
     else:
         tx, ty = type(x), type(y)
-        for t in list(type_order_map.keys()):
+        for t in type_order_map:
             if isinstance(x, t):
                 tx = t
                 break
-        for t in list(type_order_map.keys()):
+        for t in type_order_map:
             if isinstance(y, t):
                 ty = t
                 break
@@ -208,7 +211,8 @@ class PkgModel (QtCore.QAbstractItemModel):
             parentItem = parent.internalPointer()
 
         l = list(parentItem.iter_public_values())
-     # F. Bauget 2023-01-18    l.sort(item_compare)# (lambda x,y : cmp(x.get_id(), y.get_id()))) 
+     # F. Bauget 2023-01-18    
+        l.sort(key=cmp_to_key(item_compare)) 
         childItem = l[row]
 
         # save parent and row
