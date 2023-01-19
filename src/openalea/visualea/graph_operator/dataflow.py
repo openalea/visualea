@@ -15,12 +15,14 @@ from __future__ import print_function
 #
 ###############################################################################
 
-from past.builtins import cmp
+# from past.builtins import cmp # deprecated replemented locally the cmp function
 from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 from openalea.vpltk.qt import qt
+from openalea.vpltk.qt.QtWidgets import QMessageBox, QFileDialog, QInputDialog, QLineEdit
+from openalea.vpltk.qt.QtGui import QPixmap, QPainter
 from openalea.visualea.graph_operator.base import Base
 
 from openalea.visualea.util import open_dialog, exception_display, busy_cursor
@@ -116,7 +118,12 @@ class DataflowOperators(Base):
 
         pos = scene.get_selection_center(items)
         def cmp_x(i1, i2):
-            return cmp(i1.scenePos().x(), i2.scenePos().x())
+            """
+            Return negative if a<b, zero if a==b, positive if a>b.
+            """
+            a = i1.scenePos().x()
+            b = i2.scenePos().x()
+            return (a > b) - (a < b)
         items.sort(cmp=cmp_x)
 
         # Instantiate the new node:

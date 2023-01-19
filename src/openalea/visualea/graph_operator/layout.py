@@ -14,12 +14,21 @@
 #
 ###############################################################################
 
-from past.builtins import cmp
+# from past.builtins import cmp # deprecated, implemented the definition locally
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 from openalea.vpltk.qt import qt
 from openalea.visualea.graph_operator.base import Base
+
+
+def cmp(x, y):
+    # cmp deprecated in python 3
+    """
+    cmp(x, y) -> integer
+    Return negative if x<y, zero if x==y, positive if x>y.
+    """
+    return (x > y) - (x < y)
 
 class LayoutOperators(Base):
 

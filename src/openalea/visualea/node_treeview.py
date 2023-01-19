@@ -369,7 +369,7 @@ class SearchModel (QtCore.QAbstractListModel):
     def set_results(self, results):
         """ Set the search results : results is a list of factory """
         self.searchresult = results
-        self.reset()
+        # self.reset() # deprecated
 
     def index(self, row, column, parent):
 
@@ -489,8 +489,8 @@ class NodeFactoryView(object):
 
         (pkg_id, factory_id, mimetype) = self.get_item_info(item)
 
-        dataStream.writeString(pkg_id)
-        dataStream.writeString(factory_id)
+        dataStream.writeQString(pkg_id) # otherwise unexpected str type, 2 other lines modified
+        dataStream.writeQString(factory_id)
         mimeData = QtCore.QMimeData()
 
         mimeData.setData(mimetype, itemData)
@@ -500,7 +500,7 @@ class NodeFactoryView(object):
         drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
         drag.setPixmap(pixmap)
 
-        drag.start(QtCore.Qt.MoveAction)
+        drag.exec_(QtCore.Qt.MoveAction)
 
     @staticmethod
     def get_item_info(item):
@@ -1010,7 +1010,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
         l.sort()
         name = l[item.row()]
 
-        dataStream.writeString(name)
+        dataStream.writeQString(name)
 
         mimeData = QtCore.QMimeData()
         mimeData.setData("openalea/data_instance", itemData)

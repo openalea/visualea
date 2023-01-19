@@ -834,7 +834,8 @@ class MainWindow(QtWidgets.QMainWindow,
     def search_node(self):
         """ Activated when search line edit is validated """
 
-        text = str(str(self.search_lineEdit.text()).encode('latin1'))
+        # text = str(str(self.search_lineEdit.text()).encode('latin1')) # don't get why this encode()
+        text = self.search_lineEdit.text()
         results = self.pkgmanager.search_node(text)
         self.search_model.set_results(results)
 

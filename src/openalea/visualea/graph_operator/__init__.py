@@ -18,7 +18,7 @@ __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 import weakref
-from openalea.vpltk.qt import qt
+from openalea.vpltk.qt.QtWidgets import QAction, QApplication
 from openalea.core.observer import Observed
 from openalea.core.compositenode import CompositeNodeFactory
 from openalea.vpltk.qt.compat import to_qvariant
