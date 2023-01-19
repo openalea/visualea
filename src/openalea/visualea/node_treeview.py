@@ -915,17 +915,20 @@ class NodeFactoryTreeView(QtWidgets.QTreeView, NodeFactoryView):
         #self.setAnimated(True)
 
         # F. Bauget 2023-01-18
-        # self.expanded(QtCore.QModelIndex).connect(self.expanded)
-        # self.collapsed(QtCore.QModelIndex).connect(self.collapsed)
+        # self.connect(self, qt.QtCore.SIGNAL("expanded (const QModelIndex &)"), self.expanded)
+        # self.connect(self, qt.QtCore.SIGNAL("collapsed (const QModelIndex &)"), self.collapsed)
+        self.expanded.connect(self.on_expanded)
+        self.collapsed.connect(self.on_collapsed)
+
         
         self.expanded_items = set()
-
-    def collapsed(self, index):
+    
+    def on_collapsed(self, index):
         name = self.model().get_full_name(index.internalPointer())
         #self.expanded_items.remove(index.internalPointer().name)
         self.expanded_items.remove(name)
 
-    def expanded(self, index):
+    def on_expanded(self, index):
         name = self.model().get_full_name(index.internalPointer())
         #self.expanded_items.add(index.internalPointer().name)
         self.expanded_items.add(name)
