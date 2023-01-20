@@ -125,7 +125,7 @@ class NewGraph(QtWidgets.QDialog, ui_newgraph.Ui_NewGraphDialog):
             self.nameEdit.setText(name)
 
         self.ioButton.setVisible(io)
-        self.connect(self.ioButton, qt.QtCore.SIGNAL("clicked()"), self.edit_io)
+        self.ioButton.clicked.connect(self.edit_io)
 
     def accept(self):
         """ Accept Dialog result """
@@ -274,7 +274,7 @@ class NewData(QtWidgets.QDialog, ui_newdata.Ui_NewDataDialog):
             i = self.packageBox.findText(Session.USR_PKG_NAME)
         self.packageBox.setCurrentIndex(i)
 
-        self.connect(self.browseButton, qt.QtCore.SIGNAL("clicked()"), self.browse_file)
+        self.browseButton.clicked.connect(self.browse_file)
 
     def accept(self):
         """ Accept Dialog result """
@@ -350,7 +350,7 @@ class NewPackage(QtWidgets.QDialog, ui_newpackage.Ui_NewPackageDialog):
         self.setupUi(self)
 
         self.pkgs = pkgs
-        self.connect(self.pathButton, qt.QtCore.SIGNAL("clicked()"), self.path_clicked)
+        self.pathButton.clicked.connect(self.path_clicked)
 
         #self.pathEdit.setText(get_userpkg_dir())
         if(metainfo):
@@ -500,7 +500,7 @@ class FactorySelector(QtWidgets.QDialog, ui_tofactory.Ui_FactorySelector):
 
         self.comboBox.setCurrentIndex(i)
 
-        self.connect(self.newFactoryButton, qt.QtCore.SIGNAL("clicked()"), self.new_factory)
+        self.newFactoryButton.clicked.connect(self.new_factory)
 
     def accept(self):
         """ Accept dialog result """
@@ -590,7 +590,7 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
         except:
             pass
 
-        self.connect(self.commandPath, qt.QtCore.SIGNAL("clicked()"), self.select_editor)
+        self.commandPath.clicked.connect(self.select_editor)
 
         # UI
         try:
@@ -623,8 +623,8 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
         except:
             self.evalCue.setCheckState(qt.QtCore.Qt.Unchecked)
 
-        self.connect(self.addButton, qt.QtCore.SIGNAL("clicked()"), self.add_search_path)
-        self.connect(self.removeButton, qt.QtCore.SIGNAL("clicked()"), self.remove_search_path)
+        self.addButton.clicked.connect(self.add_search_path)
+        self.removeButton.clicked.connect(self.remove_search_path)
 
     def add_search_path(self):
         """ Package Manager : Add a path in the list """
@@ -777,7 +777,7 @@ class ComboDelegate(QtWidgets.QItemDelegate):
         if index.column() == 1:
             value = editor.currentText()
             model.setItem(index.row(), index.column(),
-                          QtWidgets.QStandardItem(str(value)))
+                          QtGui.QStandardItem(str(value)))
         else:
             QtWidgets.QItemDelegate.setModelData(self, editor, model, index)
 
@@ -798,13 +798,13 @@ class IOConfigDialog(QtWidgets.QDialog, ui_ioconfig.Ui_IOConfig):
         self.inputs = inputs
         self.outputs = outputs
 
-        self.inModel = QtWidgets.QStandardItemModel(len(inputs), 4)
+        self.inModel = QtGui.QStandardItemModel(len(inputs), 4)
         self.inModel.setHorizontalHeaderLabels(["Name", "Interface", "Value", "Description"])
         self.inTable.setModel(self.inModel)
         self.inTable.setEditTriggers(QtWidgets.QAbstractItemView.AllEditTriggers)
         self.inTable.setItemDelegate(delegate)
 
-        self.outModel = QtWidgets.QStandardItemModel(len(outputs), 3)
+        self.outModel = QtGui.QStandardItemModel(len(outputs), 3)
         self.outModel.setHorizontalHeaderLabels(["Name", "Interface", "Description"])
         self.outTable.setModel(self.outModel)
         self.outTable.setEditTriggers(QtWidgets.QAbstractItemView.AllEditTriggers)
@@ -813,20 +813,20 @@ class IOConfigDialog(QtWidgets.QDialog, ui_ioconfig.Ui_IOConfig):
         #self.inTable.setItemDelegateForColumn(1, ComboBoxDeletegate())
 
         for i, d in enumerate(inputs):
-            self.inModel.setItem(i, 0, QtWidgets.QStandardItem(str(d['name'])))
-            self.inModel.setItem(i, 1, QtWidgets.QStandardItem(str(d['interface'])))
-            self.inModel.setItem(i, 2, QtWidgets.QStandardItem(str(d.get('value'))))
-            self.inModel.setItem(i, 3, QtWidgets.QStandardItem(str(d.get('desc', ''))))
+            self.inModel.setItem(i, 0, QtGui.QStandardItem(str(d['name'])))
+            self.inModel.setItem(i, 1, QtGui.QStandardItem(str(d['interface'])))
+            self.inModel.setItem(i, 2, QtGui.QStandardItem(str(d.get('value'))))
+            self.inModel.setItem(i, 3, QtGui.QStandardItem(str(d.get('desc', ''))))
 
         for i, d in enumerate(outputs):
-            self.outModel.setItem(i, 0, QtWidgets.QStandardItem(str(d['name'])))
-            self.outModel.setItem(i, 1, QtWidgets.QStandardItem(str(d['interface'])))
-            self.outModel.setItem(i, 2, QtWidgets.QStandardItem(str(d.get('desc', ''))))
+            self.outModel.setItem(i, 0, QtGui.QStandardItem(str(d['name'])))
+            self.outModel.setItem(i, 1, QtGui.QStandardItem(str(d['interface'])))
+            self.outModel.setItem(i, 2, QtGui.QStandardItem(str(d.get('desc', ''))))
 
-        self.connect(self.addInput, qt.QtCore.SIGNAL("clicked()"), self.add_input)
-        self.connect(self.delInput, qt.QtCore.SIGNAL("clicked()"), self.del_input)
-        self.connect(self.addOutput, qt.QtCore.SIGNAL("clicked()"), self.add_output)
-        self.connect(self.delOutput, qt.QtCore.SIGNAL("clicked()"), self.del_output)
+        self.addInput.clicked.connect(self.add_input)
+        self.delInput.clicked.connect(self.del_input)
+        self.addOutput.clicked.connect(self.add_output)
+        self.delOutput.clicked.connect(self.del_output)
 
     def accept(self):
         """ Valid IO """
@@ -871,16 +871,16 @@ class IOConfigDialog(QtWidgets.QDialog, ui_ioconfig.Ui_IOConfig):
 
     def add_input(self):
         c = self.inModel.rowCount()
-        self.inModel.appendRow([QtWidgets.QStandardItem('IN%i' % (c + 1,)),
-                                QtWidgets.QStandardItem('None'),
-                                QtWidgets.QStandardItem('None'),
-                                QtWidgets.QStandardItem('')])
+        self.inModel.appendRow([QtGui.QStandardItem('IN%i' % (c + 1,)),
+                                QtGui.QStandardItem('None'),
+                                QtGui.QStandardItem('None'),
+                                QtGui.QStandardItem('')])
 
     def add_output(self):
         c = self.outModel.rowCount()
-        self.outModel.appendRow([QtWidgets.QStandardItem('OUT%i' % (c + 1,)),
-                                 QtWidgets.QStandardItem('None'),
-                                 QtWidgets.QStandardItem('')])
+        self.outModel.appendRow([QtGui.QStandardItem('OUT%i' % (c + 1,)),
+                                 QtGui.QStandardItem('None'),
+                                 QtGui.QStandardItem('')])
 
     def del_input(self):
         c = self.inModel.rowCount()

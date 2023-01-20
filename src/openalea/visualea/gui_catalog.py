@@ -136,10 +136,11 @@ class IIntWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass()
 
         self.notify(None, None)
 
-        self.connect(self.spin, QtCore.pyqtSignal("valueChanged(int)"), self.valueChanged)
+        # self.connect(self.spin, QtCore.pyqtSignal("valueChanged(int)"), self.valueChanged)
+        self.spin.valueChanged.connect(self.on_valueChanged)
 
     @lock_notify
-    def valueChanged(self, newval):
+    def on_valueChanged(self, newval):
         self.set_value(newval)
 
     def notify(self, sender, event):
@@ -237,11 +238,12 @@ class IStrWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass()
         self.hboxlayout.addWidget(self.subwidget)
 
         self.too_long = False  # Validity Flag
-        self.connect(self.subwidget, QtCore.pyqtSignal("textChanged()"), self.valueChanged)
+        # self.connect(self.subwidget, QtCore.pyqtSignal("textChanged()"), self.valueChanged)
+        self.subwidget.textChanged.connect(self.on_valueChanged)
         self.notify(None, None)
 
     @lock_notify
-    def valueChanged(self):
+    def on_valueChanged(self):
         if(not self.too_long):
             self.set_value(self.get_widget_value())
 

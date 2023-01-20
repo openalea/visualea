@@ -143,6 +143,7 @@ class MainWindow(QtWidgets.QMainWindow,
         # self.tabWorkspace.contextMenuEvent.connect(self.contextMenuEvent)
         # self.connect(self.tabWorkspace, QtCore("contextMenuEvent(QContextMenuEvent)"),
         #                                          self.contextMenuEvent)  # F. Bauget 2023-01-18
+        self.tabWorkspace.customContextMenuRequested.connect(self.contextMenuEvent)
         self.tabWorkspace.currentChanged.connect(self.ws_changed)
         self.search_lineEdit.editingFinished.connect(self.search_node)
         self.tabWorkspace.tabCloseRequested.connect(self.close_tab_workspace)
