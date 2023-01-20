@@ -373,6 +373,9 @@ class SearchModel (QtCore.QAbstractListModel):
     def set_results(self, results):
         """ Set the search results : results is a list of factory """
         self.searchresult = results
+        self.beginResetModel()
+        # self.searchresult = None
+        self.endResetModel()
         # self.reset() # deprecated
 
     def index(self, row, column, parent):
@@ -534,18 +537,18 @@ class NodeFactoryView(object):
         if(isinstance(obj, AbstractFactory)): # Factory
             menu = QtWidgets.QMenu(self)
             action = menu.addAction("Open")
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.open_node)
+            action.triggered.connect(self.open_node)
 
             action = menu.addAction("Edit")
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_node)
+            action.triggered.connect(self.edit_node)
 
             action = menu.addAction("Properties")
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_properties)
+            action.triggered.connect(self.edit_properties)
 
             menu.addSeparator()
 
             action = menu.addAction("Remove")
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.remove_node)
+            action.triggered.connect(self.remove_node)
 
         elif(isinstance(obj, PseudoPackage)): # Package
 
@@ -556,55 +559,55 @@ class NodeFactoryView(object):
 
             action = menu.addAction("Open URL")
             action.setEnabled(enabled)
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.open_node)
+            action.triggered.connect(self.open_node)
 
             action = menu.addAction("Meta informations")
             action.setEnabled(enabled)
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_package)
+            action.triggered.connect(self.edit_package)
 
             action = menu.addAction("Edit Code")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.edit_pkg_code)
+            action.triggered.connect(self.edit_pkg_code)
 
             menu.addSeparator()
 
             action = menu.addAction("Add Python Node")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.add_python_node)
+            action.triggered.connect(self.add_python_node)
 
             action = menu.addAction("Add Composite Node")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.add_composite_node)
+            action.triggered.connect(self.add_composite_node)
 
             action = menu.addAction("Add Data File")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.add_data)
+            action.triggered.connect(self.add_data)
 
             menu.addSeparator()
 
             action = menu.addAction("Grab Icon")
             action.setEnabled(enabled)
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.grab_icon)
+            action.triggered.connect(self.grab_icon)
 
             menu.addSeparator()
 
             action = menu.addAction("Move/Rename Package")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.move_package)
+            action.triggered.connect(self.move_package)
 
             action = menu.addAction("Copy Package")
             action.setEnabled(enabled)
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.duplicate_package)
+            action.triggered.connect(self.duplicate_package)
 
             action = menu.addAction("Remove Package")
             action.setEnabled(enabled and pkg.is_editable())
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.remove_package)
+            action.triggered.connect(self.remove_package)
 
             menu.addSeparator()
 
             action = menu.addAction("Reload Package")
             action.setEnabled(enabled)
-            self.connect(action, QtCore.pyqtSignal("triggered()"), self.reload_package)
+            action.triggered.connect(self.reload_package)
 
         if(menu):
             menu.move(event.globalPos())
@@ -1037,8 +1040,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
 
         menu = QtWidgets.QMenu(self)
         action = menu.addAction("Remove")
-        self.connect(action, QtCore.pyqtSignal("triggered()"), self.remove_element)
-
+        action.triggered.connect(self.remove_element)
         menu.move(event.globalPos())
         menu.show()
 
