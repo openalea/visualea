@@ -776,9 +776,9 @@ class IFileStrWidget(IStrWidget, metaclass=make_metaclass()):
         self.open = not interface.save
         # self.open = False
 
-        self.connect(self.button, QtCore.pyqtSignal("clicked()"), self.button_clicked)
+        self.button.clicked.connect(on_button_clicked)
 
-    def button_clicked(self):
+    def on_button_clicked(self):
 
         if(not self.open or self.checkbox.checkState() == QtCore.Qt.Checked):
             result = QtWidgets.QFileDialog.getSaveFileName(self, "Select File",

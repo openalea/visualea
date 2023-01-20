@@ -373,6 +373,9 @@ class SearchModel (QtCore.QAbstractListModel):
     def set_results(self, results):
         """ Set the search results : results is a list of factory """
         self.searchresult = results
+        self.beginResetModel()
+        # self.searchresult = None
+        self.endResetModel()
         # self.reset() # deprecated
 
     def index(self, row, column, parent):
