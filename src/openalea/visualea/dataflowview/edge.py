@@ -18,12 +18,12 @@ __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 import weakref
-from openalea.vpltk.qt import qt
+from openalea.vpltk.qt.QtGui import QTransform
 from openalea.vpltk.qt.QtWidgets import QGraphicsPathItem
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.grapheditor import baselisteners, qtgraphview, edgefactory, qtutils
 
-class FloatingEdge(QGraphicsPathItem, qtgraphview.FloatingEdge):
+class FloatingEdge(qtgraphview.FloatingEdge, QGraphicsPathItem):
     """
     Represents an edge during its creation
     It is connected to one connector only
@@ -38,7 +38,7 @@ class FloatingEdge(QGraphicsPathItem, qtgraphview.FloatingEdge):
     def get_connections(self):
         boxsize = 10.0
         #find the port items that were activated
-        srcPortItem = self.scene().itemAt( self.srcPoint )
+        srcPortItem = self.scene().itemAt( self.srcPoint, QTransform() )
         dstPortItem = self.scene().find_closest_connectable(self.dstPoint, boxsize)
         if not dstPortItem: return None, None
 
