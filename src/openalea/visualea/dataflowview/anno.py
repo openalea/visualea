@@ -47,7 +47,8 @@ class AnnotationTextToolbar(AleaQGraphicsToolbar):
         if anno is not None:
             if view:
                 pos = anno.sceneBoundingRect().topLeft()
-                pos.setY(pos.y() - self.rect().height()/view.matrix().m22())
+                #pos.setY(pos.y() - self.rect().height()//view.matrix().m22())
+                pos.setY(pos.y() - self.rect().height()//view.transform().m22())
                 self.setPos(pos)
             self.annotationColor.colorChanged.connect(anno._onAnnotationColorChanged)
             self.fontColorButton.fontColorChanged.connect(anno._onTextFontColorChanged)
