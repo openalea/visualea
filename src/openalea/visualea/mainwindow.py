@@ -569,8 +569,8 @@ class MainWindow(QtWidgets.QMainWindow,
         """ Reinitialise package and category views """
         self.cat_model.reset()
         self.pkg_model.reset()
-        # self.datapool_model.reset()
-        # self.search_model.reset()
+        self.datapool_model.reset()
+        self.search_model.reset()
 
     def close_tab_workspace(self, cindex):
         """ Close workspace indexed by cindex cindex is Node"""

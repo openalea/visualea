@@ -34,9 +34,9 @@ def busy_cursor(f):
     def wrapped(*args):
         try:
             QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(qt.QtCore.Qt.BusyCursor))
-            # arguments = args[0] # not sure
-            # ret = f(arguments)
-            ret = f(*args)
+            arguments = args[0] # not sure
+            ret = f(arguments)
+            # ret = f(*args)
             QtWidgets.QApplication.restoreOverrideCursor ()
             return ret
         except:
