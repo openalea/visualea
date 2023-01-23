@@ -243,9 +243,10 @@ class IStrWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass()
         self.notify(None, None)
 
     @lock_notify
-    def on_valueChanged(self):
-        if(not self.too_long):
-            self.set_value(self.get_widget_value())
+    def on_valueChanged(self, newval):
+        self.set_value(str(newval))
+        # if(not self.too_long):
+        #     self.set_value(self.get_widget_value())
 
     def notify(self, sender, event):
         """ Notification sent by node """
@@ -362,14 +363,14 @@ class ITextStrWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacla
         self.hboxlayout.addWidget(self.subwidget)
 
         self.too_long = False  # Validity Flag
-        self.connect(self.subwidget, QtCore.pyqtSignal("textChanged()"), self.valueChanged)
+        self.subwidget.textChanged.connect(self.on_valueChanged)
         self.notify(None, None)
 
     def setEnabled(self, val):
         self.subwidget.setReadOnly(not bool(val))
 
     @lock_notify
-    def valueChanged(self):
+    def on_valueChanged(self):
         if(not self.too_long):
             self.set_value(str(self.subwidget.toPlainText()))
 
@@ -776,7 +777,7 @@ class IFileStrWidget(IStrWidget, metaclass=make_metaclass()):
         self.open = not interface.save
         # self.open = False
 
-        self.button.clicked.connect(on_button_clicked)
+        self.button.clicked.connect(self.on_button_clicked)
 
     def on_button_clicked(self):
 
@@ -787,7 +788,7 @@ class IFileStrWidget(IStrWidget, metaclass=make_metaclass()):
         else:
             result = QtWidgets.QFileDialog.getOpenFileName(self, "Select File",
                                                           self.last_result, self.filter)
-
+        result = result[0]
         if(result):
             self.set_value(str(result))
             IFileStrWidget.last_result = result

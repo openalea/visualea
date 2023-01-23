@@ -142,7 +142,8 @@ class PkgModel (QtCore.QAbstractItemModel):
     def reset(self):
 
         self.rootItem = self.pman.get_pseudo_pkg()
-        QtCore.QAbstractItemModel.reset(self)
+        QtCore.QAbstractItemModel.beginResetModel(self)
+        QtCore.QAbstractItemModel.endResetModel(self)
 
     def columnCount(self, parent):
         return 1
@@ -278,7 +279,8 @@ class CategoryModel (PkgModel):
         self.rootItem = self.pman.get_pseudo_cat()
         # self.parent_map = {}
         # self.row_map = {}
-        QtCore.QAbstractItemModel.reset(self)
+        QtCore.QAbstractItemModel.beginResetModel(self)
+        QtCore.QAbstractItemModel.endResetModel(self)
 
 
 class DataPoolModel (QtCore.QAbstractListModel):
@@ -291,7 +293,8 @@ class DataPoolModel (QtCore.QAbstractListModel):
         self.datapool = datapool
 
     def reset(self):
-        QtCore.QAbstractItemModel.reset(self)
+        QtCore.QAbstractItemModel.beginResetModel(self)
+        QtCore.QAbstractItemModel.endResetModel(self)
 
     def data(self, index, role):
 
