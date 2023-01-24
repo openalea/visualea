@@ -526,7 +526,10 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         return [self.subwidget.item(i).text() for i in range(self.subwidget.count())]
 
     @lock_notify
-    def on_button_clicked(self):
+    def on_button_clicked(self, *args):
+        # added *args because the click send a boolean == False (?because the button is realised?), then the lock notify
+        # rise an error saying that it got 2 positional arguments when on_button_clicked has only one. See other clicked
+        # in this file
         seq = self.get_value()
         if seq is None:
             seq = []
@@ -539,7 +542,7 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         self.unvalidate()
 
     @lock_notify
-    def on_buttonplus_clicked(self):
+    def on_buttonplus_clicked(self, *arg):
         seq = self.get_value()
         row = self.subwidget.currentRow()
         if(row < 0):
@@ -553,7 +556,7 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         self.unvalidate()
 
     @lock_notify
-    def on_buttonmoins_clicked(self):
+    def on_buttonmoins_clicked(self, *arg):
         seq = self.get_value()
         row = self.subwidget.currentRow()
         if(row < 0):
@@ -684,7 +687,7 @@ class IDictWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass(
             print(e)
 
     @lock_notify
-    def on_button_clicked(self):
+    def on_button_clicked(self, *arg):
         """ Add add an element in the dictionary """
         dic = self.get_value()
         (text, ok) = QtWidgets.QInputDialog.getText(self, "Key", "Key",)

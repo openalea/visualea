@@ -19,7 +19,7 @@ from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
+from openalea.vpltk.qt import QtWidgets
 from openalea.visualea.graph_operator.base import Base
 
 class PortOperators(Base):
@@ -61,8 +61,8 @@ class PortOperators(Base):
         master = self.master
         widget = master.get_sensible_parent()
         portItem = master.get_port_item()
-        (result, ok) = QInputDialog.getText(widget, "Data Pool", "Instance name",
-                                                  QLineEdit.Normal, )
+        (result, ok) = QtWidgets.QInputDialog.getText(widget, "Data Pool", "Instance name",
+                                                  QtWidgets.QLineEdit.Normal, )
         if(ok):
             from openalea.core.session import DataPool
             datapool = DataPool()  # Singleton
@@ -82,8 +82,8 @@ class PortOperators(Base):
         widget = master.get_sensible_parent()
         portItem = master.get_port_item()
         # pop up a widget to specify the instance name
-        (result, ok) = QInputDialog.getText(widget, "Console", "Instance name",
-                                                  QLineEdit.Normal, )
+        (result, ok) = QtWidgets.QInputDialog.getText(widget, "Console", "Instance name",
+                                                  QtWidgets.QLineEdit.Normal, )
         result = str(result)
 
         if(ok):
@@ -92,14 +92,14 @@ class PortOperators(Base):
             data = node.get_output(port.get_id())
             interpreter = master.get_interpreter()
 
-            overwrite = QMessageBox.Ok
+            overwrite = QtWidgets.QMessageBox.Ok
             if result in interpreter.locals:
-                overwrite = QMessageBox.warning(widget, "Overwrite variable?",
+                overwrite = QtWidgets.QMessageBox.warning(widget, "Overwrite variable?",
                                                       "Variable name '" + result +"' is already used in the interpreter," +\
                                                       "Do you want to overwrite it?",
-                                                      QMessageBox.Ok|QMessageBox.Cancel,
-                                                      QMessageBox.Ok)
-            if overwrite == QMessageBox.Ok:
+                                                      QtWidgets.QMessageBox.Ok|QtWidgets.QMessageBox.Cancel,
+                                                      QtWidgets.QMessageBox.Ok)
+            if overwrite == QtWidgets.QMessageBox.Ok:
                 interpreter.locals[result]=data
                 # print the instance name and content as if the user type its name in a shell
                 # this is only to make obvious the availability of the instance in the

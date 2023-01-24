@@ -182,8 +182,8 @@ class VertexOperators(Base):
         """ Open a input dialog to set node caption """
 
         n = self.master.get_vertex_item().vertex()
-        (result, ok) = QInputDialog.getText(None, "Node caption", "",
-                                                     QLineEdit.Normal, n.caption)
+        (result, ok) = QtWidgets.QInputDialog.getText(None, "Node caption", "",
+                                                     QtWidgets.QLineEdit.Normal, n.caption)
         if(ok):
             n.caption = str(result)
 
