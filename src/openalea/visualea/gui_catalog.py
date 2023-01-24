@@ -72,11 +72,10 @@ class IFloatWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass
 
         self.notify(None, None)
 
-        self.connect(self.spin, QtCore.pyqtSignal("valueChanged(double)"),
-                     self.valueChanged)
+        self.spin.valueChanged.connect(self.on_valueChanged)
 
     @lock_notify
-    def valueChanged(self, newval):
+    def on_valueChanged(self, newval):
         """ todo """
         self.set_value(newval)
 
@@ -181,10 +180,10 @@ class IBoolWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass(
         hboxlayout.addWidget(self.checkbox)
 
         self.notify(node, None)
-        self.connect(self.checkbox, QtCore.pyqtSignal("stateChanged(int)"), self.stateChanged)
+        self.checkbox.setCheckState.connect(self.on_stateChanged)
 
     @lock_notify
-    def stateChanged(self, state):
+    def on_stateChanged(self, state):
 
         if(state == QtCore.Checked):
             self.set_value(True)
@@ -243,10 +242,9 @@ class IStrWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass()
         self.notify(None, None)
 
     @lock_notify
-    def on_valueChanged(self, newval):
-        self.set_value(str(newval))
-        # if(not self.too_long):
-        #     self.set_value(self.get_widget_value())
+    def on_valueChanged(self):
+        if(not self.too_long):
+            self.set_value(self.get_widget_value())
 
     def notify(self, sender, event):
         """ Notification sent by node """
@@ -310,11 +308,10 @@ class IDateTimeWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         except:
             pass
 
-        self.connect(self.subwidget, QtCore.pyqtSignal
-                     ("dateTimeChanged( const QDateTime  )"), self.valueChanged)
+        self.subwidget.dateTimeChanged.connect(self.on_valueChanged)
 
     @lock_notify
-    def valueChanged(self, newval):
+    def on_valueChanged(self, newval):
         d = newval.toPyDateTime()
         # fix_print_with_import
         print((self.param_str, d))
@@ -461,13 +458,11 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         self.subwidget = QtWidgets.QListWidget(self)
         self.gridlayout.addWidget(self.subwidget, 1, 0, 1, 2)
 
-        self.connect(self.subwidget, QtCore.pyqtSignal("itemDoubleClicked(QListWidgetItem*)"),
-                     self.itemclick)
-        self.connect(self.subwidget, QtCore.pyqtSignal("itemChanged(QListWidgetItem*)"),
-                     self.itemchanged)
-        self.connect(self.button, QtCore.pyqtSignal("clicked()"), self.button_clicked)
-        self.connect(self.buttonplus, QtCore.pyqtSignal("clicked()"), self.buttonplus_clicked)
-        self.connect(self.buttonmoins, QtCore.pyqtSignal("clicked()"), self.buttonmoins_clicked)
+        self.subwidget.itemDoubleClicked.connect(self.on_itemclick)
+        self.subwidget.itemChanged.connect(self.on_itemchanged)
+        self.button.clicked.connect(self.on_button_clicked)
+        self.buttonplus.clicked.connect(self.on_buttonplus_clicked)
+        self.buttonmoins.clicked.connect(self.on_buttonmoins_clicked)
 
         p = QtWidgets.QSizePolicy
         self.setSizePolicy(p(p.MinimumExpanding, p.Preferred))
@@ -531,7 +526,7 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         return [self.subwidget.item(i).text() for i in range(self.subwidget.count())]
 
     @lock_notify
-    def button_clicked(self):
+    def on_button_clicked(self):
         seq = self.get_value()
         if seq is None:
             seq = []
@@ -544,7 +539,7 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         self.unvalidate()
 
     @lock_notify
-    def buttonplus_clicked(self):
+    def on_buttonplus_clicked(self):
         seq = self.get_value()
         row = self.subwidget.currentRow()
         if(row < 0):
@@ -558,7 +553,7 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         self.unvalidate()
 
     @lock_notify
-    def buttonmoins_clicked(self):
+    def on_buttonmoins_clicked(self):
         seq = self.get_value()
         row = self.subwidget.currentRow()
         if(row < 0):
@@ -576,11 +571,11 @@ class ISequenceWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacl
         self.subwidget.setCurrentRow(row)
         self.unvalidate()
 
-    def itemclick(self, item):
+    def on_itemclick(self, item):
         self.subwidget.editItem(item)
 
     @lock_notify
-    def itemchanged(self, item):
+    def on_itemchanged(self, item):
         if(self.updating):
             return
 
@@ -647,9 +642,8 @@ class IDictWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass(
         self.hboxlayout.addWidget(self.button)
 
         self.update_list()
-        self.connect(self.subwidget, QtCore.pyqtSignal("itemDoubleClicked(QListWidgetItem*)"),
-                     self.itemclick)
-        self.connect(self.button, QtCore.pyqtSignal("clicked()"), self.button_clicked)
+        self.subwidget.itemDoubleClicked.connect(self.on_itemclick)
+        self.button.clicked.connect(self.on_button_clicked)
 
     def update_state(self):
         """ Enable or disable widget depending of its state """
@@ -690,7 +684,7 @@ class IDictWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass(
             print(e)
 
     @lock_notify
-    def button_clicked(self):
+    def on_button_clicked(self):
         """ Add add an element in the dictionary """
         dic = self.get_value()
         (text, ok) = QtWidgets.QInputDialog.getText(self, "Key", "Key",)
@@ -707,7 +701,7 @@ class IDictWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass(
         self.update_list()
 
     @lock_notify
-    def itemclick(self, item):
+    def on_itemclick(self, item):
         if(self.connected):
             return
         text = item.text()
@@ -778,6 +772,14 @@ class IFileStrWidget(IStrWidget, metaclass=make_metaclass()):
         # self.open = False
 
         self.button.clicked.connect(self.on_button_clicked)
+        self.subwidget.textChanged.connect(self.on_valueChanged)
+
+    @lock_notify
+    def on_valueChanged(self, newval = None):
+        # not able to make this working with the inhereted function from IStrWidget
+        # file got nothing, and if newval is used with IStrWidget the string get None
+        # other possibility disabling @lock_notify in IStrWidget
+        self.set_value(str(newval))
 
     def on_button_clicked(self):
 
@@ -816,9 +818,9 @@ class IDirStrWidget(IStrWidget, metaclass=make_metaclass()):
         self.button = QtWidgets.QPushButton("...", self)
         self.hboxlayout.addWidget(self.button)
 
-        self.connect(self.button, QtCore.pyqtSignal("clicked()"), self.button_clicked)
+        self.button.clicked.connect(self.on_button_clicked)
 
-    def button_clicked(self):
+    def on_button_clicked(self):
 
         result = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory", self.last_result)
 
@@ -858,9 +860,7 @@ class IEnumStrWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacla
         self.hboxlayout.addWidget(self.subwidget)
         self.notify(None, None)
 
-        self.connect(self.subwidget,
-                     QtCore.pyqtSignal("currentIndexChanged(const QString &)"),
-                     self.valueChanged)
+        self.subwidget.currentIndexChanged.connect(self.valueChanged)
 
     @lock_notify
     def valueChanged(self, newval):
@@ -986,10 +986,10 @@ class ITupleWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass
         self.hboxlayout.addWidget(self.subwidget)
 
         self.notify(None, None)
-        self.connect(self.subwidget, QtCore.pyqtSignal("textChanged()"), self.valueChanged)
+        self.subwidget.textChanged.connect(self.on_valueChanged)
 
     @lock_notify
-    def valueChanged(self, newval):
+    def on_valueChanged(self, newval):
         try:
             self.set_value(eval(str(newval)))
         except:

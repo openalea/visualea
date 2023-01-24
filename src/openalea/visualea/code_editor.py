@@ -151,16 +151,16 @@ class PythonCodeEditor(QtWidgets.QWidget, AbstractCodeEditor):
         vboxlayout.addWidget(self.label)
 
         self.savescut = QtWidgets.QShortcut( QtGui.QKeySequence(QtGui.QKeySequence.Save), self)
-        self.connect(self.savescut, QtCore.pyqtSignal("triggered()"), self.save_changes)
-        self.connect(self.savbut, QtCore.pyqtSignal("clicked()"), self.save_changes)
-        self.connect(self.applybut, QtCore.pyqtSignal("clicked()"), self.apply_changes)
+        self.savescut.triggered.connect(self.save_changes)
+        self.savbut.clicked.connect(self.save_changes)
+        self.applybut.clicked.connect(self.apply_changes)
         
     
     def is_widget(self):
         return True
 
 
-    def file_changed(self, path):
+    def on_file_changed(self, path):
         ret = QtWidgets.QMessageBox.question(self, "File has changed on the disk.",
                                          "Reload ?\n",
                                          QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No,)
@@ -245,7 +245,7 @@ class PythonCodeEditor(QtWidgets.QWidget, AbstractCodeEditor):
 
             self.filewatcher = QtCore.QFileSystemWatcher(self)
             self.filewatcher.addPath(self.filename)
-            self.connect(self.filewatcher, QtCore.pyqtSignal("fileChanged(const QString &)"), self.file_changed)
+            self.filewatcher.fileChanged.connect(self.on_file_changed)
         
 
         except Exception as e:
@@ -422,7 +422,7 @@ class EditorSelector(AbstractCodeEditor, QtWidgets.QWidget):
             but.setText(k)
             vboxlayout.addWidget(but)
 
-            self.connect(but, QtCore.pyqtSignal("clicked()"), self.button_clicked)
+            but.clicked.connect(self.on_button_clicked)
 
     
     def is_widget(self):
@@ -438,7 +438,7 @@ class EditorSelector(AbstractCodeEditor, QtWidgets.QWidget):
                 del e
         
         
-    def button_clicked(self):
+    def on_button_clicked(self):
 
         name = str(self.sender().text())
         command = self.editors[name]
