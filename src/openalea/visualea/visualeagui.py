@@ -40,7 +40,7 @@ class Openalea(QtWidgets.QApplication):
     in a thread. It is safe to use once the sessionStarted
     signal has been emitted."""
 
-    sessionStarted = QtCore.pyqtSignal(object)
+    sessionStarted = QtCore.pyqtSignal(Session)
 
     def __init__(self, args):
         QtWidgets.QApplication.__init__(self, args)

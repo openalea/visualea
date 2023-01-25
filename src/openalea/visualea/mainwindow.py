@@ -689,7 +689,7 @@ class MainWindow(QtWidgets.QMainWindow,
         menu = QtWidgets.QMenu(self)
 
         action = menu.addAction("Close")
-        self.connect(action, QtCore.pyqtSignal("triggered()"), close_current_ws)
+        action.triggered.connect(lambda :self.close_tab_workspace(index))
         #action.triggered.connect(close_current_ws)
 
 #         action = menu.addAction("Run")
