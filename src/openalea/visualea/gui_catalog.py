@@ -822,6 +822,14 @@ class IDirStrWidget(IStrWidget, metaclass=make_metaclass()):
         self.hboxlayout.addWidget(self.button)
 
         self.button.clicked.connect(self.on_button_clicked)
+        self.subwidget.textChanged.connect(self.on_valueChanged)
+
+    @lock_notify
+    def on_valueChanged(self, newval = None):
+        # not able to make this working with the inhereted function from IStrWidget
+        # file got nothing, and if newval is used with IStrWidget the string get None
+        # other possibility disabling @lock_notify in IStrWidget
+        self.set_value(str(newval))
 
     def on_button_clicked(self):
 
