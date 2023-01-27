@@ -65,16 +65,21 @@ class DataflowOperators(Base):
 
     def graph_remove_selection(self, items=None):
         master = self.master
-        def cmp(a,b):
-            """edges need to be deleted before any other element"""
-            if type(a) == master.edgeType and type(b) == master.vertexType : return -1
-            if type(a) == type(b) : return 0
+        # def cmp(a,b):
+        #     """edges need to be deleted before any other element"""
+        #     if type(a) == master.edgeType and type(b) == master.vertexType : return -1
+        #     if type(a) == type(b) : return 0
+        #     return 1
+
+        # no need to compare just set to -1 the edges
+        def isthisedge(a):
+            if type(a) == master.edgeType: return -1
             return 1
 
         scene = master.get_graph_scene()
         if(not items): items = scene.get_selected_items()
         if(not items): return
-        items.sort(cmp)
+        items.sort(key = isthisedge)
         for i in items:
             if isinstance(i, master.vertexType):
                 if scene.get_adapter().is_vertex_protected(i.vertex()): continue

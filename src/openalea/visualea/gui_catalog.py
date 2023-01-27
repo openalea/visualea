@@ -180,15 +180,11 @@ class IBoolWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metaclass(
         hboxlayout.addWidget(self.checkbox)
 
         self.notify(node, None)
-        self.checkbox.setCheckState.connect(self.on_stateChanged)
+        self.checkbox.stateChanged.connect(self.on_stateChanged)
 
     @lock_notify
     def on_stateChanged(self, state):
-
-        if(state == QtCore.Checked):
-            self.set_value(True)
-        else:
-            self.set_value(False)
+        self.set_value(self.checkbox.isChecked())
 
     def notify(self, sender, event):
         """ Notification sent by node """
