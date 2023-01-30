@@ -844,7 +844,7 @@ Do you want to continue?""",
         elif(isinstance(obj, PseudoPackage)):
             # Display URL
             urlstr = obj.get_metainfo('url')
-            QtWidgets.QDesktopServices.openUrl(QtCore.QUrl(urlstr))
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl(urlstr))
 
     @busy_cursor
     @exception_display
