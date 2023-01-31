@@ -917,7 +917,7 @@ class MainWindow(QtWidgets.QMainWindow,
     def export_image(self):
         """ Export current workspace to an image """
 
-        filename = QtWidgets.QFileDialog.getSaveFileName(
+        filename, _ = QtWidgets.QFileDialog.getSaveFileName(
             self, "Export image", QtCore.QDir.homePath(), "PNG Image (*.png)")
 
         filename = str(filename)
@@ -930,7 +930,7 @@ class MainWindow(QtWidgets.QMainWindow,
         view = self.tabWorkspace.currentWidget()
         # Retreive the user layout
         rect = view.scene().sceneRect()
-        matrix = view.matrix()
+        matrix = view.transform()
         rect = matrix.mapRect(rect)
 
         pixmap = QtGui.QPixmap(rect.width(), rect.height())
@@ -945,10 +945,10 @@ class MainWindow(QtWidgets.QMainWindow,
     def export_image_svg(self):
         """ Export current workspace to an image """
 
-        filename = QtWidgets.QFileDialog.getSaveFileName(
+        filename, _ = QtWidgets.QFileDialog.getSaveFileName(
             self, "Export svg image", QtCore.QDir.homePath(), "SVG Image (*.svg)")
 
-        filename = str(filename)
+        filename = str(filename) # useless ?
         if not filename:
             return
         elif '.' not in filename:
@@ -959,7 +959,7 @@ class MainWindow(QtWidgets.QMainWindow,
 
         # Retreive the user layout
         rect = view.scene().sceneRect()
-        matrix = view.matrix()
+        matrix = view.transform()
         rect = matrix.mapRect(rect)
 
         svg_gen = QtSvg.QSvgGenerator()
