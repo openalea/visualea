@@ -867,11 +867,13 @@ class IEnumStrWidget(IInterfaceWidget, QtWidgets.QWidget, metaclass=make_metacla
         self.hboxlayout.addWidget(self.subwidget)
         self.notify(None, None)
 
-        self.subwidget.currentIndexChanged.connect(self.valueChanged)
+        # self.subwidget.currentIndexChanged.connect(self.valueChanged)
+        self.subwidget.currentTextChanged.connect(self.valueChanged)
 
     @lock_notify
     def valueChanged(self, newval):
-        self.set_value(str(newval))
+        # self.set_value(str(newval)) # modif done with the lines above # self.subwidget.currentIndexChanged
+        self.set_value(newval) # newval is already a string
 
     def notify(self, sender, event):
         """ Notification sent by node """
