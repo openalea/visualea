@@ -122,7 +122,7 @@ def show_splash_screen():
               "Version : %s\n"%(metainfo.get_version(),) +\
               "Loading modules..."
     #splash.showMessage(message)  # F. Bauget 2023-01-18 #, QtCore.Qt.AlignCenter|QtCore.Qt.AlignBottom)
-    splash.showMessage(message, QtCore.Qt.AlignCenter|QtCore.Qt.AlignBottom)
+    splash.showMessage(message, int(QtCore.Qt.AlignCenter|QtCore.Qt.AlignBottom))
     # -- make sure qt really display the message before importing the modules.--
     QtWidgets.QApplication.processEvents()
     return splash
