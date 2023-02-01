@@ -34,6 +34,14 @@ from openalea.core.session import Session
 
 MULTITHREAD = False
 
+# from Qt 5.5 uncaught exception from C++ calls qFatal() that calls abort()
+# here we try to catch all uncaught exception
+# from https://stackoverflow.com/questions/49065371/why-does-sys-excepthook-behave-differently-when-wrapped
+_excepthook = sys.excepthook
+def exception_hook(exctype, value, traceback):
+    _excepthook(exctype, value, traceback)
+sys.excepthook = exception_hook
+
 class Openalea(QtWidgets.QApplication):
     """Materialisation of the Openalea application.
     Does the basic inits. The session is initialised
