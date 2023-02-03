@@ -31,7 +31,7 @@ import os
 from weakref import ref
 
 # from openalea.vpltk.qt import qt
-from openalea.vpltk.qt import QtWidgets, QtCore, QtGui
+from qtpy import QtWidgets, QtCore, QtGui
 
 from openalea.core.node import NodeFactory, AbstractFactory
 from openalea.core.data import DataFactory
@@ -1071,7 +1071,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
 if __name__ == '__main__':
 
     import sys
-    from openalea.vpltk.qt import QtGui
+    from qtpy import QtGui
 
     instance = QtWidgets.QApplication.instance()
     if instance is None:

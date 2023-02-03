@@ -19,7 +19,7 @@ __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 import weakref
-from openalea.vpltk.qt import QtWidgets
+from qtpy import QtWidgets
 from openalea.visualea.graph_operator.base import Base
 from openalea.visualea.graph_operator import compositenode_inspector
 

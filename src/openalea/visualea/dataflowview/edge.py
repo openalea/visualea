@@ -17,11 +17,9 @@
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-import weakref
-from openalea.vpltk.qt.QtGui import QTransform
-from openalea.vpltk.qt.QtWidgets import QGraphicsPathItem
-from openalea.visualea.graph_operator import GraphOperator
-from openalea.grapheditor import baselisteners, qtgraphview, edgefactory, qtutils
+from qtpy.QtGui import QTransform
+from qtpy.QtWidgets import QGraphicsPathItem
+from openalea.grapheditor import qtgraphview, edgefactory, qtutils
 
 class FloatingEdge(qtgraphview.FloatingEdge, QGraphicsPathItem):
     """

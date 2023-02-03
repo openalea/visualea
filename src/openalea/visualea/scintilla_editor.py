@@ -25,7 +25,7 @@ __revision__ = " $Id$"
 
 import os
 # from openalea.vpltk.qt.QtGui import *
-from openalea.vpltk.qt import QtWidgets, QtGui
+from qtpy import QtWidgets, QtGui
 from openalea.vpltk.qt import QT_API, PYQT4_API, PYQT5_API, PYSIDE_API, PYSIDE2_API, QtCore
 
 if os.environ[QT_API].lower() in PYQT5_API:

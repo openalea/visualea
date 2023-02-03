@@ -20,9 +20,10 @@ from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
-from openalea.vpltk.qt.QtWidgets import QMessageBox, QFileDialog, QInputDialog, QLineEdit
-from openalea.vpltk.qt.QtGui import QPixmap, QPainter
+from qtpy.QtCore import QDir, Qt
+from qtpy.QtSvg import QSvgGenerator
+from qtpy.QtWidgets import QMessageBox, QFileDialog, QInputDialog, QLineEdit
+from qtpy.QtGui import QPixmap, QPainter
 from openalea.visualea.graph_operator.base import Base
 
 from openalea.visualea.util import open_dialog, exception_display, busy_cursor
@@ -318,7 +319,7 @@ class DataflowOperators(Base):
         scr = composite_node.to_script()
 
         filename = QFileDialog.getSaveFileName(
-            widget, "Export to script",  qt.QtCore.QDir.homePath(), "Python file (*.py)")
+            widget, "Export to script",  QDir.homePath(), "Python file (*.py)")
 
         filename = str(filename)
         if not filename:
@@ -338,7 +339,7 @@ class DataflowOperators(Base):
 
         filename = QFileDialog.getSaveFileName(widget,
                                                      "Export png image",
-                                                     qt.QtCore.QDir.homePath(),
+                                                     QDir.homePath(),
                                                      "PNG Image (*.png)")
 
         filename = str(filename)
@@ -371,7 +372,7 @@ class DataflowOperators(Base):
 
         filename = QFileDialog.getSaveFileName(widget,
                                                      "Export svg image",
-                                                     qt.QtCore.QDir.homePath(),
+                                                     QDir.homePath(),
                                                      "SVG Image (*.svg)")
 
         filename = str(filename)
@@ -389,7 +390,7 @@ class DataflowOperators(Base):
         target  = scene.itemsBoundingRect()
         target.moveTo(mg, mg)
 
-        svg_gen = qt.QtSvg.QSvgGenerator()
+        svg_gen = QSvgGenerator()
         svg_gen.setFileName(filename)
         svg_gen.setSize(canvas.toRect().size())
 
@@ -466,7 +467,7 @@ class DataflowOperators(Base):
         graph, tempfactory = self.__get_current_factory(name)
         from openalea.visualea.dataflowview import GraphicalGraph
         w = GraphicalGraph.create_view(graph, parent=widget, clone=True)
-        w.setWindowFlags(qt.QtCore.Qt.Window)
+        w.setWindowFlags(Qt.Window)
         w.setWindowTitle('Preview Application')
         w.show()
         return graph, tempfactory
@@ -483,7 +484,7 @@ class DataflowOperators(Base):
         # Get Filename
         filename = QFileDialog.getSaveFileName(
             widget, "Python Application",
-            qt.QtCore.QDir.homePath(), "Python file (*.py)")
+            QDir.homePath(), "Python file (*.py)")
 
         filename = str(filename)
         if(not filename):

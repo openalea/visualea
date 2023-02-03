@@ -22,7 +22,7 @@ from builtins import object
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets
 from openalea.core.algo.dataflow_evaluation import EvaluationException
 import sys
 import traceback as tb
@@ -33,7 +33,7 @@ def busy_cursor(f):
 
     def wrapped(*args):
         try:
-            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(qt.QtCore.Qt.BusyCursor))
+            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.BusyCursor))
             arguments = args[0] # not sure
             ret = f(arguments)
             # ret = f(*args)
@@ -104,7 +104,7 @@ def open_dialog(parent, widget, title, delete_on_close=True):
     # Open dialog
     dialog = QtWidgets.QDialog(parent)
     if(delete_on_close):
-        dialog.setAttribute(qt.QtCore.Qt.WA_DeleteOnClose)
+        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
     widget.setParent(dialog)
 
     vboxlayout = QtWidgets.QVBoxLayout(dialog)
@@ -134,7 +134,7 @@ class IconGrabber(object):
 
         pix=QtGui.QPixmap(":/icons/cursor_icon.png")
         self.splash = QtWidgets.QSplashScreen(pix)
-        self.splash.setWindowFlags(qt.QtCore.Qt.WindowStaysOnTopHint|qt.QtCore.Qt.FramelessWindowHint)
+        self.splash.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint|QtCore.Qt.FramelessWindowHint)
         self.splash.setFixedSize(pix.size())
         self.splash.setMask(pix.mask())
         self.splash.setWindowTitle("Icon Selector")

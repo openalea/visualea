@@ -24,8 +24,7 @@ __revision__ = " $Id$ "
 
 import os
 
-from openalea.vpltk.qt import QtGui, QtWidgets
-from openalea.vpltk.qt import qt
+from qtpy import QtGui, QtWidgets, QtCore
 from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
 from openalea.core.compositenode import CompositeNodeFactory
 from openalea.core.pkgmanager import PackageManager
@@ -567,9 +566,9 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
             #enabled = bool(eval(str))
 
 #            if(enabled):
-#                self.includenmspace.setCheckState(qt.QtCore.Qt.Checked)
+#                self.includenmspace.setCheckState(QtCore.Qt.Checked)
 #            else:
-#                self.includenmspace.setCheckState(qt.QtCore.Qt.Unchecked)
+#                self.includenmspace.setCheckState(QtCore.Qt.Unchecked)
 #        except:
 #            pass
 
@@ -578,9 +577,9 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
             str = config.get("editor", "use_external")
             l = eval(str)
             if(l):
-                self.externalBool.setCheckState(qt.QtCore.Qt.Checked)
+                self.externalBool.setCheckState(QtCore.Qt.Checked)
             else:
-                self.externalBool.setCheckState(qt.QtCore.Qt.Unchecked)
+                self.externalBool.setCheckState(QtCore.Qt.Unchecked)
         except Exception as e:
             print(e)
 
@@ -618,10 +617,10 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
 
         try:
             showCue = eval(config.get("UI", "EvalCue"))
-            self.evalCue.setCheckState(qt.QtCore.Qt.Checked if showCue
-                                       else qt.QtCore.Qt.Unchecked)
+            self.evalCue.setCheckState(QtCore.Qt.Checked if showCue
+                                       else QtCore.Qt.Unchecked)
         except:
-            self.evalCue.setCheckState(qt.QtCore.Qt.Unchecked)
+            self.evalCue.setCheckState(QtCore.Qt.Unchecked)
 
         self.addButton.clicked.connect(self.add_search_path)
         self.removeButton.clicked.connect(self.remove_search_path)
@@ -679,7 +678,7 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
         config = Settings()
         config.set("UI", "DoubleClick", repr(d[index]))
         config.set("UI", "EdgeStyle", edge_style)
-        config.set("UI", "EvalCue", str(self.evalCue.checkState() == qt.QtCore.Qt.Checked))
+        config.set("UI", "EvalCue", str(self.evalCue.checkState() == QtCore.Qt.Checked))
         config.write()
 
         if edge_style != self.edge_style:
@@ -692,7 +691,7 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
 
     def valid_editor(self):
         """ Valid editor parameter """
-        use_ext = bool(self.externalBool.checkState() == qt.QtCore.Qt.Checked)
+        use_ext = bool(self.externalBool.checkState() == QtCore.Qt.Checked)
         command = str(self.commandStr.text())
 
         config = Settings()
@@ -917,7 +916,7 @@ class DictEditor(QtWidgets.QDialog, ui_tableedit.Ui_TableEditor):
         for (i, (k, v)) in enumerate(items):
 
             item = QtWidgets.QTableWidgetItem(str(k))
-            item.setFlags(qt.QtCore.Qt.ItemIsEnabled)
+            item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.tableWidget.setItem(i, 0, item)
             self.tableWidget.setItem(i, 1, QtWidgets.QTableWidgetItem(str(v)))
 
@@ -967,17 +966,17 @@ class ShowPortDialog(QtWidgets.QDialog, ui_listedit.Ui_ListEdit):
             listitem = QtWidgets.QListWidgetItem(txt, self.listWidget)
 
             if(node.input_states[i] != "connected"):
-                listitem.setFlags(qt.QtCore.Qt.ItemIsEnabled | qt.QtCore.Qt.ItemIsUserCheckable)
+                listitem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
             else:
-                listitem.setFlags(qt.QtCore.Qt.ItemIsUserCheckable)
+                listitem.setFlags(QtCore.Qt.ItemIsUserCheckable)
 
             #hide = desc.is_hidden()
             hide = node.is_port_hidden(i)
 
             if(not hide):
-                listitem.setCheckState(qt.QtCore.Qt.Checked)
+                listitem.setCheckState(QtCore.Qt.Checked)
             else:
-                listitem.setCheckState(qt.QtCore.Qt.Unchecked)
+                listitem.setCheckState(QtCore.Qt.Unchecked)
 
     def accept(self):
         """ Set port status in the node """
@@ -988,9 +987,9 @@ class ShowPortDialog(QtWidgets.QDialog, ui_listedit.Ui_ListEdit):
             if(self.node.input_states[i] == "connected"):
                 self.node.set_port_hidden(i, False)
 
-            elif(item and (item.flags() & qt.QtCore.Qt.ItemIsEnabled)):
+            elif(item and (item.flags() & QtCore.Qt.ItemIsEnabled)):
 
-                if(item.checkState() == qt.QtCore.Qt.Checked):
+                if(item.checkState() == QtCore.Qt.Checked):
                     self.node.set_port_hidden(i, False)
                 else:
                     self.node.set_port_hidden(i, True)

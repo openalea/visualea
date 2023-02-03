@@ -20,8 +20,7 @@ The logger view widget.
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
-from openalea.vpltk.qt import QtGui, QtWidgets, QtCore
+from qtpy import QtGui, QtWidgets, QtCore
 
 class LoggerView(QtWidgets.QTableView):
     """A QTableView that has more compact lines

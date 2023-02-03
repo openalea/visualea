@@ -27,7 +27,7 @@ import os
 import weakref
 
 # from openalea.vpltk import qt
-from openalea.vpltk.qt import QtWidgets, QtCore
+from qtpy import QtWidgets, QtCore
 from openalea.core.interface import InterfaceWidgetMap, IInterfaceMetaClass
 from openalea.core.observer import lock_notify, AbstractListener
 from openalea.core.traitsui import View, Item, Group
@@ -59,7 +59,7 @@ class SignalSlotListener(AbstractListener):
         """
 
         try:
-            self.qobj().emit(QtCore.pyqtSignal("notify"), sender, event)
+            self.qobj().emit(QtCore.Signal("notify"), sender, event)
         except Exception as e:
             # fix_print_with_import
             print(("Cannot emit Qt Signal : ", e))

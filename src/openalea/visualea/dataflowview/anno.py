@@ -18,7 +18,7 @@ from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt, QtGui, QtCore
+from qtpy import QtGui, QtCore
 from openalea.grapheditor import qtgraphview, baselisteners
 from openalea.grapheditor import qtutils
 from openalea.grapheditor.qtutils import *
@@ -202,7 +202,7 @@ class GraphicalAnnotation(qtgraphview.Vertex, qtutils.MemoRects):
     def mousePressEvent(self, event):
         #let a lmb click anywhere in the header activate
         #text edition:
-        if event.button()==qt.QtCore.Qt.LeftButton and \
+        if event.button()==QtCore.Qt.LeftButton and \
                self._MemoRects__headerRect.contains( event.pos() ):
             self.__textItem.setFocus()
         else:
