@@ -24,7 +24,7 @@ __revision__ = " $Id: compositenode_widget.py 2329 2010-02-25 15:24:25Z dbarbeau
 
 import sys
 
-from openalea.vpltk.qt import qt, QtGui, QtWidgets
+from qtpy import QtGui, QtWidgets
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.visualea.dataflowview import GraphicalGraph
 from openalea.visualea.node_widget import NodeWidget

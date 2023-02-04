@@ -19,7 +19,7 @@ from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import QtWidgets
+from qtpy import QtWidgets
 from openalea.visualea.graph_operator.base import Base
 
 class PortOperators(Base):

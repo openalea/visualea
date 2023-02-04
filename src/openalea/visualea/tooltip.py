@@ -19,19 +19,19 @@
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt, QtWidgets
+from qtpy import QtWidgets, QtCore
 
 class VertexTooltip( QtWidgets.QWidget ):
 
     __WIDTH = 640
     __HEIGHT = 300
 
-    __size = qt.QtCore.QSize(__WIDTH, __HEIGHT)
+    __size = QtCore.QSize(__WIDTH, __HEIGHT)
 
     def __init__(self, parent=None):
         #QWidget.__init__(self, parent, qt.QtCore.Qt.Popup)
-        QtWidgets.QWidget.__init__(self, parent, qt.QtCore.Qt.ToolTip)
-        self.setWindowModality(qt.QtCore.Qt.ApplicationModal)
+        QtWidgets.QWidget.__init__(self, parent, QtCore.Qt.ToolTip)
+        self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.setBackgroundRole(QtWidgets.QPalette.ToolTipBase)
         self.setForegroundRole(QtWidgets.QPalette.AlternateBase)
 
@@ -61,14 +61,14 @@ class VertexTooltip( QtWidgets.QWidget ):
         self.__tooltipWidget.setFont(font)
 
         #now, the layout of labels:
-        topLayout.addWidget(self.__vNameWidget, 0, 0, qt.QtCore.Qt.AlignLeft)
-        topLayout.addWidget(self.__pNameWidget, 1, 0, qt.QtCore.Qt.AlignLeft)
-        topLayout.addWidget(self.__vAuthorWidget, 2, 0, qt.QtCore.Qt.AlignLeft)
+        topLayout.addWidget(self.__vNameWidget, 0, 0, QtCore.Qt.AlignLeft)
+        topLayout.addWidget(self.__pNameWidget, 1, 0, QtCore.Qt.AlignLeft)
+        topLayout.addWidget(self.__vAuthorWidget, 2, 0, QtCore.Qt.AlignLeft)
 
         #now, the layout of labels values:
-        topLayout.addWidget(self.__vNameValueWidget, 0, 1, qt.QtCore.Qt.AlignRight)
-        topLayout.addWidget(self.__pNameValueWidget, 1, 1, qt.QtCore.Qt.AlignRight)
-        topLayout.addWidget(self.__vAuthorValueWidget, 2, 1, qt.QtCore.Qt.AlignRight)
+        topLayout.addWidget(self.__vNameValueWidget, 0, 1, QtCore.Qt.AlignRight)
+        topLayout.addWidget(self.__pNameValueWidget, 1, 1, QtCore.Qt.AlignRight)
+        topLayout.addWidget(self.__vAuthorValueWidget, 2, 1, QtCore.Qt.AlignRight)
 
         self.__vNameWidget.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.__pNameWidget.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -112,8 +112,8 @@ class VertexTooltip( QtWidgets.QWidget ):
 
     def paintEvent(self, event):
         painter = QtWidgets.QPainter(self)
-        painter.setPen(qt.QtCore.Qt.black)
-        rect = qt.QtCore.QRect(self.rect())
+        painter.setPen(QtCore.Qt.black)
+        rect = QtCore.QRect(self.rect())
         rect.adjust(0,0,-1,-1)
         painter.drawRect(rect)
         QtWidgets.QWidget.paintEvent(self, event)

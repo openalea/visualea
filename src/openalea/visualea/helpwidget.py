@@ -14,8 +14,8 @@
 #
 ###############################################################################
 
-from openalea.vpltk.qt import qt
-from openalea.vpltk.qt.QtWidgets import QTextBrowser
+
+from qtpy import QtWidgets,QtCore
 
 #from openalea.visualea import lightsphinx
 
@@ -65,10 +65,10 @@ def rst2alea(text=""):
         res = res.replace('\n','<br />')
         return cleanup(res)
 
-        
+
 
 import re
-line_re = re.compile(r"^(.*?)", re.MULTILINE)
+line_re = re.compile(r"^(.*)?", re.MULTILINE) #^(.*?) was catching only the 1st character
 bold_re = re.compile(r"\*\*(.*?)\*\*")
 bold2_re = re.compile(r":(.*?):")
 #bold3_re = re.compile(r"\*\*(.*?)\*\*")
@@ -81,13 +81,13 @@ def simple_rst_to_html(rst):
     html = bold2_re.sub(r'<b>\1</b>', html)
     #html = bold3_re.sub(r'<b>\1</b>', html)
     return html
-        
-        
-class HelpWidget( QTextBrowser ):
+
+
+class HelpWidget( QtWidgets.QTextBrowser ):
 
     def __init__(self, parent=None):
-        QTextBrowser.__init__(self, parent)
-        self.setTextInteractionFlags(qt.QtCore.Qt.TextBrowserInteraction)
+        QtWidgets.QTextBrowser.__init__(self, parent)
+        self.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
         self.setOpenExternalLinks(True)
         self.css = None
 

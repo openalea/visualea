@@ -31,7 +31,7 @@ from os.path import join as pj
 
 #from openalea import misc
 
-from openalea.vpltk.qt import QtCore, QtGui, QtWidgets, QtSvg #, qt
+from qtpy import QtCore, QtGui, QtWidgets, QtSvg
 from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
 
 from openalea.core import cli, logger
@@ -93,7 +93,7 @@ class MainWindow(QtWidgets.QMainWindow,
         self._last_opened = []
 
         #lower tab pane : python shell, logger...
-        self.lowerpane = QtGui.QTabWidget()
+        self.lowerpane = QtWidgets.QTabWidget()
         self.splitter.addWidget(self.lowerpane)
 
         # python interpreter

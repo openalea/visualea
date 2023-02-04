@@ -1,5 +1,5 @@
 from __future__ import print_function
-from openalea.vpltk.qt import QtGui, QtCore
+from qtpy import QtGui, QtWidgets, QtCore
 import sqlite3
 from openalea.core.path import path
 from openalea.core import settings
@@ -105,20 +105,20 @@ def search_trace(composite_node, package, workspace, parent=None):
     dialog.raise_()
     dialog.exec_()
     
-class ProvenanceViewerWidget(QtGui.QWidget):
+class ProvenanceViewerWidget(QtWidgets.QWidget):
     def __init__(self, composite_node, package, workspace, traces, parent=None):
         super(ProvenanceViewerWidget, self).__init__(parent)
         
-        layout = QtGui.QGridLayout(self)
-        label = QtGui.QLabel("Result of research from composite node " +composite_node+ " in package " + package + " with workspace " + workspace +" .")
+        layout = QtWidgets.QGridLayout(self)
+        label = QtWidgets.QLabel("Result of research from composite node " +composite_node+ " in package " + package + " with workspace " + workspace +" .")
         layout.addWidget(label, 0, 0, 1, -1)
 
         i = 1
         for trace in traces:
             exe, date, value = trace
-            layout.addWidget(QtGui.QLabel(exe), i, 0)
-            layout.addWidget(QtGui.QLabel(date), i, 1)
-            btn = QtGui.QPushButton("show", parent=self)
+            layout.addWidget(QtWidgets.QLabel(exe), i, 0)
+            layout.addWidget(QtWidgets.QLabel(date), i, 1)
+            btn = QtWidgets.QPushButton("show", parent=self)
             btn.prov = value
             btn.category = exe
             btn.clicked.connect(self.show_provenance)
@@ -153,29 +153,29 @@ class ProvenanceViewerWidget(QtGui.QWidget):
             #subprocess.call(cd)
             subprocess.call(cmd)
         
-class ProvenanceSelectorWidget(QtGui.QWidget):
+class ProvenanceSelectorWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(ProvenanceSelectorWidget, self).__init__(parent)
-        layout = QtGui.QFormLayout(self)
+        layout = QtWidgets.QFormLayout(self)
 
-        layout.addRow(QtGui.QLabel("<H2>Search an execution trace of dataflow</H2>"))
+        layout.addRow(QtWidgets.QLabel("<H2>Search an execution trace of dataflow</H2>"))
         
-        self.c_n = QtGui.QLineEdit("")
+        self.c_n = QtWidgets.QLineEdit("")
         layout.addRow("Select Composite Node", self.c_n)
 
-        self.pkg = QtGui.QLineEdit("")
+        self.pkg = QtWidgets.QLineEdit("")
         layout.addRow("Select Package", self.pkg)
         
-        self.workspace = QtGui.QLineEdit("")
+        self.workspace = QtWidgets.QLineEdit("")
         layout.addRow("Select Workspace", self.workspace)
         
-class ModalDialog(QtGui.QDialog):
+class ModalDialog(QtWidgets.QDialog):
     def __init__(self, widget, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setContentsMargins(0, 0, 0, 0)
         self.setModal(True)
 
-        _bbox = QtGui.QDialogButtonBox
+        _bbox = QtWidgets.QDialogButtonBox
         bbox = _bbox(_bbox.Ok | _bbox.Cancel)
         bbox.accepted.connect(self.accept)
         bbox.rejected.connect(self.reject)
@@ -183,7 +183,7 @@ class ModalDialog(QtGui.QDialog):
         ok = bbox.button(_bbox.Ok)
         ok.setDefault(True)
 
-        layout = QtGui.QVBoxLayout(self)
+        layout = QtWidgets.QVBoxLayout(self)
         layout.setSpacing(0)
         layout.setContentsMargins(0, 5, 0, 5)
         layout.addWidget(widget)
@@ -192,7 +192,7 @@ class ModalDialog(QtGui.QDialog):
         
 def main():
     import sys
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     prov_widget = ProvenanceSelectorWidget()
     
     dialog = ModalDialog(prov_widget)

@@ -23,9 +23,8 @@ from . import edge
 from . import anno
 from . import adapter
 
-from openalea.vpltk.qt.QtWidgets import QMessageBox, QGraphicsView
-from openalea.vpltk.qt.QtCore import QDataStream, QIODevice, Qt
-from openalea.vpltk.qt.compat import to_qvariant
+from qtpy.QtWidgets import QMessageBox, QGraphicsView
+from qtpy.QtCore import QDataStream, QIODevice, Qt
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.core import compositenode, node
 from openalea.core.pkgmanager import PackageManager  # for drag and drop
