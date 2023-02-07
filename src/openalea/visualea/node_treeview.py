@@ -30,7 +30,6 @@ __revision__ = " $Id$ "
 import os
 from weakref import ref
 
-# from openalea.vpltk.qt import qt
 from qtpy import QtWidgets, QtCore, QtGui
 
 from openalea.core.node import NodeFactory, AbstractFactory
@@ -49,7 +48,6 @@ from openalea.visualea.util import grab_icon
 
 from openalea.visualea import images_rc
 
-# from openalea.vpltk.qt.compat import to_qvariant
 
 # Utilities function
 

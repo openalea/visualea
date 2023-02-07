@@ -25,7 +25,7 @@ __revision__ = " $Id$ "
 import os
 
 from qtpy import QtGui, QtWidgets, QtCore
-from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
+from openalea.visualea.qt.designer import generate_pyfile_from_uifile, get_data
 from openalea.core.compositenode import CompositeNodeFactory
 from openalea.core.pkgmanager import PackageManager
 from openalea.core.settings import Settings, get_userpkg_dir

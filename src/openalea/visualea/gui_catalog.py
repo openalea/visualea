@@ -24,9 +24,7 @@ from builtins import range
 __license__ = "CeCILL V2"
 __revision__ = " $Id$"
 
-# from openalea.vpltk.qt.QtWidgets import *
 from qtpy import QtGui, QtWidgets, QtCore
-# from openalea.vpltk import qt
 from openalea.core.interface import *  # IGNORE:W0614,W0401
 from openalea.core.observer import lock_notify
 

@@ -21,7 +21,6 @@ import weakref
 from qtpy.QtWidgets import QAction, QApplication
 from openalea.core.observer import Observed
 from openalea.core.compositenode import CompositeNodeFactory
-# from openalea.vpltk.qt.compat import to_qvariant
 
 
 class GraphOperator(Observed):
@@ -75,7 +74,7 @@ class GraphOperator(Observed):
         func, argcount = self.__get_wrapped(fName, kwargs)
         #self.unbind_action(action, fName)
         action.triggered.connect(func)
-        data = func #to_qvariant(func)
+        data = func
         action.setData(data)
         return action
 
