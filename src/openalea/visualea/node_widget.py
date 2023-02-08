@@ -26,7 +26,6 @@ import sys
 import os
 import weakref
 
-# from openalea.vpltk import qt
 from qtpy import QtWidgets, QtCore
 from openalea.core.interface import InterfaceWidgetMap, IInterfaceMetaClass
 from openalea.core.observer import lock_notify, AbstractListener

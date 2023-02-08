@@ -30,7 +30,6 @@ __revision__ = " $Id$ "
 import os
 from weakref import ref
 
-# from openalea.vpltk.qt import qt
 from qtpy import QtWidgets, QtCore, QtGui
 
 from openalea.core.node import NodeFactory, AbstractFactory
@@ -49,7 +48,6 @@ from openalea.visualea.util import grab_icon
 
 from openalea.visualea import images_rc
 
-from openalea.vpltk.qt.compat import to_qvariant
 
 # Utilities function
 
@@ -68,12 +66,12 @@ def get_icon(item):
     if(not icon_dict):
         # dict to do a switch
         icon_dict = {
-            PseudoGroup: to_qvariant(QtGui.QPixmap(":/icons/category.png")),
-            CompositeNodeFactory: to_qvariant(QtGui.QPixmap(":/icons/diagram.png")),
-            NodeFactory: to_qvariant(QtGui.QPixmap(":/icons/node.png")),
-            DataFactory: to_qvariant(QtGui.QPixmap(":/icons/data.png")),
-            UserPackage: to_qvariant(QtGui.QPixmap(":/icons/usrpkg.png")),
-            Package: to_qvariant(QtGui.QPixmap(":/icons/pkg.png")),
+            PseudoGroup: QtGui.QPixmap(":/icons/category.png"),
+            CompositeNodeFactory: QtGui.QPixmap(":/icons/diagram.png"),
+            NodeFactory: QtGui.QPixmap(":/icons/node.png"),
+            DataFactory: QtGui.QPixmap(":/icons/data.png"),
+            UserPackage: QtGui.QPixmap(":/icons/usrpkg.png"),
+            Package: QtGui.QPixmap(":/icons/pkg.png"),
         }
 
     # Get icon from dictionary
@@ -90,15 +88,15 @@ def get_icon(item):
                 icon = os.path.join(item.item.path, icon)
                 pix = QtGui.QPixmap(icon)
                 if(not pix.isNull()):
-                    return to_qvariant(pix)
+                    return pix
 
             # Standard icon
             return icon_dict[type(item.item)]
 
-        return to_qvariant(QtGui.QPixmap(":/icons/pseudopkg.png"))
+        return QtGui.QPixmap(":/icons/pseudopkg.png")
 
     else:
-        return to_qvariant()
+        return None
 
 
 # Qt4 Models/View classes
@@ -151,7 +149,7 @@ class PkgModel (QtCore.QAbstractItemModel):
     def data(self, index, role):
 
         if not index.isValid():
-            return to_qvariant()
+            return None
 
         item = index.internalPointer()
 
@@ -167,18 +165,18 @@ class PkgModel (QtCore.QAbstractItemModel):
             except:
                 pass
 
-            return to_qvariant(str(item.get_id()) + lenstr)
+            return str(item.get_id()) + lenstr
 
         # Tool Tip
         elif(role == QtCore.Qt.ToolTipRole):
-            return to_qvariant(str(item.get_tip()))
+            return str(item.get_tip())
 
         # Icon
         elif(role == QtCore.Qt.DecorationRole):
             return get_icon(item)
 
         else:
-            return to_qvariant()
+            return None
 
     def flags(self, index):
         if not index.isValid():
@@ -189,7 +187,7 @@ class PkgModel (QtCore.QAbstractItemModel):
             QtCore.Qt.ItemIsDragEnabled
 
     def headerData(self, section, orientation, role):
-        return to_qvariant()
+        return None
 
     def get_full_name(self, item):
         """construct a full unique name from item
@@ -299,10 +297,10 @@ class DataPoolModel (QtCore.QAbstractListModel):
     def data(self, index, role):
 
         if (not index.isValid()):
-            return to_qvariant()
+            return None
 
         if (index.row() >= len(list(self.datapool.keys()))):
-            return to_qvariant()
+            return None
 
         if (role == QtCore.Qt.DisplayRole):
             l = list(self.datapool.keys())
@@ -312,11 +310,11 @@ class DataPoolModel (QtCore.QAbstractListModel):
             value = repr(self.datapool[name])
             if(len(value) > 30):
                 value = value[:30] + "..."
-            return to_qvariant("%s ( %s )" % (name, value))
+            return "%s ( %s )" % (name, value)
 
         # Icon
         elif(role == QtCore.Qt.DecorationRole):
-            return to_qvariant(QtGui.QPixmap(":/icons/ccmime.png"))
+            return QtGui.QPixmap(":/icons/ccmime.png")
 
         # Tool Tip
         elif(role == QtCore.Qt.ToolTipRole):
@@ -344,10 +342,10 @@ class DataPoolModel (QtCore.QAbstractListModel):
                 tips.append(temp)
             tipstr = '\n'.join(tips)
 
-            return to_qvariant(str(tipstr))
+            return str(tipstr)
 
         else:
-            return to_qvariant()
+            return None
 
     def flags(self, index):
         if not index.isValid():
@@ -358,7 +356,7 @@ class DataPoolModel (QtCore.QAbstractListModel):
             QtCore.Qt.ItemIsDragEnabled
 
     def headerData(self, section, orientation, role):
-        return to_qvariant()
+        return None
 
     def rowCount(self, parent):
         return len(list(self.datapool.keys()))
@@ -397,30 +395,30 @@ class SearchModel (QtCore.QAbstractListModel):
     def data(self, index, role):
 
         if (not index.isValid()):
-            return to_qvariant()
+            return None
 
         if (index.row() >= len(self.searchresult)):
-            return to_qvariant()
+            return None
 
         item = self.searchresult[index.row()]
 
         if (role == QtCore.Qt.DisplayRole):
             if(index.column() == 1):
-                return to_qvariant(str(item.package.get_id()))
-            return to_qvariant(str(item.name + " (" + item.package.name + ")"))
+                return str(item.package.get_id())
+            return str(item.name + " (" + item.package.name + ")")
 
         # Icon
         elif(role == QtCore.Qt.DecorationRole):
             if(index.column() > 0):
-                return to_qvariant()
+                return None
             return get_icon(item)
 
         # Tool Tip
         elif(role == QtCore.Qt.ToolTipRole):
-            return to_qvariant(str(item.get_tip()))
+            return str(item.get_tip())
 
         else:
-            return to_qvariant()
+            return None
 
     def flags(self, index):
         if not index.isValid():
@@ -431,7 +429,7 @@ class SearchModel (QtCore.QAbstractListModel):
             QtCore.Qt.ItemIsDragEnabled
 
     def headerData(self, section, orientation, role):
-        return to_qvariant()
+        return None
 
     def rowCount(self, parent):
 

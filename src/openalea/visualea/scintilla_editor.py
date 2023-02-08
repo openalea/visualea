@@ -24,21 +24,18 @@ __revision__ = " $Id$"
 
 
 import os
-# from openalea.vpltk.qt.QtGui import *
 from qtpy import QtWidgets, QtGui
-from openalea.vpltk.qt import QT_API, PYQT4_API, PYQT5_API, PYSIDE_API, PYSIDE2_API, QtCore
+from qtpy import QT_API, PYQT5_API, PYSIDE2_API, QtCore, Qsci
+from qtpy.Qsci import QsciScintilla # needs qscintilla2 installed
 
-if os.environ[QT_API].lower() in PYQT5_API:
-    from PyQt5 import Qsci
-    from PyQt5.Qsci import QsciScintilla
-if os.environ[QT_API].lower() in PYQT4_API:
-    from PyQt4 import Qsci
-    from PyQt4.Qsci import QsciScintilla
-if os.environ[QT_API].lower() in PYSIDE_API:
-    from PySide import QScintilla as Qsci
-    from PySide.QScintilla import QSciScintilla
-if os.environ[QT_API].lower() in PYSIDE2_API:
-    pass
+# if os.environ[QT_API].lower() in PYQT5_API:
+#     from PyQt5 import Qsci
+#     from PyQt5.Qsci import QsciScintilla
+# if os.environ[QT_API].lower() in PYSIDE_API:
+#     from PySide import QScintilla as Qsci
+#     from PySide.QScintilla import QSciScintilla
+# if os.environ[QT_API].lower() in PYSIDE2_API:
+#     pass
 
 ###################################
 # LEXERS OVERRIDEN                #

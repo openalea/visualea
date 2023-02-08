@@ -18,8 +18,6 @@ from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-# from openalea.vpltk.qt import qt
-# from openalea.vpltk.qt.QtGui import *
 from qtpy import QtWidgets, QtGui, QtCore, QtSvg
 from openalea.visualea.graph_operator import GraphOperator
 from openalea.core import observer, compositenode

@@ -32,7 +32,7 @@ from os.path import join as pj
 #from openalea import misc
 
 from qtpy import QtCore, QtGui, QtWidgets, QtSvg
-from openalea.vpltk.qt.designer import generate_pyfile_from_uifile, get_data
+from openalea.visualea.qt.designer import generate_pyfile_from_uifile, get_data
 
 from openalea.core import cli, logger
 from openalea.core.algo.dataflow_evaluation import AbstractEvaluation

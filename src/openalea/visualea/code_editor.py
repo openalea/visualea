@@ -22,9 +22,7 @@ from builtins import object
 __license__ = "CeCILL V2"
 __revision__ = " $Id$"
 
-# from openalea.vpltk.qt.QtGui import *
 from qtpy import QtWidgets, QtGui, QtCore
-# from openalea.vpltk.qt import qt
 import os
 from subprocess import Popen
 from openalea.core.settings import Settings
