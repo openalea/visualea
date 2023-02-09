@@ -318,7 +318,7 @@ class DataflowOperators(Base):
         composite_node = master.get_graph()
         scr = composite_node.to_script()
 
-        filename = QFileDialog.getSaveFileName(
+        filename, _ = QFileDialog.getSaveFileName(
             widget, "Export to script",  QDir.homePath(), "Python file (*.py)")
 
         filename = str(filename)
@@ -337,7 +337,7 @@ class DataflowOperators(Base):
         scene  = master.get_graph_scene()
         widget = master.get_sensible_parent()
 
-        filename = QFileDialog.getSaveFileName(widget,
+        filename, _ = QFileDialog.getSaveFileName(widget,
                                                      "Export png image",
                                                      QDir.homePath(),
                                                      "PNG Image (*.png)")
@@ -370,7 +370,7 @@ class DataflowOperators(Base):
         scene  = master.get_graph_scene()
         widget = master.get_sensible_parent()
 
-        filename = QFileDialog.getSaveFileName(widget,
+        filename, _ = QFileDialog.getSaveFileName(widget,
                                                      "Export svg image",
                                                      QDir.homePath(),
                                                      "SVG Image (*.svg)")
@@ -482,7 +482,7 @@ class DataflowOperators(Base):
             return
 
         # Get Filename
-        filename = QFileDialog.getSaveFileName(
+        filename, _ = QFileDialog.getSaveFileName(
             widget, "Python Application",
             QDir.homePath(), "Python file (*.py)")
 
