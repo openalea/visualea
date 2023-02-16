@@ -16,7 +16,7 @@ Nota : Cecill v2 license is a GPL compatible license.
 
 Python >= 3.7   : http://www.python.org  
 Qt >= 5.12	: http://www.trolltech.com  
-PyQt >= 5.12	: http://www.riverbankcomputing.co.uk/pyqt/  
+PyQt >= 5.12	: https://riverbankcomputing.com/    
 
 
 ## Installation user mode
