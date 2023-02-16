@@ -12,21 +12,22 @@ See LICENSE.txt
 Nota : Cecill v2 license is a GPL compatible license.
 
 
-## Dependence
+## Dependencies
 
-Python >= 3.7   : http://www.python.org  
-Qt >= 5.12	: http://www.trolltech.com  
-PyQt >= 5.12	: https://riverbankcomputing.com/    
+- Python >= 3.7    
+- Qt >= 5.12	  
+- QtPy (PyQt >= 5.12)	    
 
 
 ## Installation user mode
 
+```bash
 conda install openalea.visualea -c openalea3 -c conda-forge  
-
+```
 
 ## Installation dev mode
 
-- Create a conda environment with plantgl and pglviewer  
+- Create a conda environment 
     
     ```
     conda create -n visualea -c openalea3 -c conda-forge openalea.plantgl pyqglviewer  

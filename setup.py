@@ -2,18 +2,32 @@
 __revision__ = "$Id$"
 
 import sys
-from setuptools import setup, find_packages
 from os.path import join as pj
 
-from openalea.deploy.metainfo import read_metainfo
+from setuptools import setup, find_packages
 
-metadata = read_metainfo('metainfo.ini', verbose=True)
-for key,value in list(metadata.items()):
-    exec("%s = '%s'" % (key, value))
+# find version number in src/openalea/core/version.py
+_version = {}
+with open("src/openalea/visualea/version.py") as fp:
+    exec(fp.read(), _version)
+    version = _version["__version__"]
+
+#metadata = read_metainfo('metainfo.ini', verbose=True)
+#for key,value in list(metadata.items()):
+#    exec("%s = '%s'" % (key, value))
+readme = open('README.md').read()
+name = 'OpenAlea.Visualea'
+description = 'OpenAlea Visual Programming Environment.'
+long_description = readme
+authors = 'OpenAlea consortium'
+authors_email = 'christophe pradal at cirad fr'
+url = 'https://github.com/openalea/visualea'
+license = 'Cecill'
+
 
 namespace = 'openalea'
-packages=find_packages('src')
-package_dir={'': 'src'}
+packages = find_packages('src')
+package_dir = {'': 'src'}
 
 setup(
     name=name,
@@ -24,12 +38,9 @@ setup(
     author_email=authors_email,
     url=url,
     license=license,
-    keywords='visual programming',
+    keywords='visual programming, openalea, Scientific Workflows',
 
     # Packages
-    #py_modules = ['visualea_postinstall'],
-    #namespace_packages = [namespace],
-    #create_namespaces = True,
 
     packages = packages,
     package_dir = package_dir,
@@ -48,9 +59,6 @@ setup(
 
     # Dependencies
     setup_requires = ['openalea.deploy'],
-    #dependency_links = ['http://openalea.gforge.inria.fr/pi'],
-    #install_requires = ['openalea.core', 'openalea.grapheditor'],
-
     )
 
 
