@@ -818,7 +818,7 @@ class MainWindow(QtWidgets.QMainWindow,
     def save_as(self):
         """ Save as menu entry """
 
-        filename = QtWidgets.QFileDialog.getSaveFileName(
+        filename, _ = QtWidgets.QFileDialog.getSaveFileName(
             self, "OpenAlea Session", QtCore.QDir.homePath(), "Session file (*.oas)")
 
         filename = str(filename)
