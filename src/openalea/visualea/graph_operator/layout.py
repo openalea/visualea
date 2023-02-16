@@ -14,11 +14,20 @@
 #
 ###############################################################################
 
+# from past.builtins import cmp # deprecated, implemented the definition locally
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
 from openalea.visualea.graph_operator.base import Base
+from functools import cmp_to_key
+
+def cmp(x, y):
+    # cmp deprecated in python 3
+    """
+    cmp(x, y) -> integer
+    Return negative if x<y, zero if x==y, positive if x>y.
+    """
+    return (x > y) - (x < y)
 
 class LayoutOperators(Base):
 
@@ -137,7 +146,7 @@ class LayoutOperators(Base):
             dist = ( (xmax - xmin)-sum(width for item, pos, width in items) ) / (count - 1)
 
             # #sort all items by their mean position
-            items.sort( lambda x, y: cmp(x[1][0]+x[2]/2, y[1][0]+y[2]/2) )
+            items.sort( key = cmp_to_key(lambda x, y: cmp(x[1][0]+x[2]/2, y[1][0]+y[2]/2)) )
 
             #first item serves as reference
             item, pos, width = items[0]
@@ -172,7 +181,7 @@ class LayoutOperators(Base):
             dist = ( (ymax - ymin) - sum(height for item, pos, height in items) ) / (count - 1)
 
             #sort all items by their mean position
-            items.sort( lambda x, y: cmp(x[1][1]+x[2]/2, y[1][1]+y[2]/2) )
+            items.sort( key = cmp_to_key(lambda x, y: cmp(x[1][1]+x[2]/2, y[1][1]+y[2]/2)) )
 
             #first item serves as reference
             item, pos, height = items[0]

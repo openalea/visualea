@@ -14,11 +14,12 @@
 #
 ###############################################################################
 
+from builtins import str
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
 import weakref
-from openalea.vpltk.qt import qt
+from qtpy import QtWidgets
 from openalea.visualea.graph_operator.base import Base
 from openalea.visualea.graph_operator import compositenode_inspector
 
@@ -64,7 +65,7 @@ class VertexOperators(Base):
             # -- or else we loose window or window decorations.
             scRectF.moveTo(INSPECTOR_EDGE_OFFSET, INSPECTOR_EDGE_OFFSET * 2)
             scRect = scRectF.toRect()
-            screenGeom = qt.QtGui.QApplication.instance().desktop().screenGeometry(widget)
+            screenGeom = QtWidgets.QApplication.instance().desktop().screenGeometry(widget)
             ratio = 1.
             if not screenGeom.contains(scRect):
                 if scRect.width() > screenGeom.width():
@@ -181,8 +182,8 @@ class VertexOperators(Base):
         """ Open a input dialog to set node caption """
 
         n = self.master.get_vertex_item().vertex()
-        (result, ok) = qt.QtGui.QInputDialog.getText(None, "Node caption", "",
-                                                     qt.QtGui.QLineEdit.Normal, n.caption)
+        (result, ok) = QtWidgets.QInputDialog.getText(None, "Node caption", "",
+                                                     QtWidgets.QLineEdit.Normal, n.caption)
         if(ok):
             n.caption = str(result)
 

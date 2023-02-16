@@ -17,12 +17,11 @@
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-import weakref
-from openalea.vpltk.qt import qt
-from openalea.visualea.graph_operator import GraphOperator
-from openalea.grapheditor import baselisteners, qtgraphview, edgefactory, qtutils
+from qtpy.QtGui import QTransform
+from qtpy.QtWidgets import QGraphicsPathItem
+from openalea.grapheditor import qtgraphview, edgefactory, qtutils
 
-class FloatingEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.FloatingEdge):
+class FloatingEdge(qtgraphview.FloatingEdge, QGraphicsPathItem):
     """
     Represents an edge during its creation
     It is connected to one connector only
@@ -31,13 +30,13 @@ class FloatingEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.FloatingEdge):
     """
 
     def __init__(self, srcPoint, graph):
-        qt.QtGui.QGraphicsPathItem.__init__(self, None)
+        QGraphicsPathItem.__init__(self, None)
         qtgraphview.FloatingEdge.__init__(self, srcPoint, graph)
 
     def get_connections(self):
         boxsize = 10.0
         #find the port items that were activated
-        srcPortItem = self.scene().itemAt( self.srcPoint )
+        srcPortItem = self.scene().itemAt( self.srcPoint, QTransform() )
         dstPortItem = self.scene().find_closest_connectable(self.dstPoint, boxsize)
         if not dstPortItem: return None, None
 
@@ -68,12 +67,12 @@ class FloatingEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.FloatingEdge):
                                 "plugging input to input or output to output")
 
 
-class GraphicalEdge(qt.QtGui.QGraphicsPathItem, qtgraphview.Edge):
+class GraphicalEdge(QGraphicsPathItem, qtgraphview.Edge):
     """ An edge between two graphical vertices """
 
     def __init__(self, edgeModel, graphadapter, port1, port2, parent=None):
         """ """
-        qt.QtGui.QGraphicsPathItem.__init__(self, parent)
+        QGraphicsPathItem.__init__(self, parent)
         qtgraphview.Edge.__init__(self, edgeModel, graphadapter, port1, port2)
         self.__edge_creator = self.set_edge_creator(edgefactory.SplineEdgePath())        
         

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # -*- python -*-
 #
 #       OpenAlea.Visualea: OpenAlea graphical user interface
@@ -17,7 +18,7 @@
 __license__ = "Cecill-C"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
+from qtpy import QtGui, QtWidgets
 from openalea.visualea.graph_operator.base import Base
 
 class ColorOperators(Base):
@@ -31,13 +32,13 @@ class ColorOperators(Base):
         if(length==1):
             color = items[0].vertex().get_ad_hoc_dict().get_metadata("userColor")
             if(color):
-                color = qt.QtGui.QColor(*color)
-            else: color = qt.QtGui.QColor(100,100,100,255)
+                color = QtGui.QColor(*color)
+            else: color = QtGui.QColor(100,100,100,255)
         else:
-            color = qt.QtGui.QColor(100,100,100,255)
+            color = QtGui.QColor(100,100,100,255)
 
         # todo give me a parent
-        color = qt.QtGui.QColorDialog.getColor(color, None)
+        color = QtWidgets.QColorDialog.getColor(color, None)
 
         if not color.isValid():
             return
@@ -47,8 +48,9 @@ class ColorOperators(Base):
             try:
                 i.vertex().get_ad_hoc_dict().set_metadata("userColor", color)
                 i.vertex().get_ad_hoc_dict().set_metadata("useUserColor", True)
-            except Exception, e:
-                print "graph_set_selection_color exception", e
+            except Exception as e:
+                # fix_print_with_import
+                print(("graph_set_selection_color exception", e))
                 pass
 
 

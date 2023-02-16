@@ -16,6 +16,9 @@
 #       OpenAlea WebSite : http://openalea.gforge.inria.fr
 #
 ################################################################################
+from __future__ import print_function
+from builtins import str
+
 """Main Module for graphical interface"""
 
 __license__ = "CeCILL v2"
@@ -23,24 +26,32 @@ __revision__ = "$Id$"
 
 
 import sys
-from openalea.vpltk import qt
-from openalea.vpltk.qt.QtCore import __version__
+from qtpy import QtWidgets, QtGui, QtCore
+from qtpy.QtCore import __version__
 from openalea.core import logger
 from openalea.visualea.mainwindow import MainWindow
 from openalea.core.session import Session
 
 MULTITHREAD = False
 
-class Openalea(qt.QtGui.QApplication):
+# from Qt 5.5 uncaught exception from C++ calls qFatal() that calls abort()
+# here we try to catch all uncaught exception
+# from https://stackoverflow.com/questions/49065371/why-does-sys-excepthook-behave-differently-when-wrapped
+_excepthook = sys.excepthook
+def exception_hook(exctype, value, traceback):
+    _excepthook(exctype, value, traceback)
+sys.excepthook = exception_hook
+
+class Openalea(QtWidgets.QApplication):
     """Materialisation of the Openalea application.
     Does the basic inits. The session is initialised
     in a thread. It is safe to use once the sessionStarted
     signal has been emitted."""
 
-    sessionStarted = qt.QtCore.Signal(object)
+    sessionStarted = QtCore.Signal(Session)
 
     def __init__(self, args):
-        qt.QtGui.QApplication.__init__(self, args)
+        QtWidgets.QApplication.__init__(self, args)
         # -- redirect stdout to null if pythonw --
         set_stdout()
         # -- reconfigure LoggerOffice to use Qt log handler and a file handler --
@@ -77,7 +88,7 @@ class Openalea(qt.QtGui.QApplication):
         """Ensure we are running a minimal version of Qt"""
         # QT_VERSION_STR implement __le__ operator
         if(__version__ < '4.5.2'):
-            mess = qt.QtGui.QMessageBox.warning(None,
+            mess = QtWidgets.QMessageBox.warning(None,
                                              "Error",
                                              "Visualea needs Qt library >= 4.5.2")
             sys.exit(-1)
@@ -111,16 +122,17 @@ def set_stdout():
 
 def show_splash_screen():
     """Show a small splash screen to make people wait for OpenAlea to startup"""
-    import metainfo
-    pix = qt.QtGui.QPixmap(":/icons/splash.png")
-    splash = qt.QtGui.QSplashScreen(pix, qt.QtCore.Qt.WindowStaysOnTopHint)
+    from openalea.visualea import metainfo
+    pix = QtGui.QPixmap(":/icons/splash.png")
+    splash = QtWidgets.QSplashScreen(pix, QtCore.Qt.WindowStaysOnTopHint)
     splash.show()
     message = "" + metainfo.get_copyright() +\
               "Version : %s\n"%(metainfo.get_version(),) +\
               "Loading modules..."
-    splash.showMessage(message, qt.QtCore.Qt.AlignCenter|qt.QtCore.Qt.AlignBottom)
+    #splash.showMessage(message)  # F. Bauget 2023-01-18 #, QtCore.Qt.AlignCenter|QtCore.Qt.AlignBottom)
+    splash.showMessage(message, int(QtCore.Qt.AlignCenter|QtCore.Qt.AlignBottom))
     # -- make sure qt really display the message before importing the modules.--
-    qt.QtGui.QApplication.processEvents()
+    QtWidgets.QApplication.processEvents()
     return splash
 
 def timeit(f, *args, **kwargs):
@@ -129,7 +141,7 @@ def timeit(f, *args, **kwargs):
     t2 = time.time()
     logger.debug(f.__name__+" took "+str(t2-t1)+" seconds")
     if __debug__:
-        print
+        print()
     return ret
 
 def threadit(f, parent=None, endCb=None, *args, **kwargs):
@@ -152,9 +164,9 @@ def threadit(f, parent=None, endCb=None, *args, **kwargs):
 
     It probably requires a QApp to be started somewhere.
     """
-    class CustomThread(qt.QtCore.QThread):
+    class CustomThread(QtCore.QThread):
         def __init__(self, target, parent=parent, args=[], kwargs={}):
-            qt.QtCore.QThread.__init__(self, parent)
+            QtCore.QThread.__init__(self, parent)
             self.target = target
             self.args   = args
             self.kwargs = kwargs

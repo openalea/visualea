@@ -1,8 +1,8 @@
-{% set version = "2.0.1" %}
+{% set data = load_setup_py_data() %}
 
 package:
   name: openalea.visualea
-  version: {{ version }}
+  version: {{ data.get('version') }}
 
 source:
   path: ..
@@ -10,19 +10,19 @@ source:
 build:
   preserve_egg_dir: True
   number: 0
-  script: python setup.py install --prefix=$PREFIX
+  script: {{PYTHON}} setup.py install
 
 requirements:
   build:
+    - python {{PY_VER}}
+    - setuptools
     - openalea.deploy
   run:
+    - python  <3.11
     - openalea.deploy
     - openalea.core
-    - openalea.vpltk
     - openalea.oalab
     - openalea.grapheditor
-    - openalea.misc
-    - ipython <5
 
 
 test:
@@ -30,7 +30,7 @@ test:
     - openalea.visualea
 
 about:
-  home: http://github.com/openalea/visualea
-  license: Cecill-c License
-  summary: OpenAlea visual programming environment.
+  home: {{ data.get('url') }}
+  license: {{ data.get('license') }}
+  summary: {{ data.get('description') }}
 

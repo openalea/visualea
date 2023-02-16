@@ -1,44 +1,5 @@
-# {# pkglts, git
-# Byte-compiled / optimized / DLL files
-__pycache__/
+# Python files
 *.py[cod]
-
-# pkglts files
-.pkglts/info.log*
-
-# Packages
-*.egg
-*.egg-info
-.eggs
-.Python
-*.pth
-dist/
-build/
-env/
-downloads/
-eggs/
-parts/
-bin/
-var/
-sdist/
-develop-eggs/
-.installed.cfg
-lib/
-lib64/
-
-# editors
-.idea/
-
-# Vim files
-*.swp
-*.*~
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
-.settings
-
 
 # C extensions
 *.so
@@ -53,43 +14,59 @@ lib64/
 # Compiled Object files
 *.os
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# Packages
+*.egg
+*.egg-info
+dist
+build
+build-scons
+eggs
+.eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+*.pth
+*.bak
 
 # Installer logs
 pip-log.txt
-pip-delete-this-directory.txt
 .amlog
 .sconsign.dblite
 
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Designer files
+*visualea/src/visualea/ui_*
+
 # Translations
 *.mo
-*.pot
 
-# Django stuff:
-*.log
+# Vim files
+*.swp
+*.*~
 
-# PyBuilder
-target/
-
-# jupyter notebooks
-.ipynb_checkpoints/
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+.settings
+.idea
 
 # svn
 .svn
-.cache/
 
-# coverage
-.coverage
+# temporary files
+*._icon.png
+ui_*.py
 
-# sphinx autogen file
-doc/_dvlpt/
-
-
-# #}
-
-# user custom filters
-
+# Mac dirs
+.DS_Store

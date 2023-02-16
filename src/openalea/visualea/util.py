@@ -17,10 +17,12 @@
 ################################################################################
 """Decorator and Utilities"""
 
+from builtins import str
+from builtins import object
 __license__ = "CeCILL v2"
 __revision__ = " $Id$ "
 
-from openalea.vpltk.qt import qt
+from qtpy import QtCore, QtGui, QtWidgets
 from openalea.core.algo.dataflow_evaluation import EvaluationException
 import sys
 import traceback as tb
@@ -31,12 +33,14 @@ def busy_cursor(f):
 
     def wrapped(*args):
         try:
-            qt.QtGui.QApplication.setOverrideCursor(qt.QtGui.QCursor(qt.QtCore.Qt.BusyCursor))
-            ret = f(*args)
-            qt.QtGui.QApplication.restoreOverrideCursor ()
+            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.BusyCursor))
+            arguments = args[0] # not sure
+            ret = f(arguments)
+            # ret = f(*args)
+            QtWidgets.QApplication.restoreOverrideCursor ()
             return ret
         except:
-            qt.QtGui.QApplication.restoreOverrideCursor ()
+            QtWidgets.QApplication.restoreOverrideCursor ()
             raise
 
     return wrapped
@@ -57,9 +61,9 @@ def exception_display(f):
     def display_error(parent,title,stack):
         global use_error_box
         if not use_error_box:
-                qt.QtGui.QMessageBox.critical(None,'Exception raised !',title)
+                QtWidgets.QMessageBox.critical(None,'Exception raised !',title)
         else:
-            errorbox = qt.QtGui.QErrorMessage(parent)
+            errorbox = QtWidgets.QErrorMessage(parent)
             errorbox.setModal(True)
             errorbox.resize(700,250)
             errorbox.setWindowTitle(title)
@@ -72,21 +76,21 @@ def exception_display(f):
     def wrapped(*args):
         try:
             return f(*args)
-        except EvaluationException, e:
+        except EvaluationException as e:
             self = args[0]
-            if not isinstance(self, qt.QtGui.QWidget):
+            if not isinstance(self, QtWidgets.QWidget):
                 self = None
             txt = e.exception.__class__.__name__+': '+ str(e.exception)
             display_error(self,txt,e.exc_info)
-            raise e.exception
+            # raise e.exception
 
-        except Exception, e:
+        except Exception as e:
             self = args[0]
-            if not isinstance(self,qt.QtGui.QWidget):
+            if not isinstance(self,QtWidgets.QWidget):
                 self = None
             txt = e.__class__.__name__+': '+ str(e)
             display_error(self,txt,tb.format_tb(sys.exc_info()[2]))
-            raise e
+            # raise e
 
     return wrapped
 
@@ -98,12 +102,12 @@ def open_dialog(parent, widget, title, delete_on_close=True):
     """
 
     # Open dialog
-    dialog = qt.QtGui.QDialog(parent)
+    dialog = QtWidgets.QDialog(parent)
     if(delete_on_close):
-        dialog.setAttribute(qt.QtCore.Qt.WA_DeleteOnClose)
+        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
     widget.setParent(dialog)
 
-    vboxlayout = qt.QtGui.QVBoxLayout(dialog)
+    vboxlayout = QtWidgets.QVBoxLayout(dialog)
     vboxlayout.setContentsMargins(3, 3, 3, 3)
     vboxlayout.setSpacing(5)
     vboxlayout.addWidget(widget, 0)#, qt.QtCore.Qt.AlignTop)
@@ -128,9 +132,9 @@ class IconGrabber(object):
         if(self.splash):
             self.hide()
 
-        pix=qt.QtGui.QPixmap(":/icons/cursor_icon.png")
-        self.splash = qt.QtGui.QSplashScreen(pix)
-        self.splash.setWindowFlags(qt.QtCore.Qt.WindowStaysOnTopHint|qt.QtCore.Qt.FramelessWindowHint)
+        pix=QtGui.QPixmap(":/icons/cursor_icon.png")
+        self.splash = QtWidgets.QSplashScreen(pix)
+        self.splash.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint|QtCore.Qt.FramelessWindowHint)
         self.splash.setFixedSize(pix.size())
         self.splash.setMask(pix.mask())
         self.splash.setWindowTitle("Icon Selector")
@@ -153,11 +157,11 @@ def grab_icon(parent):
     grab = IconGrabber()
     grab.show()
 
-    qt.QtGui.QMessageBox.information(parent,
+    QtWidgets.QMessageBox.information(parent,
                                   "Grab Icon", "Put the image under the icon frame and click ok")
 
     point = grab.splash.pos()
-    pix = qt.QtGui.QPixmap.grabWindow(qt.QtGui.QApplication.desktop().winId(),
+    pix = QtGui.QPixmap.grabWindow(QtWidgets.QApplication.desktop().winId(),
                                    point.x()+2, point.y()+2, WIDTH, HEIGHT)
 
     grab.hide()
