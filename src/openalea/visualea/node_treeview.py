@@ -1035,7 +1035,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height() / 2))
+        drag.setHotSpot(QtCore.QPoint(pixmap.width() // 2, pixmap.height() // 2))
         drag.setPixmap(pixmap)
 
         drag.start(QtCore.Qt.MoveAction)
