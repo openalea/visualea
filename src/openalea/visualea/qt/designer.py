@@ -36,7 +36,7 @@ from openalea.core.path import path as Path
 from qtpy.uic import compileUi
 from qtpy import API as QT_MODULE_NAME
 
-compile_args = dict(execute=False, indent=4, from_imports=False) # pasted from vpltk/src/openalea/vpltk/qt/designer.py
+compile_args = dict(execute=False, indent=4, from_imports=True) # pasted from vpltk/src/openalea/vpltk/qt/designer.py
 
 
 FORCE_UI_GENERATION = False
@@ -208,7 +208,7 @@ def compile_ui_files(module, import_instructions=None):
     from openalea.core import codegen
 
     if import_instructions is None:
-        import_instructions = "from openalea.oalab.qt.designer import generate_pyfile_from_uifile\n"
+        import_instructions = "from openalea.visualea.qt.designer import generate_pyfile_from_uifile\n"
 
     module = __import__(module)
     paths = []
@@ -270,4 +270,4 @@ def compile_ui_files(module, import_instructions=None):
 # except ImportError:
 #     # First call, ui files are not generated or wrong implementation
 #     FORCE_UI_GENERATION = True
-#     generate_pyfile_from_uifile('openalea.vpltk.qt', uibasename='test')
+#     generate_pyfile_from_uifile('openalea.visualea.qt', uibasename='test')
