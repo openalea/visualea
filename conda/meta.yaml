@@ -29,6 +29,7 @@ requirements:
 test:
   imports:
     - openalea.visualea
+    - openalea.visualea.qt
 
 about:
   home: {{ data.get('url') }}
