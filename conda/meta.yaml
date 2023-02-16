@@ -18,11 +18,8 @@ requirements:
   run:
     - openalea.deploy
     - openalea.core
-    - openalea.vpltk
     - openalea.oalab
     - openalea.grapheditor
-    - openalea.misc
-    - ipython <5
 
 
 test:
