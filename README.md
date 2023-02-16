@@ -28,17 +28,18 @@ conda install openalea.visualea -c openalea3 -c conda-forge
 
 - Create a conda environment with plantgl and pglviewer  
     
-
+    ```
     conda create -n visualea -c openalea3 -c conda-forge openalea.plantgl pyqglviewer  
     conda activate visualea  
-    conda install -c openalea3 -c conda-forge numpy scipy qtconsole pandas matplotlib openalea.sconsx networkx ipykernel ipyparallel  
+    conda install -c openalea3 -c conda-forge numpy scipy qtconsole pandas matplotlib openalea.sconsx networkx ipykernel ipyparallel
+    ```
 
 - clone from the openalea org
 
-    1. core  
-    2. grapheditor
-    3. openalea-components
-    4. visualea
+    1 core  
+    2 grapheditor  
+    3 openalea-components  
+    4 visualea
 
 - Checkout the visualea branch  
     `python setup.py develop`
