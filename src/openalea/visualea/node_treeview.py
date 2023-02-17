@@ -1038,7 +1038,7 @@ class DataPoolListView(QtWidgets.QListView, SignalSlotListener):
         drag.setHotSpot(QtCore.QPoint(pixmap.width() // 2, pixmap.height() // 2))
         drag.setPixmap(pixmap)
 
-        drag.start(QtCore.Qt.MoveAction)
+        drag.exec(QtCore.Qt.MoveAction)
 
     def contextMenuEvent(self, event):
         """ Context menu event : Display the menu"""
