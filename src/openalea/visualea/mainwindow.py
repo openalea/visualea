@@ -751,8 +751,8 @@ class MainWindow(QtWidgets.QMainWindow,
     def exec_python_script(self):
         """ Choose a python source and execute it """
 
-        filename = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Python Script", "Python script (*.py)")
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self, "Python Script", filter="Python script (*.py)")
 
         filename = str(filename)
         if(not filename):
@@ -798,7 +798,7 @@ class MainWindow(QtWidgets.QMainWindow,
 
     def open_session(self):
 
-        filename = QtWidgets.QFileDialog.getOpenFileName(
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
             self, "OpenAlea Session", QtCore.QDir.homePath(), "Session file (*.oas)")
 
         filename = str(filename)

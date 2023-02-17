@@ -290,7 +290,7 @@ class NewData(QtWidgets.QDialog, ui_newdata.Ui_NewDataDialog):
     def browse_file(self):
         """ Open File browser """
 
-        filename = QtWidgets.QFileDialog.getOpenFileName(
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
             self, "Import file")
 
         filename = str(filename)
@@ -636,7 +636,7 @@ class PreferencesDialog(QtWidgets.QDialog, ui_preferences.Ui_Preferences):
     def select_editor(self):
         """ Select Python Editor command """
 
-        filename = QtWidgets.QFileDialog.getOpenFileName(
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
             self, "Select python editor")
 
         filename = str(filename)
