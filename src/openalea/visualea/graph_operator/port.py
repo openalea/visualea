@@ -101,11 +101,15 @@ class PortOperators(Base):
                                                       QtWidgets.QMessageBox.Ok)
             if overwrite == QtWidgets.QMessageBox.Ok:
                 interpreter.locals[result]=data
+                data = str(data)
+                data = data[:500]+"[...truncated]" if len(data)>500 else data
+                print(result + ": " + data)
+
                 # print the instance name and content as if the user type its name in a shell
                 # this is only to make obvious the availability of the instance in the
-                try:
-                    interpreter.runsource(result, hidden=False, interactive=True)
-                except:
-                    interpreter.runsource("%s\n" % result)
+                # try:
+                #     interpreter.runsource(result, hidden=False, interactive=True)
+                # except:
+                #     interpreter.runsource("%s\n" % result)
 
             #setFocus()
