@@ -10,7 +10,7 @@ source:
 build:
   noarch: python
   preserve_egg_dir: True
-  number: 0
+  number: 1
   script: {{PYTHON}} setup.py install
 
 requirements:
@@ -24,6 +24,7 @@ requirements:
     - openalea.core
     - openalea.oalab
     - openalea.grapheditor
+    - openalea.stdlib
 
 
 test:
