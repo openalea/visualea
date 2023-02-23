@@ -21,6 +21,7 @@ import weakref
 from openalea.core import node
 from openalea.core import compositenode
 import openalea.grapheditor.base as grapheditorbase
+from qtpy import QtWidgets
 
 class GraphAdapter(grapheditorbase.GraphAdapterBase):
     """An adapter to openalea.core.compositenode"""
@@ -81,7 +82,7 @@ class GraphAdapter(grapheditorbase.GraphAdapterBase):
                 vertex.get_ad_hoc_dict().set_metadata("position", position)
             return vid
         except node.RecursionError:
-            mess = QtGui.QMessageBox.warning(self, "Error",
+            mess = QtWidgets.QMessageBox.warning(self, "Error",
                                              "A graph cannot be contained in itself.")
 
     def remove_vertex(self, vertex):

@@ -28,9 +28,8 @@ def test_addition_composite_node():
     p = PackageManager()
     p.init(verbose=False)
 
-    # factory = addition_composite_node
     factory, node = get_node(('dataflow_test', 'addition'), {}, pm=p)
-    widget = factory.instantiate_widget(autonomous = True)
+
     win = open_window(factory)
 
     # get the button 'Run', there is only one for the node 7 which is user marked
