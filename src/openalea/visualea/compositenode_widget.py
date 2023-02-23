@@ -160,6 +160,7 @@ class DisplayGraphWidget(NodeWidget, QtWidgets.QWidget):
     def run_node(self):
         self.node.eval_as_expression(self.sender().id)
 
+
     def open_widget(self):
         operator = GraphOperator(graph=self.node)
         operator.vertex_open(self.sender().id)

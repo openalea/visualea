@@ -57,12 +57,18 @@ class SignalSlotListener(AbstractListener):
         @param event : the data associated to the notification
         """
 
+        # Don't see the point of self.qobj().emit because anyway we manage
+        # ourselves the notification with self.notify
         try:
-            self.qobj().emit(QtCore.Signal("notify"), sender, event)
-        except Exception as e:
-            # fix_print_with_import
-            print(("Cannot emit Qt Signal : ", e))
             self.notify(sender, event)
+        except:
+            pass
+        # try:
+        #     self.qobj().emit(QtCore.Signal("notify"), sender, event)
+        # except Exception as e:
+        #     # fix_print_with_import
+        #     print(("Cannot emit Qt Signal : ", e))
+        #     self.notify(sender, event)
 
 
 
