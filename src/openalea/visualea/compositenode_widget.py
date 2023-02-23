@@ -158,10 +158,7 @@ class DisplayGraphWidget(NodeWidget, QtWidgets.QWidget):
     @exception_display
     @busy_cursor
     def run_node(self):
-        from openalea.core.alea import _outputs
         self.node.eval_as_expression(self.sender().id)
-        _outputs(self.node.node(self.sender().id))
-        # breakpoint()
 
 
     def open_widget(self):
