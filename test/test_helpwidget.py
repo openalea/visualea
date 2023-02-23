@@ -44,6 +44,6 @@ def test_helpwidget():
 
 
 
-test_rst2alea()
+# test_rst2alea()
 #test_helpwidget()
 
