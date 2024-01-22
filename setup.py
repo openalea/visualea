@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-__revision__ = "$Id$"
+ # -*- coding: utf-8 -*-
 
 import sys
 from os.path import join as pj
 
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 
 # find version number in src/openalea/core/version.py
 _version = {}
@@ -26,7 +25,7 @@ license = 'Cecill'
 
 
 namespace = 'openalea'
-packages = find_packages('src')
+packages = find_namespace_packages(where='src', include=['openalea', 'openalea.*'])
 package_dir = {'': 'src'}
 
 setup(
