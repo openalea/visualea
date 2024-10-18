@@ -8,7 +8,7 @@ source:
   path: ..
 
 build:
-  noarch: python
+  #noarch: python,# issue 37
   preserve_egg_dir: True
   number: 1
   script: {{PYTHON}} setup.py install
