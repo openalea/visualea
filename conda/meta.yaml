@@ -19,7 +19,7 @@ requirements:
     - setuptools
     - openalea.deploy
   run:
-    - python  <3.11
+    - python  x.x
     - openalea.deploy
     - openalea.core
     - openalea.oalab
