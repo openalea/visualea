@@ -14,7 +14,7 @@ Nota : Cecill v2 license is a GPL compatible license.
 
 ## Dependencies
 
-- Python >= 3.7    
+- Python >= 3.10    
 - Qt >= 5.12	  
 - QtPy (PyQt >= 5.12)	    
 
@@ -22,7 +22,7 @@ Nota : Cecill v2 license is a GPL compatible license.
 ## Installation user mode
 
 ```bash
-conda install openalea.visualea -c openalea3 -c conda-forge  
+conda create -n visualea -c openalea3 -c conda-forge openalea.visualea
 ```
 
 ## Installation dev mode
@@ -35,12 +35,5 @@ conda install openalea.visualea -c openalea3 -c conda-forge
     conda install -c openalea3 -c conda-forge numpy scipy qtconsole pandas matplotlib openalea.sconsx networkx ipykernel ipyparallel
     ```
 
-- clone from the openalea org
-
-    1 core  
-    2 grapheditor  
-    3 openalea-components  
-    4 visualea
-
 - Checkout the visualea branch  
-    `python setup.py develop`
+    `pip install .e`
