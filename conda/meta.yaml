@@ -1,39 +1,54 @@
-{% set data = load_setup_py_data() %}
+{% set pyproject = load_file_data('../pyproject.toml', from_recipe_dir=True) %}
+{% set name = pyproject.get('project').get('name') %}
+{% set description = pyproject.get('project').get('description') %}
+{% set version = GIT_DESCRIBE_TAG | replace("v", "") %}
+{% set license = pyproject.get('project').get('license') %}
+{% set home = pyproject.get('project', {}).get('urls', {}).get('Homepage', '') %}
+{% set build_deps = pyproject.get("build-system", {}).get("requires", []) %}
+{% set deps = pyproject.get('project', {}).get('dependencies', []) %}
+{% set conda_deps = pyproject.get('tool', {}).get('conda-environment', {}).get('dependencies',[]) %}
 
 package:
-  name: openalea.visualea
-  version: {{ data.get('version') }}
+  name: {{ name }}
+  version: {{ version }}
 
 source:
   path: ..
 
 build:
-  #noarch: python,# issue 37
-  preserve_egg_dir: True
-  number: 1
-  script: {{PYTHON}} setup.py install
+  noarch: python
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
 
 requirements:
   build:
-    - python {{PY_VER}}
-    - setuptools
-    - openalea.deploy
-  run:
-    - python  x.x
-    - openalea.deploy
-    - openalea.core
-    - openalea.oalab
-    - openalea.grapheditor
-    - openalea.stdlib
+    - python
+    {% for dep in build_deps %}
+    - {{ dep }}
+    {% endfor  %}
 
+  run:
+    - python
+    {% for dep in deps + conda_deps %}
+    - {{ dep }}
+    {% endfor %}
 
 test:
+  requires:
+    - pytest
   imports:
     - openalea.visualea
     - openalea.visualea.qt
+  source_files:
+    - test/**
+    - test/dataflow/**
+    - test/dataflow/dataflow_test/**
+  commands:
+    - cd test
+    - pytest -v test_*.py
 
 about:
-  home: {{ data.get('url') }}
-  license: {{ data.get('license') }}
-  summary: {{ data.get('description') }}
+  summary: {{ pyproject["project"]["description"] }}
+  license: {{ pyproject["project"]["license"] }}
+  home: {{ pyproject["project"]["urls"]["Homepage"] }}
 
