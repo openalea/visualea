@@ -41,10 +41,7 @@ classifiers = [
 dynamic = ["version"]
 
 dependencies = [
-    "qtconsole",
     "setuptools",
-    "pyqt",
-    "QtPy",
 ]
 
 
@@ -55,6 +52,8 @@ channels = [
   "conda-forge"
 ]
 dependencies = [
+    "qtconsole",
+    "QtPy",
     "openalea.core",
     "openalea.oalab",
     "openalea.grapheditor",
@@ -85,4 +84,3 @@ Changelog = "https://github.com/openalea/visualea/releases"
 
 [project.entry-points."gui_scripts"]
 "visualea" = "openalea.visualea.visualea_script:start_gui"
-"aleashell" = "openalea.visualea.shell:main" # do we need this I did not find openalea.visualea.shell
