@@ -15,6 +15,7 @@ Nota : Cecill v2 license is a GPL compatible license.
 
 ```bash
 mamba create -n visualea -c openalea3 -c conda-forge openalea.visualea
+mamba activate visualea
 ```
 
 ## Installation dev mode
@@ -24,8 +25,9 @@ mamba create -n visualea -c openalea3 -c conda-forge openalea.visualea
     
 ```bash
 mamba create -f conda/environment.yml 
+mamba activate visualea
 ```
 
-That will create the *visualea* environment with the dependencies and install 
-**openalea.visualea** in it with     `pip install . -e`
+The first command will create the *visualea* environment with the dependencies and install 
+**openalea.visualea** in it with     `pip install . -e`. The second will activate the environment.
 
