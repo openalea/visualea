@@ -1,7 +1,7 @@
 name: visualea2
 channels:
-  - conda-forge
   - openalea3
+  - conda-forge
 dependencies:
   # list here manually conda-only deps (listed in [tool.conda.environment] section of pyproject)
   - python

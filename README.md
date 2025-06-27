@@ -1,7 +1,7 @@
 # OpenAlea.Visualea
 
 OpenAlea.Visualea is the Visual Programming Environment of OpenAlea. It allows using OpenAlea packages 
-and to build dataflow graphically.
+without programming language knowledge and to build dataflow graphically.
 
 
 ## License
