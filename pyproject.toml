@@ -1,0 +1,86 @@
+# FB 2025-04-14: based on ADEL and hydroshoot, sphinx pkg in environment.yml
+[build-system]
+requires = [
+    "setuptools",
+    "setuptools_scm",
+  ]
+build-backend = "setuptools.build_meta"
+
+# allow openalea to be a namespace package
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+include-package-data = false # force explicit declaration of data (disable automatic inclusion)
+
+# enable dynamic versioning based on git tags
+[tool.setuptools_scm]
+# can be empty if no extra settings are needed, presence enables setuptools-scm
+
+[project]
+name = "openalea.visualea"
+authors = [
+  { name = "Christophe Pradal" },
+]
+description = "OpenAlea Visual Programming Environment."
+readme = "README.md"
+license = "CECILL-C"
+license-files = ["LICEN[CS]E*"]
+requires-python = ">=3.10"
+keywords=['visual programming', 'openalea', 'Scientific Workflows']
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+dynamic = ["version"]
+
+dependencies = [
+    "setuptools",
+]
+
+
+# section specific to conda-only distributed package (not used by pip yet)
+[tool.conda.environment]
+channels = [
+  "openalea3",
+  "conda-forge"
+]
+dependencies = [
+    "qtconsole",
+    "QtPy",
+    "openalea.core",
+    "openalea.oalab",
+    "openalea.grapheditor",
+    "openalea.stdlib",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+doc = [
+  "sphinx-favicon",
+  "sphinx-rtd-theme",
+  "pydata-sphinx-theme",
+  "myst-parser",
+  "nbsphinx",
+]
+
+[project.urls]
+Homepage = "https://visualea.rtfd.io/"
+"Bug Tracker" = "https://github.com/openalea/visualea/issues"
+Discussions = "https://github.com/openalea/visualea/discussions"
+Changelog = "https://github.com/openalea/visualea/releases"
+
+[tool.setuptools.package-data]
+'openalea.visualea.resources' = ['*.ui', '*.png']
+
+[project.entry-points."wralea"]
+"visualea" = "openalea.visualea_wralea"
+
+[project.entry-points."gui_scripts"]
+"visualea" = "openalea.visualea.visualea_script:start_gui"

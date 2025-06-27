@@ -1,8 +1,9 @@
-from openalea.core import logger, CompositeNodeFactory
 from openalea.visualea.mainwindow import MainWindow
 from openalea.core.pkgmanager import PackageManager
 from qtpy import QtWidgets, QtCore
 from openalea.core.alea import *
+from os.path import join
+from os import getcwd
 
 def open_window(factory):
 
@@ -21,18 +22,19 @@ def open_window(factory):
 
     return dialog
 
-def test_addition_composite_node():
+def to_debug_test_addition_composite_node():
     # Allow to test DisplayGraphWidget from openalea.visualea.compositenode_widget
     app = QtWidgets.QApplication(sys.argv)
 
     p = PackageManager()
+    p.add_wralea_path(join(getcwd(), 'dataflow/dataflow_test'), p.user_wralea_path)
     p.init(verbose=False)
 
     factory, node = get_node(('dataflow_test', 'addition'), {}, pm=p)
 
     win = open_window(factory)
 
-    # get the button 'Run', there is only one for the node 7 which is user marked
+    # get the button 'Run', there is only one for the node 7 that is user marked
     for ch in win.findChildren(QtWidgets.QPushButton):
         if ch.text() == 'Run':
             ch.click()

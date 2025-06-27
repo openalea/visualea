@@ -1,7 +1,7 @@
 # OpenAlea.Visualea
 
-OpenAlea.Visualea is an application that allows to use OpenAlea packages 
-and to build dataflow graphically.
+OpenAlea.Visualea is the Visual Programming Environment of OpenAlea. It allows using OpenAlea packages 
+without programming language knowledge and to build dataflow graphically.
 
 
 ## License
@@ -11,36 +11,23 @@ OpenAlea.Visualea is released under a Cecill v2 license.
 See LICENSE.txt
 Nota : Cecill v2 license is a GPL compatible license.
 
-
-## Dependencies
-
-- Python >= 3.7    
-- Qt >= 5.12	  
-- QtPy (PyQt >= 5.12)	    
-
-
 ## Installation user mode
 
 ```bash
-conda install openalea.visualea -c openalea3 -c conda-forge  
+mamba create -n visualea -c openalea3 -c conda-forge openalea.visualea
+mamba activate visualea
 ```
 
 ## Installation dev mode
 
-- Create a conda environment 
+- Clone the repository
+- Use the following command
     
-    ```
-    conda create -n visualea -c openalea3 -c conda-forge openalea.plantgl pyqglviewer  
-    conda activate visualea  
-    conda install -c openalea3 -c conda-forge numpy scipy qtconsole pandas matplotlib openalea.sconsx networkx ipykernel ipyparallel
-    ```
+```bash
+mamba create -f conda/environment.yml 
+mamba activate visualea
+```
 
-- clone from the openalea org
+The first command will create the *visualea* environment with the dependencies and install 
+**openalea.visualea** in it with     `pip install . -e`. The second will activate the environment.
 
-    1 core  
-    2 grapheditor  
-    3 openalea-components  
-    4 visualea
-
-- Checkout the visualea branch  
-    `python setup.py develop`

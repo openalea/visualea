@@ -31,8 +31,8 @@ def check_system_setuptools():
     Check system configuration and return environment variables dictionary
     This function need OpenAlea.Deploy
     """
-
-    from openalea.deploy import check_system
+    from openalea.visualea.system_util import check_system
+    # from openalea.deploy import check_system
     envv = dict(os.environ)
     res = check_system()
     envv.update(res)
