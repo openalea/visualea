@@ -34,10 +34,10 @@ def test_rst2alea():
     res = rst2alea(text2)
     assert (res == rst2) or (res == text2.replace("\n", "<br />")+"\n"), res
 
-from qtpy import QtWidgets
-app = QtWidgets.QApplication([])
 
 def test_helpwidget():
+    from qtpy import QtWidgets
+    app = QtWidgets.QApplication([])
     help = HelpWidget()
     help.set_rst(text1)
     assert text1 in help.toHtml()

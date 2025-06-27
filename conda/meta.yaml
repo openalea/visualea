@@ -18,6 +18,7 @@ source:
 build:
   noarch: python
   number: 0
+  preserve_egg_dir: True
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-build-isolation -vv
 
 requirements:
@@ -36,6 +37,12 @@ requirements:
 test:
   requires:
     - pytest
+    - QtPy
+    - PyQt
+    - openalea.core
+    - openalea.oalab
+    - openalea.grapheditor
+    - openalea.stdlib
   imports:
     - openalea.visualea
     - openalea.visualea.qt

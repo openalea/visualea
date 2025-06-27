@@ -1,0 +1,17 @@
+name: visualea2
+channels:
+  - conda-forge
+  - openalea3
+dependencies:
+  # list here manually conda-only deps (listed in [tool.conda.environment] section of pyproject)
+  - python
+  - pip
+  - qtconsole
+  - QtPy
+  - openalea.core
+  - openalea.oalab
+  - openalea.grapheditor
+  - openalea.stdlib
+  # let pip install the rest using pyproject.toml (if you are okay with conda/pip mix)
+  - pip:
+      - -e .."[doc, test]"
