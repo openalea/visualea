@@ -23,5 +23,4 @@ jobs:
       anaconda_token: ${{ secrets.ANACONDA_TOKEN }}
     with:
       force-channel-priority: conda-forge, openalea3/label/dev, openalea3
-      build-options: "--no-test"
-    
+
