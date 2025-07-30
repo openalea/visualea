@@ -6,7 +6,6 @@ Reference guide
 
 Class Inheritance diagram
 =========================
-.. .. inheritance-diagram:: openalea.visualea.annotation
 .. .. inheritance-diagram:: openalea.visualea.code_editor
 .. .. inheritance-diagram:: openalea.visualea.compositenode_widget
 .. .. inheritance-diagram:: openalea.visualea.dialogs
@@ -23,27 +22,11 @@ Class Inheritance diagram
 .. .. inheritance-diagram:: openalea.visualea.visualeagui
 .. .. inheritance-diagram:: openalea.visualea.metainfo
 
-.. currentmodule:: openalea.visualea.annotation
-
-:mod:`openalea.visualea.annotation` module
-==========================================
-
-Download the source file :download:`../../src/visualea/annotation.py`.
-
-
-.. automodule:: openalea.visualea.annotation
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :synopsis: Annotation node
-
-
-.. currentmodule:: openalea.visualea.code_editor
 
 :mod:`openalea.visualea.code_editor` module
 ===========================================
 
-Download the source file :download:`../../src/visualea/code_editor.py`.
+Download the source file :download:`../../src/openalea/visualea/code_editor.py`.
 
 
 .. automodule:: openalea.visualea.code_editor
@@ -58,7 +41,7 @@ Download the source file :download:`../../src/visualea/code_editor.py`.
 :mod:`openalea.visualea.compositenode_widget` module
 ====================================================
 
-Download the source file :download:`../../src/visualea/compositenode_widget.py`.
+Download the source file :download:`../../src/openalea/visualea/compositenode_widget.py`.
 
 
 .. automodule:: openalea.visualea.compositenode_widget
@@ -73,7 +56,7 @@ Download the source file :download:`../../src/visualea/compositenode_widget.py`.
 :mod:`openalea.visualea.dialogs` module
 =======================================
 
-Download the source file :download:`../../src/visualea/dialogs.py`.
+Download the source file :download:`../../src/openalea/visualea/dialogs.py`.
 
 
 .. automodule:: openalea.visualea.dialogs
@@ -122,7 +105,7 @@ Download the source file :download:`../../src/visualea/dialogs.py`.
 :mod:`openalea.visualea.images_rc` module
 =========================================
 
-Download the source file :download:`../../src/visualea/images_rc.py`.
+Download the source file :download:`../../src/openalea/visualea/images_rc.py`.
 
 
 .. automodule:: openalea.visualea.images_rc
