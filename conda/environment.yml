@@ -8,7 +8,6 @@ dependencies:
   - pip
   - qtconsole
   - QtPy
-  - scipy
   - openalea.core
   - openalea.scipack
   - openalea.oalab
