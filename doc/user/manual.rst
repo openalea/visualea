@@ -1,28 +1,28 @@
 VisuAlea Manual
 ###############
 
-Visualea is a high level visual programming GUI for OpenAlea
+Visualea is a high level visual programming GUI for OpenAlea.
 
-On Linux, in a shell, run the following command::
+On Linux, run the following command in the conda environement
 
-    $visualea
+.. code-block:: bash
 
-On Windows::
+    visualea
 
-    Use start→ OpenAlea → Visualea
-    Main Window
+On Windows
 
-CHANGE THIS PICTURE
+.. code-block:: bash
+
+    visualea.exe
+
 .. image:: ../_static/visualea.png
-   :scale: 75
    :align: left
 
 The main window is composed of :
     * The package manager (lists nodes),
-    * The workspaces where one can graphically assemble dataflows,
+    * The workspaces where dataflows are graphically assembled,
     * Each node has it's own graphical interface,
     * The python interpreter for low level interaction (with code completion)
-    * Python code editor
 
 Package Manager
 ===============
@@ -54,15 +54,17 @@ A package has several associated informations like :
 These package informations are accessible from the context menu:
 
     * Package Context Menu
-      o Open Url : Open associated url
-      o Infos : Display meta informations
+
+      - Open Url : Open associated url
+      - Infos : Display meta informations
 
 Each package element has also a context menu :
 
     * Node (Component) Context Menu
-      o Open : Open the node
-      o Edit : Edit the node (Code Editor for Python node, Dataflow for Composite node)
-      o Remove : Remove the node from the package
+
+      - Open : Open the node
+      - Edit : Edit the node (Code Editor for Python node, Dataflow for Composite node)
+      - Remove : Remove the node from the package
 
 .. note:: Tooltip are available by moving the mouse pointer on an object.
 
@@ -79,9 +81,10 @@ Package Manager operations (menu)
     * → Reload all packages : search all packages on the local system
     * → Find Nodes : Open the search tab
     * → Create
-      o → Package : Create a new user package
-      o → Python Node : Create a new component based on python code
-      o → Composite Node : Create a new component based on other components (Macro node)
+
+      - → Package : Create a new user package
+      - → Python Node : Create a new component based on python code
+      - → Composite Node : Create a new component based on other components (Macro node)
 
 Workspaces
 ----------
@@ -137,9 +140,10 @@ The graph of nodes form an expression.
 To evaluate the expression :
 
     * Menu → Workspace → Run will evaluate all the graph
-    * Context Menu → Run on a particular node will evaluate only the selected node and its dependencies.
+    * Context Menu → Run on a particular node will evaluate only the selected node and its parents.
 
-If you change a value of a node, the evaluation algorithm will compute only the changed nodes and their dependencies, avoiding to do several times the same computation.
+If you change a value of a node, the evaluation algorithm will compute only the changed nodes and their dependencies,
+avoiding to do several times the same computation.
 
 .. deprecated::
     The node contained in a graph can be in different states/ The color of a node depends of its state:
@@ -240,9 +244,9 @@ At any moment, you can use the python interpreter to launch python command or sc
 
 CHANGE THIS PICTURE
 .. image:: ../_static/ipython.png
-   :width: 80%
-   :height: 200px
-   :scale: 100
+    :width: 80%
+    :height: 200px
+    :scale: 100
 
 The interpreter defines special variables :
 

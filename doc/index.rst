@@ -1,49 +1,36 @@
-OpenAlea Visualea documentation
-###############################
+Welcome to Visualea's documentation!
+=====================================
 
-Module description
-==================
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
 
-.. sidebar:: Summary
+Contact & Contributing
+----------------------
 
-    :Version: |version|
-    :Release: |release|
-    :Date: |today|
-    :Author: See `Authors`_ section
-    :ChangeLog: See `ChangeLog`_ section
+For any question, please submit to https://github.com/openalea/visualea/issues.
 
-.. topic:: Overview
 
-    .. include:: user/overview.txt
+Versioning
+----------
+
+Sources are versioned on an Git repository hosted by platform GitHub: https://github.com/openalea/visualea.
+If you want to make your own development of the model, please fork the repository.
 
 Documentation
-=============
+-------------
 
 .. toctree::
     :maxdepth: 1
+    :caption: Contents:
 
-    User Guide<user/index.rst>   
-    Reference Guide<user/autosum.rst>
+    user/manual.rst
+    user/autosum.rst
 
-- A `PDF <../latex/main.pdf>`_ version of |visualea| documentation is 
-  available.
 
-Authors
-=======
+Indices and tables
+------------------
 
-.. include:: ../AUTHORS.txt
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
-ChangeLog
-=========
-
-.. include:: ../ChangeLog.txt
-
-License
-=======
-
-|visualea| is released under a Cecill-C License.
-
-.. note:: `Cecill-C <http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html>`_ 
-    license is a LGPL compatible license.
-
-.. |visualea| replace:: OpenAlea.Visualea

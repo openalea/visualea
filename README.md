@@ -1,6 +1,4 @@
 # Visualea
-
-# Package Name
 [![Docs](https://readthedocs.org/projects/visualea/badge/?version=latest)](https://visualea.readthedocs.io/)
 [![Build Status](https://github.com/openalea/visualea/actions/workflows/conda-package-build.yml/badge.svg?branch=master)](https://github.com/openalea/visualea/actions/workflows/conda-package-build.yml?query=branch%3Amaster)
 [![Python Version](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/downloads/)
@@ -34,14 +32,16 @@ CecILL-C
 OpenAlea.Visualea is the Visual Programming Environment of OpenAlea. It allows using OpenAlea packages 
 without programming language knowledge and to build dataflow graphically.
 
-## Installation user mode
+## Installation 
+
+### user mode
 
 ```bash
 mamba create -n visualea -c openalea3 -c conda-forge openalea.visualea
 mamba activate visualea
 ```
 
-## for developer, in an existing environment
+### for developer, in an existing environment
 
 ```bash
 git clone 'https://github.com/openalea/visualea.git'
@@ -53,7 +53,7 @@ pip install -e .[options]
 defined in the `[project.optional-dependencies]` section of your 
 pyproject.toml file (usually "dev", or "doc", ...)
 
-## for developer, in a new clean isolated environment
+### for developer, in a new clean isolated environment
 ```bash
 mamba env create -f conda/environment.yml 
 mamba activate visualea
