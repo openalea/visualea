@@ -73,9 +73,12 @@ doc = [
   "myst-parser",
   "nbsphinx",
   "sphinx-copybutton",
+  "ipykernel",
+  "ipython_genutils",
 ]
 
 [project.urls]
+Repository = "https://github.com/openalea/visualea"
 Homepage = "https://visualea.rtfd.io/"
 "Bug Tracker" = "https://github.com/openalea/visualea/issues"
 Discussions = "https://github.com/openalea/visualea/discussions"
