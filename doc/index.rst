@@ -25,6 +25,7 @@ Documentation
 
     user/manual.rst
     user/autosum.rst
+    user/references.rst
 
 
 Indices and tables
