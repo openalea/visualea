@@ -91,4 +91,4 @@ Changelog = "https://github.com/openalea/visualea/releases"
 "visualea" = "openalea.visualea_wralea"
 
 [project.entry-points."gui_scripts"]
-"visualea" = "openalea.visualea.visualea_script:start_gui"
+"visualea" = "openalea.visualea.visualeagui:main"

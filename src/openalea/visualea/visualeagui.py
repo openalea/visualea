@@ -94,8 +94,9 @@ class Openalea(QtWidgets.QApplication):
             sys.exit(-1)
 
 
-def main(args):
+def main():
     # Restore default signal handler for CTRL+C
+    args = sys.argv
     import signal
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
