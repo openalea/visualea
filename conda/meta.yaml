@@ -54,9 +54,9 @@ test:
     - test/**
     - test/dataflow/**
     - test/dataflow/dataflow_test/**
-#  commands:
-#    - cd test
-#    - pytest -v test_*.py
+  commands:
+    - cd test
+    - pytest -v test_*.py
 
 about:
   summary: {{ pyproject["project"]["description"] }}
