@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/openalea/visualea/actions/workflows/openalea_ci.yml/badge.svg?branch=master)](https://github.com/openalea/visualea/actions/workflows/openalea_ci.yml?query=branch%3Amaster)
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License--CeCILL-C-blue)](https://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html)
-[![Anaconda-Server Badge](https://anaconda.org/openalea3/visualea/badges/version.svg)](https://anaconda.org/openalea3/visualea)
+[![Anaconda-Server Badge](https://anaconda.org/openalea3/openalea.visualea/badges/version.svg)](https://anaconda.org/openalea3/openalea.visualea)
 
 ![visualea main window](https://github.com/openalea/visualea/blob/master/doc/_static/visualea.png?raw=true "visualea main window")
 
