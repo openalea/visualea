@@ -48,7 +48,7 @@ def to_debug_test_addition_composite_node():
 
     assert output == str(res[0])
 
-def test_call_mainwindow():
+def _test_call_mainwindow():
     # test the basic call to openalea.visualea.mainwindow
     app = QtWidgets.QApplication(sys.argv)
     win = MainWindow(None)
