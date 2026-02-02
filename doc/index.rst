@@ -23,7 +23,7 @@ Documentation
     :maxdepth: 1
     :caption: Contents:
 
-    user/manual.rst
+    user/tutorials.rst
     user/autosum.rst
     user/references.rst
 
