@@ -5,13 +5,14 @@ __revision__ = " $Id$"
 
 
 def get_version():
-
-    import pkg_resources
-    dists = pkg_resources.require("openalea.visualea")
-    return dists[0].version
+    "Returns openalea.visualea version."
+    from importlib.metadata import metadata
+    meta = metadata("openalea.visualea")
+    release = meta.get("version")
+    return release
 
 url = "http://openalea.rtfd.io"
 
 def get_copyright():
 
-    return "Copyright \xa9 2006-2023 inria/CIRAD/INRAE\n"
+    return "Copyright \xa9 2006-2026 inria/CIRAD/INRAE\n"
