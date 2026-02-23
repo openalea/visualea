@@ -69,5 +69,6 @@ nosetests.xml
 ui_*.py
 
 # Mac dirs
-.DS_Storedoc/_build/
+.DS_Store
+doc/_build/
 doc/_build/*

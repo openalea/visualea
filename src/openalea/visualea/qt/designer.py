@@ -27,11 +27,14 @@ __all__ = [
 ]
 
 import datetime
-import pkg_resources
 import sys
 import os
 
+from importlib.resources import files, as_file
 from openalea.core.path import path as Path
+import shutil
+import tempfile
+
 
 from qtpy.uic import compileUi
 from qtpy import API as QT_MODULE_NAME
@@ -42,7 +45,7 @@ compile_args = dict(execute=False, indent=4, from_imports=True) # pasted from vp
 FORCE_UI_GENERATION = False
 
 
-def get_data(name, path):
+def get_data(name: str, path: str):
     """
     Eases access to module packed data.
 
@@ -52,10 +55,12 @@ def get_data(name, path):
     :param name: __name__
     :param path: path relative to module "name"
     """
-    path = pkg_resources.resource_filename(name, path)
-    path = Path(path).abspath()
-    return path
+    #import pkg_resources
+    #path = pkg_resources.resource_filename(name, path)
+    #path = Path(path).abspath()
+    #return path
 
+    return Path(str(files(name).joinpath(path))).abspath()
 
 def mtime(path):
     """Last-modified time of the file."""
