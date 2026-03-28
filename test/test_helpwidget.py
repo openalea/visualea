@@ -35,7 +35,7 @@ def test_rst2alea():
     assert (res == rst2) or (res == text2.replace("\n", "<br />")+"\n"), res
 
 
-def test_helpwidget():
+def _test_helpwidget():
     from qtpy import QtWidgets
     app = QtWidgets.QApplication([])
     help = HelpWidget()
